@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-v080w$$%4q@3ebd5n1lbya!!+@ap^dt)ebm#db89vl+3-)geyd"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["unimaidLibrary.pythonanywhere.com", "www.unimaidLibrary.pythonanywhere.com"]
 
 
 # Application definition
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "dal",
     "dal_select2",
-    "djcelery_email",
+    # "djcelery_email",  # Removed for PythonAnywhere free tier
     "nested_admin",
     "import_export",
     # Asset optimization
@@ -138,8 +138,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/topics/email/
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # For development
-EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"  # Async email sending
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # For production (sync)
+# EMAIL_BACKEND = "djcelery_email.backends.CeleryEmailBackend"  # Async email sending (requires Celery)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # For production (sync)
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
