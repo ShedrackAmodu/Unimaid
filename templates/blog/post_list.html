@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="bradcam_text">
+          <h3>{{ page_title }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- bradcam_area_end -->
+
+<!--================Blog Area =================-->
+<section class="blog_area section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mb-5 mb-lg-0">
+        <div class="blog_left_sidebar">
+          {% for post in posts %}
+          <article class="blog_item">
+            <div class="blog_item_img">
+              {% if post.featured_image %}
+              <img
+                class="card-img rounded-0"
+                src="{{ post.featured_image.url }}"
+                alt="{{ post.title }}"
+              />
+              {% else %}
+              <img
+                class="card-img rounded-0"
+                src="{% static 'img/blog/blog_1.png' %}"
+                alt="{{ post.title }}"
+              />
+              {% endif %}
+              <a
+                href="{% url 'blog:post_detail' post.slug %}"
+                class="blog_item_date"
+              >
+                <h3>{{ post.published_date|date:"d" }}</h3>
+                <p>{{ post.published_date|date:"M" }}</p>
+              </a>
+            </div>
+
+            <div class="blog_details">
+              <a
+                class="d-inline-block"
+                href="{% url 'blog:post_detail' post.slug %}"
+              >
+                <h2>{{ post.title }}</h2>
+              </a>
+              <p>{{ post.excerpt|default:post.content|truncatechars:200 }}</p>
+              <ul class="blog-info-link">
+                <li>
+                  <a href="{% url 'blog:category_posts' post.category.slug %}"
+                    ><i class="fa fa-tag"></i> {{ post.category.name }}</a
+                  >
+                </li>
+                <li>
+                  <a href="#"><i class="fa fa-user"></i> {{ post.author }}</a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><i class="fa fa-comments"></i> {{ post.comments.count }}
+                    Comments</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </article>
+          {% empty %}
+          <div class="no-posts">
+            <h3>No posts found</h3>
+            <p>There are no blog posts to display at the moment.</p>
+          </div>
+          {% endfor %}
+
+          <!-- Pagination -->
+          {% include 'includes/pagination.html' with page_obj=posts nav_class='blog-pagination justify-content-center d-flex' ul_class='pagination' prev_icon='' next_icon='' %}
+        </div>
+      </div>
+
+      <!-- Blog Sidebar -->
+      <div class="col-lg-4">
+        <div class="blog_right_sidebar">
+          <!-- Featured Posts -->
+          {% if featured_posts %}
+          <aside class="single_sidebar_widget popular_post_widget">
+            <h3 class="widget_title">Featured Posts</h3>
+            {% for post in featured_posts %}
+            <div class="media post_item">
+              {% if post.featured_image %}
+              <img
+                src="{{ post.featured_image.url }}"
+                alt="{{ post.title }}"
+                style="width: 80px; height: 80px; object-fit: cover"
+              />
+              {% else %}
+              <img
+                src="{% static 'img/post/post_1.png' %}"
+                alt="{{ post.title }}"
+              />
+              {% endif %}
+              <div class="media-body">
+                <a href="{% url 'blog:post_detail' post.slug %}">
+                  <h3>{{ post.title|truncatechars:50 }}</h3>
+                </a>
+                <p>{{ post.published_date|date:"M d, Y" }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </aside>
+          {% endif %}
+
+          <!-- Categories -->
+          <aside class="single_sidebar_widget post_category_widget">
+            <h4 class="widget_title">Categories</h4>
+            <ul class="list cat-list">
+              {% for category in categories %}
+              <li>
+                <a
+                  href="{% url 'blog:category_posts' category.slug %}"
+                  class="d-flex"
+                >
+                  <p>{{ category.name }}</p>
+                  <p>({{ category.posts.count }})</p>
+                </a>
+              </li>
+              {% empty %}
+              <li><p>No categories available</p></li>
+              {% endfor %}
+            </ul>
+          </aside>
+
+          <!-- Recent Posts -->
+          <aside class="single_sidebar_widget popular_post_widget">
+            <h3 class="widget_title">Recent Posts</h3>
+            {% for post in posts|slice:":5" %}
+            <div class="media post_item">
+              {% if post.featured_image %}
+              <img
+                src="{{ post.featured_image.url }}"
+                alt="{{ post.title }}"
+                style="width: 80px; height: 80px; object-fit: cover"
+              />
+              {% else %}
+              <img
+                src="{% static 'img/post/post_1.png' %}"
+                alt="{{ post.title }}"
+              />
+              {% endif %}
+              <div class="media-body">
+                <a href="{% url 'blog:post_detail' post.slug %}">
+                  <h3>{{ post.title|truncatechars:40 }}</h3>
+                </a>
+                <p>{{ post.published_date|date:"M d, Y" }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </aside>
+
+          <!-- Blog Search -->
+          <aside class="single_sidebar_widget search_widget">
+            <form action="{% url 'blog:blog_search' %}" method="get">
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Search Posts"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Search Posts'"
+                    required
+                  />
+                  <div class="input-group-append">
+                    <button class="btn" type="submit">
+                      <i class="ti-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--================ Blog Area end =================-->
+{% endblock %}

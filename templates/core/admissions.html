@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container section__padding">
+  <h1>Admissions & Subscribe</h1>
+  <p>Subscribe to library updates and announcements.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Your email address" />
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+{% endblock %}

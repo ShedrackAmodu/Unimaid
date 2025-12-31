@@ -1,0 +1,51 @@
+<!-- Pagination -->
+{% if books.has_other_pages %}
+<nav aria-label="Book pagination" class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if books.has_previous %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ books.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+      >
+        <i class="fa fa-chevron-left"></i> Previous
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link"><i class="fa fa-chevron-left"></i> Previous</span>
+    </li>
+    {% endif %}
+    
+    {% for num in books.paginator.page_range %}
+      {% if books.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
+      </li>
+      {% elif num > books.number|add:'-3' and num < books.number|add:'3' %}
+      <li class="page-item">
+        <a
+          class="page-link"
+          href="?page={{ num }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+        >{{ num }}</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+    
+    {% if books.has_next %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ books.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+      >
+        Next <i class="fa fa-chevron-right"></i>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <span class="page-link">Next <i class="fa fa-chevron-right"></i></span>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

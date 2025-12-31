@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% load static %} {% block title %}{{ division.name }}
+- Ramat Library Unimaid{% endblock %} {% block content %}
+<!-- bradcam_area_start  -->
+<div class="bradcam_area breadcam_bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="bradcam_text">
+          <h3>{{ division.name }}</h3>
+          <p>{{ division.get_category_display }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- bradcam_area_end  -->
+
+<!-- about_area_start  -->
+<div class="about_area section__padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="about_text">
+          <h3>{{ division.name }}</h3>
+          <p>{{ division.description }}</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="about_img">
+          {% if division.image %}
+          <img
+            src="{{ division.image.url }}"
+            alt="{{ division.name }}"
+            class="img-fluid"
+          />
+          {% else %}
+          <img
+            src="{% static 'img/program/1.png' %}"
+            alt="{{ division.name }}"
+            class="img-fluid"
+          />
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12">
+        <a href="{% url 'core:library_organization' %}" class="boxed-btn3"
+          >Back to Library Organization</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- about_area_end  -->
+{% endblock %}

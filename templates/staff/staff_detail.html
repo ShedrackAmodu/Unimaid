@@ -1,0 +1,152 @@
+{% extends 'base.html' %} {% load static %} {% block title %}{{ page_title }}{%
+endblock %} {% block content %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Back Button -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'staff:staff_list' %}">
+              <i class="fas fa-arrow-left"></i> Back to Staff
+            </a>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Staff Profile -->
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row">
+            <!-- Staff Image -->
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+              {% if staff_member.image %}
+              <img
+                src="{{ staff_member.image.url }}"
+                class="img-fluid rounded-circle shadow"
+                alt="{{ staff_member.name }}"
+                style="width: 200px; height: 200px; object-fit: cover"
+              />
+              {% else %}
+              <div
+                class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center shadow"
+                style="width: 200px; height: 200px"
+              >
+                <i class="fas fa-user fa-4x text-muted"></i>
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Staff Information -->
+            <div class="col-md-8">
+              <h1 class="display-5 font-weight-bold text-primary mb-2">
+                {{ staff_member.name }}
+              </h1>
+              <h3 class="text-secondary mb-4">{{ staff_member.position }}</h3>
+
+              {% if staff_member.bio %}
+              <div class="mb-4">
+                <h5 class="text-primary mb-3">About</h5>
+                <p class="lead">{{ staff_member.bio }}</p>
+              </div>
+              {% endif %}
+
+              <!-- Contact Information -->
+              <div class="row">
+                {% if staff_member.email %}
+                <div class="col-sm-6 mb-3">
+                  <div class="d-flex align-items-center">
+                    <i
+                      class="fas fa-envelope text-primary mr-3"
+                      style="font-size: 1.2rem"
+                    ></i>
+                    <div>
+                      <strong>Email</strong><br />
+                      <a
+                        href="mailto:{{ staff_member.email }}"
+                        class="text-decoration-none"
+                        >{{ staff_member.email }}</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                {% endif %} {% if staff_member.phone %}
+                <div class="col-sm-6 mb-3">
+                  <div class="d-flex align-items-center">
+                    <i
+                      class="fas fa-phone text-primary mr-3"
+                      style="font-size: 1.2rem"
+                    ></i>
+                    <div>
+                      <strong>Phone</strong><br />
+                      <a
+                        href="tel:{{ staff_member.phone }}"
+                        class="text-decoration-none"
+                        >{{ staff_member.phone }}</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Social Links -->
+              {% if staff_member.social_links %}
+              <div class="mt-4">
+                <h5 class="text-primary mb-3">Connect</h5>
+                <div class="d-flex flex-wrap">
+                  {% for platform, url in staff_member.social_links.items %} {%
+                  if platform|lower == 'facebook' %}
+                  <a
+                    href="{{ url }}"
+                    target="_blank"
+                    class="btn btn-outline-primary btn-sm mr-2 mb-2"
+                  >
+                    <i class="fab fa-facebook-f"></i> Facebook
+                  </a>
+                  {% elif platform|lower == 'twitter' or platform|lower == 'x'
+                  %}
+                  <a
+                    href="{{ url }}"
+                    target="_blank"
+                    class="btn btn-outline-info btn-sm mr-2 mb-2"
+                  >
+                    <i class="fab fa-twitter"></i> Twitter
+                  </a>
+                  {% elif platform|lower == 'linkedin' %}
+                  <a
+                    href="{{ url }}"
+                    target="_blank"
+                    class="btn btn-outline-primary btn-sm mr-2 mb-2"
+                  >
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                  </a>
+                  {% elif platform|lower == 'instagram' %}
+                  <a
+                    href="{{ url }}"
+                    target="_blank"
+                    class="btn btn-outline-danger btn-sm mr-2 mb-2"
+                  >
+                    <i class="fab fa-instagram"></i> Instagram
+                  </a>
+                  {% else %}
+                  <a
+                    href="{{ url }}"
+                    target="_blank"
+                    class="btn btn-outline-secondary btn-sm mr-2 mb-2"
+                  >
+                    <i class="fas fa-external-link-alt"></i> {{ platform|title
+                    }}
+                  </a>
+                  {% endif %} {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

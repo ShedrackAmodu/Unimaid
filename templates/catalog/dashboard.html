@@ -1,0 +1,301 @@
+{% extends 'base.html' %} {% load static %} {% block title %}My Library
+Dashboard{% endblock %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">My Library Dashboard</h1>
+    </div>
+  </div>
+
+  <!-- Account Overview -->
+  <div class="row mb-4">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fa fa-user"></i> Account Information</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Name:</strong> {{ patron.user.get_full_name }}</p>
+          <p>
+            <strong>Membership:</strong> {{ patron.get_membership_type_display
+            }}
+          </p>
+          <p>
+            <strong>Member Since:</strong> {{ patron.registration_date|date:"M
+            j, Y" }}
+          </p>
+          <p><strong>Membership #:</strong> {{ patron.membership_number }}</p>
+          <p>
+            <strong>Fines Owed:</strong> ${{ patron.fines_owed|floatformat:2 }}
+          </p>
+          <a
+            href="{% url 'catalog:profile' %}"
+            class="btn btn-outline-primary btn-sm"
+            >Edit Profile</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+              <i class="fa fa-book fa-2x mb-2"></i>
+              <h4>{{ current_loans|length }}</h4>
+              <p class="mb-0">Current Loans</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card bg-success text-white">
+            <div class="card-body text-center">
+              <i class="fa fa-clock-o fa-2x mb-2"></i>
+              <h4>{{ active_reservations|length }}</h4>
+              <p class="mb-0">Reservations</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+              <i class="fa fa-history fa-2x mb-2"></i>
+              <h4>{{ recent_history|length }}</h4>
+              <p class="mb-0">Recent Returns</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Loans -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h5 class="mb-0"><i class="fa fa-book"></i> Current Loans</h5>
+          <a href="{% url 'catalog:search' %}" class="btn btn-primary btn-sm"
+            >Borrow More Books</a
+          >
+        </div>
+        <div class="card-body">
+          {% if current_loans %}
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Copy</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for loan in current_loans %}
+                <tr class="{% if loan.is_overdue %}table-danger{% endif %}">
+                  <td>
+                    <strong>{{ loan.book_copy.book.title }}</strong><br />
+                    <small class="text-muted">
+                      {% for author in loan.book_copy.book.authors.all %} {{
+                      author.full_name }}{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </small>
+                  </td>
+                  <td>{{ loan.book_copy.copy_number }}</td>
+                  <td>
+                    {{ loan.due_date|date:"M j, Y" }} {% if loan.is_overdue %}
+                    <br /><span class="badge badge-danger">Overdue</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ loan.get_status_display }}</td>
+                  <td>
+                    {% if loan.status == 'active' %}
+                    <a
+                      href="{% url 'catalog:return_book' loan.book_copy.id %}"
+                      class="btn btn-success btn-sm"
+                    >
+                      <i class="fa fa-undo"></i> Return
+                    </a>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fa fa-book fa-3x text-muted mb-3"></i>
+            <h5>No Current Loans</h5>
+            <p class="text-muted">You haven't borrowed any books yet.</p>
+            <a href="{% url 'catalog:search' %}" class="btn btn-primary"
+              >Browse Books</a
+            >
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Reservations -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <i class="fa fa-clock-o"></i> Active Reservations
+          </h5>
+        </div>
+        <div class="card-body">
+          {% if active_reservations %}
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Reservation Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for reservation in active_reservations %}
+                <tr>
+                  <td>
+                    <strong>{{ reservation.book.title }}</strong><br />
+                    <small class="text-muted">
+                      {% for author in reservation.book.authors.all %} {{
+                      author.full_name }}{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </small>
+                  </td>
+                  <td>{{ reservation.reservation_date|date:"M j, Y" }}</td>
+                  <td>
+                    <span
+                      class="badge badge-{% if reservation.status == 'ready' %}success{% else %}info{% endif %}"
+                    >
+                      {{ reservation.get_status_display }}
+                    </span>
+                  </td>
+                  <td>
+                    <a
+                      href="{% url 'catalog:cancel_reservation' reservation.pk %}"
+                      class="btn btn-danger btn-sm"
+                    >
+                      <i class="fa fa-times"></i> Cancel
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="fa fa-clock-o fa-3x text-muted mb-3"></i>
+            <h5>No Active Reservations</h5>
+            <p class="text-muted">You don't have any book reservations.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent History -->
+  {% if recent_history %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fa fa-history"></i> Recent Returns</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Returned Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for loan in recent_history %}
+                <tr>
+                  <td>
+                    <strong>{{ loan.book_copy.book.title }}</strong><br />
+                    <small class="text-muted">
+                      {% for author in loan.book_copy.book.authors.all %} {{
+                      author.full_name }}{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </small>
+                  </td>
+                  <td>{{ loan.returned_date|date:"M j, Y" }}</td>
+                  <td>{{ loan.get_status_display }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Quick Actions -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <a
+                href="{% url 'catalog:search' %}"
+                class="btn btn-primary btn-block"
+              >
+                <i class="fa fa-search"></i><br />
+                Search Books
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              <a
+                href="{% url 'catalog:profile' %}"
+                class="btn btn-secondary btn-block"
+              >
+                <i class="fa fa-user"></i><br />
+                Edit Profile
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              <a href="{% url 'core:contact' %}" class="btn btn-info btn-block">
+                <i class="fa fa-envelope"></i><br />
+                Contact Us
+              </a>
+            </div>
+            <div class="col-md-3 mb-3">
+              <a
+                href="{% url 'catalog:logout' %}"
+                class="btn btn-outline-danger btn-block"
+              >
+                <i class="fa fa-sign-out"></i><br />
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

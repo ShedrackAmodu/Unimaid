@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="h3 mb-0">{{ doc.title }}</h1>
+        </div>
+        <div class="card-body">
+          {% if doc.description %}
+          <p class="card-text">{{ doc.description }}</p>
+          {% endif %}
+          <div class="row">
+            <div class="col-sm-6">
+              <small class="text-muted">
+                <i class="fa fa-calendar"></i> Uploaded: {{ doc.uploaded_at|date:"Y-m-d H:i" }}
+              </small>
+            </div>
+            <div class="col-sm-6 text-right">
+              <a href="{% url 'repository:doc_download' doc.slug %}" class="btn btn-primary">
+                <i class="fa fa-download"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Document Info</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Title:</strong> {{ doc.title }}</p>
+          <p><strong>Uploaded:</strong> {{ doc.uploaded_at|date:"F j, Y \a\t g:i A" }}</p>
+          <p><strong>Status:</strong>
+            {% if doc.is_public %}
+            <span class="badge badge-success">Public</span>
+            {% else %}
+            <span class="badge badge-secondary">Private</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="{% url 'repository:doc_list' %}" class="btn btn-outline-secondary btn-block">
+          <i class="fa fa-arrow-left"></i> Back to Repository
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

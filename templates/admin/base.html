@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block extrastyle %}
+{% comment %} {{ block.super }} {% endcomment %}
+<link rel="stylesheet" href="{% static 'admin/css/admin_custom.css' %}" />
+<style>
+  /* Additional inline customizations */
+  :root {
+    --primary-color: #007bff;
+    --accent-color: #0056b3;
+  }
+</style>
+{% endblock %}
+
+{% block title %}
+{{ block.super }} - UNIMAID Library Management
+{% endblock %}
+
+{% block branding %}
+<div style="padding: 15px 20px">
+  <h1 style="margin: 0; color: white; font-size: 24px; letter-spacing: 1px">
+    📚 UNIMAID Library Admin
+  </h1>
+  <p
+    style="margin: 5px 0 0 0; color: rgba(255, 255, 255, 0.8); font-size: 12px"
+  >
+    Library Management System
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Library
+Organization - Ramat Library Unimaid{% endblock %} {% block content %}
+<!-- bradcam_area_start  -->
+<div class="bradcam_area breadcam_bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="bradcam_text">
+          <h3>Ramat Library Organization</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- bradcam_area_end  -->
+
+<!-- popular_program_area_start  -->
+<div class="popular_program_area section__padding program__page">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section_title text-center">
+          <h3>Organization Of Ramat Library</h3>
+          <p>
+            Learn about the various divisions and information centers that make
+            up our comprehensive library system.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="custom_tabs text-center">
+          <div class="nav" id="nav-tab" role="tablist">
+            <a
+              class="nav-item nav-link active"
+              id="nav-home-tab"
+              data-toggle="tab"
+              href="#nav-home"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true"
+              >Divisions</a
+            >
+            <a
+              class="nav-item nav-link"
+              id="nav-profile-tab"
+              data-toggle="tab"
+              href="#nav-profile"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false"
+              >Divisions</a
+            >
+            <a
+              class="nav-item nav-link"
+              id="nav-contact-tab"
+              data-toggle="tab"
+              href="#nav-contact"
+              role="tab"
+              aria-controls="nav-contact"
+              aria-selected="false"
+              >Information Centers</a
+            >
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="tab-content" id="nav-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="nav-home"
+        role="tabpanel"
+        aria-labelledby="nav-home-tab"
+      >
+        <div class="row">
+          {% for division in divisions %}
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                {% if division.image %}
+                <img src="{{ division.image.url }}" alt="{{ division.name }}" />
+                {% else %}
+                <img
+                  src="{% static 'img/program/1.png' %}"
+                  alt="{{ division.name }}"
+                />
+                {% endif %}
+              </div>
+              <div class="program__content">
+                <span>Division</span>
+                <h4>{{ division.name }}</h4>
+                <p>{{ division.description }}</p>
+                <a href="{{ division.get_absolute_url }}" class="boxed-btn5"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <p class="text-center">
+              No library divisions available at the moment.
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="nav-profile"
+        role="tabpanel"
+        aria-labelledby="nav-profile-tab"
+      >
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                <img src="{% static 'img/program/1.png' %}" alt="" />
+              </div>
+              <div class="program__content">
+                <span>Division</span>
+                <h4>Readers Services</h4>
+                <p>
+                  Assists users in accessing and using library resources,
+                  including lending books, providing reference help, and guiding
+                  users in research and information retrieval.
+                </p>
+                <div class="boxed-btn5">Learn More</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                <img src="{% static 'img/program/3.png' %}" alt="" />
+              </div>
+              <div class="program__content">
+                <span>Division</span>
+                <h4>E-Library</h4>
+                <p>
+                  Provides access to electronic resources—such as e-books,
+                  journals, databases, and multimedia allowing users to read,
+                  search, and download materials online
+                </p>
+                <div class="boxed-btn5">Learn More</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                <img src="{% static 'img/program/2.png' %}" alt="" />
+              </div>
+              <div class="program__content">
+                <span>Division</span>
+                <h4>Research and Bibliographic Services</h4>
+                <p>
+                  Support to users in conducting research, offering guidance on
+                  finding, evaluating, and using information, as well as
+                  creating bibliographies and citations.
+                </p>
+                <div class="boxed-btn5">Learn More</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="nav-contact"
+        role="tabpanel"
+        aria-labelledby="nav-contact-tab"
+      >
+        <div class="row">
+          {% for center in centers %}
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                {% if center.image %}
+                <img src="{{ center.image.url }}" alt="{{ center.name }}" />
+                {% else %}
+                <img
+                  src="{% static 'img/program/3.png' %}"
+                  alt="{{ center.name }}"
+                />
+                {% endif %}
+              </div>
+              <div class="program__content">
+                <span>Information Center</span>
+                <h4>{{ center.name }}</h4>
+                <p>{{ center.description }}</p>
+                <a href="{{ center.get_absolute_url }}" class="boxed-btn5"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <p class="text-center">
+              No information centers available at the moment.
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- popular_program_area_end -->
+{% endblock %}

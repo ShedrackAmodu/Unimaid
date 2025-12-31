@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container section__padding">
+  <h1>Library Divisions & Courses</h1>
+  <div class="row">
+    {% for div in divisions %}
+    <div class="col-md-4">
+      <h4>{{ div.name }}</h4>
+      <p>{{ div.description|truncatewords:30 }}</p>
+    </div>
+    {% empty %}
+    <p>No divisions available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

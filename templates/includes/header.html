@@ -1,0 +1,112 @@
+<!-- header-start -->
+{% load static %}
+<header>
+    <div class="header-area ">
+        <div class="header-top_area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="header_top_wrap d-flex justify-content-between align-items-center">
+                            <div class="text_wrap">
+                                <p><span>+234 80166 253 232</span> <a><span>ramatlibrary@unimaid.edu.ng</a></span></p>
+                            </div>
+                            <div class="text_wrap">
+                            <p>Follow us on our Social Media handles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sticky-header" class="main-header-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="header_wrap d-flex justify-content-between align-items-center">
+                            <div class="header_left">
+                                <div class="logo">
+                                    <a href="{% url 'core:home' %}">
+                                        <img src="{% static 'img/unimaidlogo.png' %}" alt="" width="80">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="header_right d-flex align-items-center">
+                                <div class="main-menu  d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="{% url 'core:home' %}">home</a></li>
+                                             <li><a href="{% url 'core:library_organization' %}">Ramat Library</a></li>
+                                            <li><a href="{% url 'catalog:home' %}">Library Catalog</a></li>
+                                            <li><a href="{% url 'blog:post_list' %}">News & Blog</a></li>
+                                            <li><a href="{% url 'staff:staff_list' %}">Staff</a></li>
+                                            <li><a href="{% url 'core:events' %}">Events</a></li>
+                                            <li><a href="#">About Us <i class="ti-angle-down"></i></a>
+                                                <ul class="submenu">
+                                                    <li><a href="{% url 'core:about' %}">Vision & Mission</a></li>
+                                                    <li><a href="{% url 'core:history' %}">History</a></li>
+                                                    <li><a href="{% url 'core:admissions' %}">Admissions</a></li>
+                                                    <li><a href="{% url 'core:courses' %}">Courses</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="Appointment">
+                                    <div class="book_btn d-none d-lg-block">
+                                        <a href="{% url 'repository:doc_list' %}">Repository</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- User Menu -->
+                            {% if user.is_authenticated %}
+                            <div class="user_menu d-none d-lg-block">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user"></i> {{ user.first_name|default:user.username }}
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="userMenu">
+                                        <a class="dropdown-item" href="{% url 'catalog:dashboard' %}">
+                                            <i class="fa fa-dashboard"></i> My Dashboard
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'catalog:profile' %}">
+                                            <i class="fa fa-user"></i> Profile
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'catalog:logout' %}">
+                                            <i class="fa fa-sign-out"></i> Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="auth_links d-none d-lg-block">
+                                <a href="{% url 'catalog:register' %}" class="btn btn-outline-primary mr-2">
+                                    <i class="fa fa-user-plus"></i> Register
+                                </a>
+                                <a href="{% url 'catalog:login' %}" class="btn btn-primary">
+                                    <i class="fa fa-sign-in"></i> Login
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            <!-- Search Form -->
+                            <div class="header_search d-none d-lg-block">
+                                <form action="{% url 'catalog:search' %}" method="get" class="search_form">
+                                    <input type="text" name="q" placeholder="Search library..." required>
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+
+                            <!-- Theme Switcher -->
+                            {% include 'includes/theme_switcher.html' %}
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->

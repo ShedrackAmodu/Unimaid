@@ -1,0 +1,84 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Search Results - {{
+query }}{% endblock %} {% block content %}
+<!-- bradcam_area_start  -->
+<div class="bradcam_area breadcam_bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="bradcam_text">
+          <h3>Search Results</h3>
+          {% if query %}
+          <p>Results for: "<strong>{{ query }}</strong>"</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- bradcam_area_end  -->
+
+<!-- ================ search results ================= -->
+<section class="search-results section-padding">
+  <div class="container">
+    {% if query %} {% if results.divisions %}
+    <div class="row">
+      <div class="col-lg-12">
+        <h3 class="section-title">Library Divisions & Centers</h3>
+      </div>
+      {% for division in results.divisions %}
+      <div class="col-lg-4 col-md-6">
+        <div class="single__program">
+          <div class="program_thumb">
+            {% if division.image %}
+            <img src="{{ division.image.url }}" alt="{{ division.name }}" />
+            {% else %}
+            <img
+              src="{% static 'img/program/1.png' %}"
+              alt="{{ division.name }}"
+            />
+            {% endif %}
+          </div>
+          <div class="program__content">
+            <span>{{ division.get_category_display }}</span>
+            <h4>{{ division.name }}</h4>
+            <p>{{ division.description|truncatechars:100 }}</p>
+            <a href="{% url 'core:library_organization' %}" class="boxed-btn5"
+              >Learn More</a
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-results">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3>No results found</h3>
+          <p>
+            We couldn't find any results for "<strong>{{ query }}</strong>".
+          </p>
+          <p>
+            Try searching with different keywords or
+            <a href="{% url 'core:home' %}">browse our library divisions</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endif %} {% else %}
+    <div class="search-prompt">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h3>Search Our Library</h3>
+          <p>
+            Use the search box above to find information about our library
+            divisions, services, and resources.
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+<!-- ================ search results end ================= -->
+{% endblock %}

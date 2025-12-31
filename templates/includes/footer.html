@@ -1,0 +1,117 @@
+<!-- footer start -->
+<footer class="footer">
+    <div class="footer_top">
+        <div class="container">
+            <div class="newsLetter_wrap">
+                <div class="row justify-content-between">
+                    <div class="col-md-7">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Stay Updated
+                            </h3>
+                            <form action="#" class="newsletter_form">
+                                <input type="text" placeholder="Email Address">
+                                <button type="submit">Subscribe Now</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-5">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Stay Updated
+                            </h3>
+                            <div class="socail_links">
+                                <ul>
+                                    <li>
+                                        <span>
+                                            <i class="ti-facebook"></i>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-twitter"></i>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-google-plus"></i>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-linkedin"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            About Us
+                        </h3>
+                        <ul>
+                            <li><a href="{% url 'core:home' %}">Home</a></li>
+                            <li><a href="{% url 'core:about' %}">About Us</a></li>
+                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Campus
+                        </h3>
+                        <ul>
+                            <li><a href="{% url 'core:library_organization' %}">Library Divisions</a></li>
+                            <li><a href="{% url 'core:courses' %}">Academic Resources</a></li>
+                            <li><a href="{% url 'core:contact' %}">Research Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Services
+                        </h3>
+                        <ul>
+                            <li><a href="{% url 'repository:doc_list' %}">Digital Library</a></li>
+                            <li><a href="{% url 'core:search' %}">Online Catalog</a></li>
+                            <li><a href="{% url 'core:contact' %}">Reference Services</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-lg-3">
+                    <div class="footer_widget">
+                        <h3 class="footer_title">
+                            Support
+                        </h3>
+                        <ul>
+                            <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+                            <li><a href="{% url 'core:contact' %}">Help & FAQ</a></li>
+                            <li><a href="{% url 'core:home' %}">Site Map</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy-right_text">
+        <div class="container">
+            <div class="footer_border"></div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <p class="copy_right text-center">
+                        <p>@{% now "Y" %} University of Maiduguri | All rights reserved.</p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- footer end -->

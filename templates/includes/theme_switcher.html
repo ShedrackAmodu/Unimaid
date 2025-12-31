@@ -1,0 +1,107 @@
+<!-- Theme Switcher Component -->
+<div class="theme-switcher">
+  <button
+    class="theme-toggle-btn"
+    id="theme-toggle"
+    aria-label="Toggle theme"
+    title="Change theme"
+  >
+    <i class="fa fa-palette"></i>
+    <span class="sr-only">Theme Options</span>
+  </button>
+
+  <div class="theme-dropdown" id="theme-dropdown">
+    <div class="theme-options">
+      <h4>Choose Theme</h4>
+      <div class="theme-grid">
+        <button
+          class="theme-option"
+          data-theme="light"
+          aria-label="Light theme"
+        >
+          <div class="theme-preview light-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-white border"></span>
+              <span class="color-swatch bg-light"></span>
+              <span class="color-swatch bg-secondary"></span>
+            </div>
+          </div>
+          <span class="theme-name">Light</span>
+        </button>
+
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <div class="theme-preview dark-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-dark"></span>
+              <span class="color-swatch bg-gray"></span>
+              <span class="color-swatch bg-secondary"></span>
+            </div>
+          </div>
+          <span class="theme-name">Dark</span>
+        </button>
+
+        <button class="theme-option" data-theme="blue" aria-label="Blue theme">
+          <div class="theme-preview blue-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-white border"></span>
+              <span class="color-swatch bg-blue"></span>
+              <span class="color-swatch bg-primary"></span>
+            </div>
+          </div>
+          <span class="theme-name">Blue</span>
+        </button>
+
+        <button
+          class="theme-option"
+          data-theme="green"
+          aria-label="Green theme"
+        >
+          <div class="theme-preview green-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-white border"></span>
+              <span class="color-swatch bg-green"></span>
+              <span class="color-swatch bg-success"></span>
+            </div>
+          </div>
+          <span class="theme-name">Green</span>
+        </button>
+
+        <button
+          class="theme-option"
+          data-theme="purple"
+          aria-label="Purple theme"
+        >
+          <div class="theme-preview purple-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-white border"></span>
+              <span class="color-swatch bg-purple"></span>
+              <span class="color-swatch bg-secondary"></span>
+            </div>
+          </div>
+          <span class="theme-name">Purple</span>
+        </button>
+
+        <button
+          class="theme-option"
+          data-theme="high-contrast"
+          aria-label="High contrast theme"
+        >
+          <div class="theme-preview hc-preview">
+            <div class="preview-colors">
+              <span class="color-swatch bg-black"></span>
+              <span class="color-swatch bg-white border"></span>
+              <span class="color-swatch bg-yellow"></span>
+            </div>
+          </div>
+          <span class="theme-name">High Contrast</span>
+        </button>
+      </div>
+
+      <div class="theme-actions">
+        <button class="btn btn-sm btn-outline-secondary" id="reset-theme">
+          <i class="fa fa-undo"></i> Reset to Default
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,733 @@
+/* ============================================================================
+   LIBRARY ADMIN CUSTOM STYLING
+   Professional & Robust Admin Interface Enhancements
+   ============================================================================ */
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-bg: #f8f9fa;
+    --dark-border: #dee2e6;
+}
+
+/* ============================================================================
+   OVERALL ADMIN STYLING
+   ============================================================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body.django-admin-site {
+    background: #f5f7fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Header Styling */
+#header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+    padding: 20px;
+}
+
+#header a {
+    color: white !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#header h1 {
+    font-size: 28px;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+#header a:hover {
+    color: #e0e0e0 !important;
+}
+
+/* Sidebar Navigation */
+#sidebar {
+    background: #ffffff;
+    border-right: 1px solid var(--dark-border);
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+#sidebar .module h2 {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white !important;
+    padding: 12px 15px !important;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#sidebar .module ul a {
+    color: #333;
+    padding: 10px 15px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+#sidebar .module ul a:hover {
+    background: var(--light-bg);
+    border-left-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* ============================================================================
+   LIST VIEW STYLING
+   ============================================================================ */
+
+.change-list {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    background: var(--light-bg);
+    border-bottom: 1px solid var(--dark-border);
+    padding: 15px 20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.search-bar input[type="text"] {
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.search-bar input[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.search-bar input[type="submit"]:hover {
+    background: #0056b3;
+}
+
+/* List Table */
+#result_list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+#result_list thead {
+    background: var(--light-bg);
+    border-bottom: 2px solid var(--dark-border);
+}
+
+#result_list thead th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#result_list tbody tr {
+    border-bottom: 1px solid var(--dark-border);
+    transition: background 0.2s ease;
+}
+
+#result_list tbody tr:hover {
+    background: #f0f5ff;
+}
+
+#result_list tbody td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+#result_list tbody td a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+#result_list tbody td a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Alternating row colors */
+#result_list tbody tr:nth-child(even) {
+    background: rgba(0, 123, 255, 0.02);
+}
+
+/* ============================================================================
+   ACTIONS AND FILTERS
+   ============================================================================ */
+
+.submit-row {
+    background: var(--light-bg);
+    padding: 20px !important;
+    border-radius: 0 0 8px 8px;
+    border-top: 1px solid var(--dark-border);
+}
+
+.submit-row input {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+.submit-row input[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+}
+
+.submit-row input[type="submit"]:hover {
+    background: #0056b3;
+    box-shadow: 0 2px 8px rgba(0, 91, 179, 0.2);
+}
+
+.submit-row input[type="reset"] {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.submit-row input[type="reset"]:hover {
+    background: #5a6268;
+}
+
+/* Actions */
+.actions {
+    background: var(--light-bg);
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.actions label {
+    font-weight: 600;
+    color: #333;
+    margin-right: 15px;
+}
+
+.actions select {
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    background: white;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.actions button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.actions button:hover {
+    background: #0056b3;
+}
+
+/* Filters */
+#changelist-filter {
+    background: white;
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+#changelist-filter h3 {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white !important;
+    padding: 15px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#changelist-filter ul {
+    margin: 0;
+    padding: 0;
+}
+
+#changelist-filter li {
+    list-style: none;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+#changelist-filter li:last-child {
+    border-bottom: none;
+}
+
+#changelist-filter a {
+    display: block;
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+#changelist-filter a:hover {
+    background: var(--light-bg);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+#changelist-filter a.selected {
+    background: #e3f2fd;
+    color: var(--primary-color);
+    font-weight: 600;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 12px;
+}
+
+/* ============================================================================
+   FORM STYLING
+   ============================================================================ */
+
+.form-row {
+    padding: 15px;
+    background: white;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.form-row:last-child {
+    border-bottom: none;
+}
+
+.form-row label {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="number"],
+.form-row input[type="date"],
+.form-row input[type="time"],
+.form-row textarea,
+.form-row select {
+    width: 100%;
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-row input[type="text"]:focus,
+.form-row input[type="email"]:focus,
+.form-row input[type="number"]:focus,
+.form-row input[type="date"]:focus,
+.form-row input[type="time"]:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+/* Fieldsets */
+fieldset {
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: white;
+}
+
+fieldset legend {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white !important;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Read-only fields */
+.readonly {
+    background: var(--light-bg);
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    color: #666;
+}
+
+/* ============================================================================
+   INLINES STYLING
+   ============================================================================ */
+
+.inline-group {
+    background: white;
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.inline-group h2 {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white !important;
+    padding: 15px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inline-group .inline-related {
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.inline-group .inline-related:last-child {
+    border-bottom: none;
+}
+
+table.inline {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.inline thead {
+    background: var(--light-bg);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+table.inline thead th {
+    padding: 12px;
+    font-weight: 600;
+    color: #333;
+    font-size: 12px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+table.inline tbody tr {
+    border-bottom: 1px solid var(--dark-border);
+}
+
+table.inline tbody tr:hover {
+    background: #f0f5ff;
+}
+
+table.inline tbody td {
+    padding: 12px;
+}
+
+/* ============================================================================
+   MESSAGES
+   ============================================================================ */
+
+.messagelist {
+    margin-bottom: 20px;
+}
+
+.messagelist li {
+    list-style: none;
+    padding: 15px;
+    border-radius: 4px;
+    border-left: 4px solid;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.messagelist .success {
+    background: #d4edda;
+    color: #155724;
+    border-left-color: #28a745;
+}
+
+.messagelist .error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left-color: #dc3545;
+}
+
+.messagelist .warning {
+    background: #fff3cd;
+    color: #856404;
+    border-left-color: #ffc107;
+}
+
+.messagelist .info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left-color: #17a2b8;
+}
+
+/* ============================================================================
+   PAGINATION
+   ============================================================================ */
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 12px;
+    margin: 0 2px;
+    border: 1px solid var(--dark-border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pagination .step-links .current {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* ============================================================================
+   DASHBOARD STYLING
+   ============================================================================ */
+
+#content-main h1 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--dark-border);
+}
+
+.dashboard > div {
+    margin-bottom: 20px;
+}
+
+.module {
+    background: white;
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.module > h2 {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white !important;
+    padding: 15px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.module > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.module tbody tr {
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.module tbody tr:hover {
+    background: var(--light-bg);
+}
+
+.module tbody td {
+    padding: 12px 15px;
+}
+
+/* ============================================================================
+   BADGES AND COLORED STATUS
+   ============================================================================ */
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-primary {
+    background: #cfe2ff;
+    color: #084298;
+}
+
+/* ============================================================================
+   BUTTON STYLES
+   ============================================================================ */
+
+.button,
+button,
+input[type="submit"],
+input[type="button"] {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: #0056b3;
+    box-shadow: 0 2px 8px rgba(0, 91, 179, 0.2);
+    transform: translateY(-2px);
+}
+
+.button.danger {
+    background: var(--danger-color);
+}
+
+.button.danger:hover {
+    background: #c82333;
+}
+
+.button.success {
+    background: var(--success-color);
+}
+
+.button.success:hover {
+    background: #218838;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    #header {
+        padding: 15px;
+    }
+
+    #header h1 {
+        font-size: 20px;
+    }
+
+    #content {
+        margin-left: 0;
+    }
+
+    #sidebar {
+        position: relative;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #result_list {
+        font-size: 12px;
+    }
+
+    #result_list thead th,
+    #result_list tbody td {
+        padding: 10px;
+    }
+
+    .change-list table tbody td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .form-row {
+        padding: 10px;
+    }
+
+    fieldset {
+        padding: 15px;
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+    #header,
+    #sidebar,
+    .submit-row,
+    .actions {
+        display: none;
+    }
+
+    body {
+        background: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    .change-list,
+    .module,
+    #result_list {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}

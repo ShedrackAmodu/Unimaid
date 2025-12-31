@@ -1,0 +1,294 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Ramat Library
+Unimaid - Home{% endblock %} {% block content %}
+<!-- slider_area_start -->
+<div class="slider_area">
+  <div class="slider_active owl-carousel">
+    <!-- single_carouse -->
+    <div class="single_slider d-flex align-items-center slider_bg_1">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="slider_text">
+              {% comment %} <h3>
+                UNIMAID Library <br />
+                Where knowledge lives <br />
+                and futures are built.
+              </h3> {% endcomment %}
+              <a href="{% url 'core:admissions' %}" class="boxed-btn3"
+                >Get Start</a
+              >
+              <a href="{% url 'core:library_organization' %}" class="boxed-btn4"
+                >Take a tour</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ single_carouse -->
+    <!-- single_carouse -->
+    <div class="single_slider d-flex align-items-center slider_bg_2">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="slider_text">
+              {% comment %} <h3>
+                UNIMAID Library <br />
+                Modern facilities <br />
+                for modern learning.
+              </h3> {% endcomment %}
+              <a href="{% url 'repository:doc_list' %}" class="boxed-btn3"
+                >Explore Resources</a
+              >
+              <a href="{% url 'repository:doc_list' %}" class="boxed-btn4"
+                >Digital Library</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ single_carouse -->
+  </div>
+</div>
+<!-- slider_area_end -->
+
+<!--================welcome area =================-->
+<div class="event_details_area section__padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="single_event d-flex align-items-center">
+          <div class="thumb">
+            <img src="{% static 'img/event/lib.jpg' %}" alt="" />
+          </div>
+          <div class="event_details_info">
+            <div class="event_info">
+              <a href="{% url 'blog:post_list' %}">
+                <h4>Welcoming Speech from the University Librarian</h4>
+              </a>
+              <p>
+                <span> <i class="flaticon-placeholder"></i> Ramat Library</span>
+              </p>
+            </div>
+            <p class="event_info_text">
+              The University of Maiduguri Library is committed to supporting
+              teaching, learning, and research through access to quality print
+              and electronic information resources. Our modern facilities and
+              digital services provide students and researchers with a reliable
+              gateway to knowledge anytime, anywhere.
+            </p>
+            <a href="{% url 'core:about' %}" class="boxed-btn3">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--================welcome area =================-->
+
+<!-- organizational divisions -->
+<div class="popular_program_area section__padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section_title text-center">
+          <h3>Organization Of Ramat Library</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="custom_tabs text-center">
+          <div class="nav" id="nav-tab" role="tablist">
+            <a
+              class="nav-item nav-link active"
+              id="nav-home-tab"
+              data-toggle="tab"
+              href="#nav-home"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true"
+              >Divisions</a
+            >
+            <a
+              class="nav-item nav-link"
+              id="nav-profile-tab"
+              data-toggle="tab"
+              href="#nav-profile"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false"
+              >Divisions</a
+            >
+            <a
+              class="nav-item nav-link"
+              id="nav-contact-tab"
+              data-toggle="tab"
+              href="#nav-contact"
+              role="tab"
+              aria-controls="nav-contact"
+              aria-selected="false"
+              >Information Centers</a
+            >
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="tab-content" id="nav-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="nav-home"
+        role="tabpanel"
+        aria-labelledby="nav-home-tab"
+      >
+        <div class="row">
+          {% for division in divisions %}
+          <div class="col-lg-4 col-md-6">
+            <div class="single__program">
+              <div class="program_thumb">
+                {% if division.image %}
+                <img src="{{ division.image.url }}" alt="{{ division.name }}" />
+                {% else %}
+                <img
+                  src="{% static 'img/program/1.png' %}"
+                  alt="{{ division.name }}"
+                />
+                {% endif %}
+              </div>
+              <div class="program__content">
+                <span>{{ division.get_category_display }}</span>
+                <h4>{{ division.name }}</h4>
+                <p>{{ division.description|truncatechars:100 }}</p>
+                <a
+                  href="{% url 'core:library_organization' %}"
+                  class="boxed-btn5"
+                  >Learn More</a
+                >
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <p class="text-center">
+              No library divisions available at the moment.
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="course_all_btn text-center">
+          <a href="{% url 'core:library_organization' %}" class="boxed-btn4"
+            >View All Divisions</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- popular_program_area_end -->
+
+<!-- latest_coures_area_start -->
+<div class="latest_coures_area">
+  <div class="latest_coures_inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="coures_info">
+            <div class="section_title white_text">
+              <h3>About Ramat Library</h3>
+              <p>
+                Ramat Library is a modern library with a rich collection of
+                print and electronic resources. We have 9 divisions, 13 branch
+                Libraries, an American Space section and also an International
+                Institute of Islamic thought section which provide access to
+                information and knowledge to our users.
+              </p>
+            </div>
+            <div class="coures_wrap d-flex">
+              <div class="single_wrap">
+                <h4>Our Mission</h4>
+                <p>
+                  Our mission is to provide quality library services, promote
+                  information literacy and support the University's academic and
+                  research programs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/ latest_coures_area_end -->
+
+<!-- recent_news_area_start -->
+<div class="recent_news_area section__padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="section_title text-center mb-70">
+          <h3 class="mb-45">Library News</h3>
+          <p>
+            Stay updated with the latest library announcements, new resources,
+            extended hours, workshops, and events designed to support your
+            learning, research, and academic success.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="single__news">
+          <div class="thumb">
+            <a href="{% url 'blog:post_list' %}">
+              <img src="{% static 'img/news/1.png' %}" alt="" />
+            </a>
+            <span class="badge">Research</span>
+          </div>
+          <div class="news_info">
+            <a href="{% url 'blog:post_list' %}">
+              <h4>
+                Explore a rich collection of books, peer-reviewed journals, and
+                academic articles in one place.
+              </h4>
+            </a>
+            <p class="d-flex align-items-center">
+              <span><i class="flaticon-calendar-1"></i> October 6, 2025</span>
+              <span> <i class="flaticon-comment"></i> 01 comments</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="single__news">
+          <div class="thumb">
+            <a href="{% url 'blog:post_list' %}">
+              <img src="{% static 'img/news/2.png' %}" alt="" />
+            </a>
+            <span class="badge bandge_2">E Learning</span>
+          </div>
+          <div class="news_info">
+            <a href="{% url 'blog:post_list' %}">
+              <h4>
+                Our E-Library provides instant access to global academic
+                research.
+              </h4>
+            </a>
+            <p class="d-flex align-items-center">
+              <span><i class="flaticon-calendar-1"></i> May 10, 2025</span>
+              <span> <i class="flaticon-comment"></i> 01 comments</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- recent_news_area_end -->
+{% endblock %}

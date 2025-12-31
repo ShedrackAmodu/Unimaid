@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>{% block title %}Ramat Library Unimaid{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="{% static 'img/favicon.png' %}"
+    />
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css?family=Abril+Fatface|Poppins:200,200i,300,300i,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!-- Bootstrap CDN (with local fallback) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" />
+    <!-- jQuery from CDN with local fallback -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      window.jQuery ||
+        document.write(
+          '\x3Cscript src="{% static "js/vendor/jquery-1.12.4.min.js" %}"\x3E\x3C/script>'
+        );
+    </script>
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/gijgo.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}" />
+    <link rel="preload" href="{% static 'css/style.css' %}" as="style" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/enhancements.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'css/responsive.css' %}"> -->
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+    <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
+
+    <!-- Header -->
+    {% include 'includes/header.html' %}
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+
+    <!-- JS here -->
+    <script
+      defer
+      src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"
+    ></script>
+    <script defer src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script defer src="{% static 'js/popper.min.js' %}"></script>
+    <script defer src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script defer src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script defer src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script defer src="{% static 'js/ajax-form.js' %}"></script>
+    <script defer src="{% static 'js/waypoints.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script defer src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script defer src="{% static 'js/scrollIt.js' %}"></script>
+    <script defer src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+    <script defer src="{% static 'js/wow.min.js' %}"></script>
+    <script defer src="{% static 'js/nice-select.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script defer src="{% static 'js/plugins.js' %}"></script>
+    <script defer src="{% static 'js/gijgo.min.js' %}"></script>
+
+    <!--contact js-->
+    <script defer src="{% static 'js/contact.js' %}"></script>
+    <script defer src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script defer src="{% static 'js/jquery.form.js' %}"></script>
+    <script defer src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script defer src="{% static 'js/mail-script.js' %}"></script>
+
+    <script defer src="{% static 'js/main.js' %}"></script>
+    <script defer src="{% static 'js/enhancements.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
