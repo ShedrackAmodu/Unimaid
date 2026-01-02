@@ -1,301 +1,573 @@
-{% extends 'base.html' %} {% load static %} {% block title %}My Library
-Dashboard{% endblock %} {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="mb-4">My Library Dashboard</h1>
-    </div>
-  </div>
+{% extends 'base.html' %}
+{% load static %}
 
-  <!-- Account Overview -->
-  <div class="row mb-4">
-    <div class="col-lg-4">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0"><i class="fa fa-user"></i> Account Information</h5>
-        </div>
-        <div class="card-body">
-          <p><strong>Name:</strong> {{ patron.user.get_full_name }}</p>
-          <p>
-            <strong>Membership:</strong> {{ patron.get_membership_type_display
-            }}
-          </p>
-          <p>
-            <strong>Member Since:</strong> {{ patron.registration_date|date:"M
-            j, Y" }}
-          </p>
-          <p><strong>Membership #:</strong> {{ patron.membership_number }}</p>
-          <p>
-            <strong>Fines Owed:</strong> ${{ patron.fines_owed|floatformat:2 }}
-          </p>
-          <a
-            href="{% url 'catalog:profile' %}"
-            class="btn btn-outline-primary btn-sm"
-            >Edit Profile</a
-          >
-        </div>
-      </div>
-    </div>
+{% block title %}My Library Dashboard{% endblock %}
 
-    <div class="col-lg-8">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <div class="card bg-primary text-white">
-            <div class="card-body text-center">
-              <i class="fa fa-book fa-2x mb-2"></i>
-              <h4>{{ current_loans|length }}</h4>
-              <p class="mb-0">Current Loans</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card bg-success text-white">
-            <div class="card-body text-center">
-              <i class="fa fa-clock-o fa-2x mb-2"></i>
-              <h4>{{ active_reservations|length }}</h4>
-              <p class="mb-0">Reservations</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card bg-warning text-white">
-            <div class="card-body text-center">
-              <i class="fa fa-history fa-2x mb-2"></i>
-              <h4>{{ recent_history|length }}</h4>
-              <p class="mb-0">Recent Returns</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+{% block extra_css %}
+<style>
+    /* ===== DASHBOARD HEADER ===== */
+    .dashboard-header {
+        padding: var(--spacing-2xl) 0;
+        background: var(--gradient-primary);
+        color: var(--white);
+        margin-bottom: var(--spacing-2xl);
+    }
 
-  <!-- Current Loans -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
-        >
-          <h5 class="mb-0"><i class="fa fa-book"></i> Current Loans</h5>
-          <a href="{% url 'catalog:search' %}" class="btn btn-primary btn-sm"
-            >Borrow More Books</a
-          >
+    .dashboard-header h1 {
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .dashboard-header p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0;
+    }
+
+    /* ===== DASHBOARD GRID ===== */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    /* ===== STAT CARD ===== */
+    .stat-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border-left: 4px solid var(--primary-500);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .stat-card.primary {
+        border-left-color: var(--primary-500);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 102, 204, 0.05) 100%);
+    }
+
+    .stat-card.success {
+        border-left-color: var(--success);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+    }
+
+    .stat-card.warning {
+        border-left-color: var(--warning);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
+    }
+
+    .stat-card.danger {
+        border-left-color: var(--danger);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
+    }
+
+    .stat-card-icon {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stat-card-title {
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card-value {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    /* ===== CARD ===== */
+    .card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .card-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-header h5 {
+        margin-bottom: 0;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .card-header i {
+        font-size: var(--font-size-xl);
+    }
+
+    .card-body {
+        padding: var(--spacing-lg);
+    }
+
+    .card-footer {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-lg);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-title i {
+        color: var(--primary-500);
+    }
+
+    /* ===== LIST ===== */
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .item-list li:last-child {
+        border-bottom: none;
+    }
+
+    .item-label {
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    .item-value {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-2px);
+    }
+
+    .btn-sm {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ===== ALERT ===== */
+    .alert {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+    }
+
+    .alert-info {
+        background: rgba(0, 102, 204, 0.1);
+        border-left: 4px solid var(--primary-500);
+        color: var(--primary-600);
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 4px solid var(--danger);
+        color: #7f1d1d;
+    }
+
+    .alert i {
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+
+    /* ===== TABLE ===== */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: var(--spacing-md);
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .table td {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .table tbody tr:hover {
+        background: var(--bg-secondary);
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: var(--success);
+        color: var(--white);
+    }
+
+    .badge-warning {
+        background: var(--warning);
+        color: var(--white);
+    }
+
+    .badge-danger {
+        background: var(--danger);
+        color: var(--white);
+    }
+
+    .badge-info {
+        background: var(--primary-100);
+        color: var(--primary-600);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+        }
+
+        .table {
+            font-size: var(--font-size-sm);
+        }
+
+        .table th,
+        .table td {
+            padding: var(--spacing-sm);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate stat cards on load
+        document.querySelectorAll('.stat-card').forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.5s ease forwards`;
+            card.style.animationDelay = (index * 0.1) + 's';
+        });
+
+        // Add hover effect to table rows
+        document.querySelectorAll('table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = 'var(--bg-secondary)';
+                this.style.transition = 'background-color var(--transition-fast)';
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="dashboard-header">
+    <div class="container">
+        <h1><i class="fa fa-dashboard"></i> My Library Dashboard</h1>
+        <p>Welcome back! Here's your library account overview.</p>
+    </div>
+</section>
+
+<!-- Main Dashboard -->
+<section class="section">
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card primary">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-book"></i> Current Loans</p>
+                        <p class="stat-card-value">{{ current_loans|length }}</p>
+                    </div>
+                    <i class="fa fa-book fa-2x" style="color: var(--primary-500); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-calendar"></i> Reserved Items</p>
+                        <p class="stat-card-value">{{ reserved_items|length|default:0 }}</p>
+                    </div>
+                    <i class="fa fa-calendar fa-2x" style="color: var(--success); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-clock"></i> Overdue Items</p>
+                        <p class="stat-card-value">{{ overdue_items|length|default:0 }}</p>
+                    </div>
+                    <i class="fa fa-clock fa-2x" style="color: var(--warning); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card danger">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-dollar"></i> Fines Owed</p>
+                        <p class="stat-card-value">${{ patron.fines_owed|floatformat:2 }}</p>
+                    </div>
+                    <i class="fa fa-dollar fa-2x" style="color: var(--danger); opacity: 0.2;"></i>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          {% if current_loans %}
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Book</th>
-                  <th>Copy</th>
-                  <th>Due Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for loan in current_loans %}
-                <tr class="{% if loan.is_overdue %}table-danger{% endif %}">
-                  <td>
-                    <strong>{{ loan.book_copy.book.title }}</strong><br />
-                    <small class="text-muted">
-                      {% for author in loan.book_copy.book.authors.all %} {{
-                      author.full_name }}{% if not forloop.last %}, {% endif %}
-                      {% endfor %}
-                    </small>
-                  </td>
-                  <td>{{ loan.book_copy.copy_number }}</td>
-                  <td>
-                    {{ loan.due_date|date:"M j, Y" }} {% if loan.is_overdue %}
-                    <br /><span class="badge badge-danger">Overdue</span>
-                    {% endif %}
-                  </td>
-                  <td>{{ loan.get_status_display }}</td>
-                  <td>
-                    {% if loan.status == 'active' %}
-                    <a
-                      href="{% url 'catalog:return_book' loan.book_copy.id %}"
-                      class="btn btn-success btn-sm"
-                    >
-                      <i class="fa fa-undo"></i> Return
+
+        <!-- Alerts -->
+        {% if overdue_items %}
+        <div class="alert alert-warning">
+            <i class="fa fa-exclamation-triangle"></i>
+            <div>
+                <strong>Attention:</strong> You have {{ overdue_items|length }} overdue item(s). Please return them as soon as possible to avoid additional fines.
+            </div>
+        </div>
+        {% endif %}
+
+        {% if patron.fines_owed > 0 %}
+        <div class="alert alert-danger">
+            <i class="fa fa-money"></i>
+            <div>
+                <strong>Outstanding Fines:</strong> You owe ${{ patron.fines_owed|floatformat:2 }}. Please settle your account.
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Account Information -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin-bottom: var(--spacing-2xl);">
+            <!-- User Info Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-user"></i> Account Information</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="item-list">
+                        <li>
+                            <span class="item-label">Name:</span>
+                            <span class="item-value">{{ patron.user.get_full_name }}</span>
+                        </li>
+                        <li>
+                            <span class="item-label">Membership:</span>
+                            <span class="item-value">
+                                <span class="badge badge-info">{{ patron.get_membership_type_display }}</span>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="item-label">Member Since:</span>
+                            <span class="item-value">{{ patron.registration_date|date:"M d, Y" }}</span>
+                        </li>
+                        <li>
+                            <span class="item-label">Membership #:</span>
+                            <span class="item-value">#{{ patron.membership_number }}</span>
+                        </li>
+                        <li>
+                            <span class="item-label">Contact:</span>
+                            <span class="item-value">{{ patron.user.email }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'catalog:profile' %}" class="btn btn-primary btn-sm">
+                        <i class="fa fa-edit"></i> Edit Profile
                     </a>
-                    {% endif %}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% else %}
-          <div class="text-center py-4">
-            <i class="fa fa-book fa-3x text-muted mb-3"></i>
-            <h5>No Current Loans</h5>
-            <p class="text-muted">You haven't borrowed any books yet.</p>
-            <a href="{% url 'catalog:search' %}" class="btn btn-primary"
-              >Browse Books</a
-            >
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <!-- Active Reservations -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0">
-            <i class="fa fa-clock-o"></i> Active Reservations
-          </h5>
+            <!-- Membership Status Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-id-card"></i> Membership Status</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="item-list">
+                        <li>
+                            <span class="item-label">Status:</span>
+                            <span class="item-value">
+                                {% if patron.is_active %}
+                                    <span class="badge badge-success"><i class="fa fa-check"></i> Active</span>
+                                {% else %}
+                                    <span class="badge badge-danger"><i class="fa fa-times"></i> Inactive</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="item-label">Borrowing Limit:</span>
+                            <span class="item-value">{{ patron.get_borrowing_limit }} items</span>
+                        </li>
+                        <li>
+                            <span class="item-label">Currently Borrowed:</span>
+                            <span class="item-value">{{ current_loans|length }} / {{ patron.get_borrowing_limit }}</span>
+                        </li>
+                        <li>
+                            <span class="item-label">Available Slots:</span>
+                            <span class="item-value">{{ patron.get_borrowing_limit|add:"-"|add:current_loans|length }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          {% if active_reservations %}
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Book</th>
-                  <th>Reservation Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for reservation in active_reservations %}
-                <tr>
-                  <td>
-                    <strong>{{ reservation.book.title }}</strong><br />
-                    <small class="text-muted">
-                      {% for author in reservation.book.authors.all %} {{
-                      author.full_name }}{% if not forloop.last %}, {% endif %}
-                      {% endfor %}
-                    </small>
-                  </td>
-                  <td>{{ reservation.reservation_date|date:"M j, Y" }}</td>
-                  <td>
-                    <span
-                      class="badge badge-{% if reservation.status == 'ready' %}success{% else %}info{% endif %}"
-                    >
-                      {{ reservation.get_status_display }}
-                    </span>
-                  </td>
-                  <td>
-                    <a
-                      href="{% url 'catalog:cancel_reservation' reservation.pk %}"
-                      class="btn btn-danger btn-sm"
-                    >
-                      <i class="fa fa-times"></i> Cancel
-                    </a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% else %}
-          <div class="text-center py-4">
-            <i class="fa fa-clock-o fa-3x text-muted mb-3"></i>
-            <h5>No Active Reservations</h5>
-            <p class="text-muted">You don't have any book reservations.</p>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Recent History -->
-  {% if recent_history %}
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0"><i class="fa fa-history"></i> Recent Returns</h5>
+        <!-- Current Loans Section -->
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fa fa-list"></i> Current Loans</h5>
+            </div>
+            <div class="card-body">
+                {% if current_loans %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loan in current_loans %}
+                        <tr>
+                            <td>{{ loan.book.title }}</td>
+                            <td>{{ loan.book.author }}</td>
+                            <td>
+                                {% if loan.is_overdue %}
+                                    <span style="color: var(--danger);">
+                                        <strong>{{ loan.due_date|date:"M d, Y" }} (Overdue)</strong>
+                                    </span>
+                                {% else %}
+                                    {{ loan.due_date|date:"M d, Y" }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if loan.is_overdue %}
+                                    <span class="badge badge-danger">Overdue</span>
+                                {% else %}
+                                    <span class="badge badge-success">Active</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'catalog:book_detail' loan.book.id %}" class="btn btn-secondary btn-sm">
+                                    <i class="fa fa-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    <div>
+                        <strong>No Active Loans:</strong> You don't have any books checked out. Visit the <a href="{% url 'catalog:catalog_home' %}">catalog</a> to borrow items.
+                    </div>
+                </div>
+                {% endif %}
+            </div>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Book</th>
-                  <th>Returned Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for loan in recent_history %}
-                <tr>
-                  <td>
-                    <strong>{{ loan.book_copy.book.title }}</strong><br />
-                    <small class="text-muted">
-                      {% for author in loan.book_copy.book.authors.all %} {{
-                      author.full_name }}{% if not forloop.last %}, {% endif %}
-                      {% endfor %}
-                    </small>
-                  </td>
-                  <td>{{ loan.returned_date|date:"M j, Y" }}</td>
-                  <td>{{ loan.get_status_display }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
 
-  <!-- Quick Actions -->
-  <div class="row mt-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0">Quick Actions</h5>
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-2xl);">
+            <a href="{% url 'catalog:catalog_home' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-search"></i> Browse Catalog
+            </a>
+            <a href="{% url 'catalog:elibrary_dashboard' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-desktop"></i> E-Library
+            </a>
+            <a href="{% url 'catalog:profile' %}" class="btn btn-secondary btn-block">
+                <i class="fa fa-user"></i> My Profile
+            </a>
+            <a href="{% url 'logout' %}" class="btn btn-secondary btn-block">
+                <i class="fa fa-sign-out"></i> Logout
+            </a>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <a
-                href="{% url 'catalog:search' %}"
-                class="btn btn-primary btn-block"
-              >
-                <i class="fa fa-search"></i><br />
-                Search Books
-              </a>
-            </div>
-            <div class="col-md-3 mb-3">
-              <a
-                href="{% url 'catalog:profile' %}"
-                class="btn btn-secondary btn-block"
-              >
-                <i class="fa fa-user"></i><br />
-                Edit Profile
-              </a>
-            </div>
-            <div class="col-md-3 mb-3">
-              <a href="{% url 'core:contact' %}" class="btn btn-info btn-block">
-                <i class="fa fa-envelope"></i><br />
-                Contact Us
-              </a>
-            </div>
-            <div class="col-md-3 mb-3">
-              <a
-                href="{% url 'catalog:logout' %}"
-                class="btn btn-outline-danger btn-block"
-              >
-                <i class="fa fa-sign-out"></i><br />
-                Logout
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
+</section>
 {% endblock %}

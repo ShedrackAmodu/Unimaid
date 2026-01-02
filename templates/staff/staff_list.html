@@ -1,87 +1,526 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %}
-{{ page_title }}
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+        margin-bottom: var(--spacing-2xl);
+        text-align: center;
+    }
+
+    .page-header h1 {
+        font-size: var(--font-size-3xl);
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .page-header p {
+        font-size: var(--font-size-lg);
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ===== STAFF GRID ===== */
+    .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    /* ===== STAFF CARD ===== */
+    .staff-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .staff-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .staff-image {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        background: var(--bg-secondary);
+        transition: transform var(--transition-base);
+    }
+
+    .staff-card:hover .staff-image {
+        transform: scale(1.05);
+    }
+
+    .staff-info {
+        padding: var(--spacing-lg);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .staff-name {
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .staff-position {
+        font-size: var(--font-size-base);
+        color: var(--primary-500);
+        font-weight: 600;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .staff-description {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-lg);
+        flex: 1;
+    }
+
+    .staff-contact {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .staff-contact-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        color: var(--text-secondary);
+    }
+
+    .staff-contact-item i {
+        color: var(--primary-500);
+        width: 16px;
+        text-align: center;
+    }
+
+    .staff-contact-item a {
+        color: var(--primary-500);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    .staff-contact-item a:hover {
+        color: var(--primary-600);
+        text-decoration: underline;
+    }
+
+    /* ===== SOCIAL LINKS ===== */
+    .staff-social {
+        display: flex;
+        gap: var(--spacing-md);
+        justify-content: center;
+        padding-top: var(--spacing-md);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-full);
+        color: var(--primary-500);
+        transition: all var(--transition-fast);
+        font-size: 0.875rem;
+    }
+
+    .social-link:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== FILTER/SEARCH ===== */
+    .staff-filters {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-2xl);
+        display: flex;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .filter-btn {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--primary-500);
+        color: var(--white);
+        border-color: var(--primary-500);
+    }
+
+    /* ===== DEPARTMENT SECTION ===== */
+    .department-section {
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .department-title {
+        font-size: var(--font-size-xl);
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-lg);
+        border-bottom: 2px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .department-title i {
+        color: var(--primary-500);
+        font-size: var(--font-size-lg);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+        text-align: center;
+        padding: var(--spacing-2xl);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+        color: var(--text-secondary);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .staff-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .page-header h1 {
+            font-size: var(--font-size-2xl);
+        }
+
+        .page-header {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .staff-filters {
+            flex-direction: column;
+        }
+
+        .filter-btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const department = this.dataset.department;
+                document.querySelectorAll('.department-section').forEach(section => {
+                    if (department === 'all' || section.dataset.department === department) {
+                        section.style.display = 'block';
+                        section.style.animation = 'fadeIn 0.3s ease';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Smooth animations
+        document.querySelectorAll('.staff-card').forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.5s ease forwards`;
+            card.style.animationDelay = (index * 0.05) + 's';
+        });
+    });
+</script>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-lg-10">
-      <!-- Page Header -->
-      <div class="page-header text-center mb-5">
-        <h1 class="display-4 font-weight-bold text-primary">
-          {{ page_title }}
-        </h1>
-        <p class="lead text-muted">Meet our dedicated library staff members</p>
-      </div>
-
-      <!-- Staff Grid -->
-      <div class="row">
-        {% for staff in staff_members %}
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            {% if staff.image %}
-            <img
-              src="{{ staff.image.url }}"
-              class="card-img-top"
-              alt="{{ staff.name }}"
-              style="height: 250px; object-fit: cover"
-            />
-            {% else %}
-            <div
-              class="card-img-top bg-light d-flex align-items-center justify-content-center"
-              style="height: 250px"
-            >
-              <i class="fas fa-user fa-4x text-muted"></i>
-            </div>
-            {% endif %}
-
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title font-weight-bold">{{ staff.name }}</h5>
-              <h6 class="card-subtitle mb-2 text-primary">
-                {{ staff.position }}
-              </h6>
-              {% if staff.bio %}
-              <p class="card-text text-muted flex-grow-1">
-                {{ staff.bio|truncatechars:100 }}
-              </p>
-              {% endif %}
-              <div class="mt-auto">
-                {% if staff.email %}
-                <a
-                  href="mailto:{{ staff.email }}"
-                  class="btn btn-outline-primary btn-sm mr-2"
-                >
-                  <i class="fas fa-envelope"></i> Email
-                </a>
-                {% endif %}
-                <a
-                  href="{% url 'staff:staff_detail' staff.pk %}"
-                  class="btn btn-primary btn-sm"
-                >
-                  View Profile
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center">
-          <div class="alert alert-info">
-            <h4><i class="fas fa-info-circle"></i> No Staff Members Found</h4>
-            <p>Staff information will be added soon.</p>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- Pagination -->
-      {% include 'includes/pagination.html' with page_obj=staff_members query=''
-      %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1><i class="fa fa-users"></i> {{ page_title }}</h1>
+        <p>Meet our dedicated team of library professionals</p>
     </div>
-  </div>
-</div>
+</section>
+
+<!-- Main Content -->
+<section class="section">
+    <div class="container">
+        <!-- Filters -->
+        {% if departments %}
+        <div class="staff-filters">
+            <button class="filter-btn active" data-department="all">
+                <i class="fa fa-check"></i> All Staff
+            </button>
+            {% for dept in departments %}
+            <button class="filter-btn" data-department="{{ dept }}">
+                {{ dept }}
+            </button>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Staff Grid -->
+        {% if staff_members %}
+            {% for member in staff_members %}
+            <div class="staff-card" data-department="{{ member.department }}">
+                {% if member.profile_image %}
+                    <img src="{{ member.profile_image.url }}" alt="{{ member.get_full_name }}" class="staff-image" />
+                {% else %}
+                    <div class="staff-image" style="display: flex; align-items: center; justify-content: center; background: var(--gradient-primary);">
+                        <i class="fa fa-user fa-5x" style="color: rgba(255, 255, 255, 0.3);"></i>
+                    </div>
+                {% endif %}
+
+                <div class="staff-info">
+                    <h3 class="staff-name">{{ member.get_full_name }}</h3>
+                    <p class="staff-position">
+                        <i class="fa fa-briefcase"></i> {{ member.position }}
+                    </p>
+                    <p class="staff-description">{{ member.bio }}</p>
+
+                    <div class="staff-contact">
+                        {% if member.email %}
+                        <div class="staff-contact-item">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                        </div>
+                        {% endif %}
+                        {% if member.phone %}
+                        <div class="staff-contact-item">
+                            <i class="fa fa-phone"></i>
+                            <a href="tel:{{ member.phone }}">{{ member.phone }}</a>
+                        </div>
+                        {% endif %}
+                        {% if member.office_location %}
+                        <div class="staff-contact-item">
+                            <i class="fa fa-map-marker"></i>
+                            {{ member.office_location }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if member.linkedin or member.twitter %}
+                    <div class="staff-social">
+                        {% if member.linkedin %}
+                        <a href="{{ member.linkedin }}" class="social-link" title="LinkedIn" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.twitter %}
+                        <a href="{{ member.twitter }}" class="social-link" title="Twitter" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fa fa-users"></i>
+                <h3>No Staff Members Found</h3>
+                <p>Staff information will be available soon.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+    .staff-image-placeholder {
+        width: 100%;
+        height: 250px;
+        background: var(--bg-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .staff-body {
+        padding: var(--spacing-lg);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .staff-name {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .staff-position {
+        font-size: var(--font-size-base);
+        color: var(--primary-500);
+        font-weight: 500;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .staff-bio {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        flex: 1;
+        margin-bottom: var(--spacing-lg);
+        line-height: 1.6;
+    }
+
+    .staff-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        margin-top: auto;
+    }
+
+    .staff-actions .btn {
+        flex: 1;
+    }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: var(--spacing-2xl);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-lg);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>{{ page_title }}</h1>
+            <p>Meet our dedicated library staff members</p>
+        </div>
+
+        <!-- Staff Grid -->
+        <div class="staff-grid">
+            {% for staff in staff_members %}
+            <div class="staff-card">
+                {% if staff.image %}
+                <img src="{{ staff.image.url }}" alt="{{ staff.name }}" class="staff-image" />
+                {% else %}
+                <div class="staff-image-placeholder">
+                    <i class="fas fa-user fa-4x" style="color: var(--text-tertiary);"></i>
+                </div>
+                {% endif %}
+
+                <div class="staff-body">
+                    <h5 class="staff-name">{{ staff.name }}</h5>
+                    <h6 class="staff-position">{{ staff.position }}</h6>
+                    {% if staff.bio %}
+                    <p class="staff-bio">{{ staff.bio|truncatechars:100 }}</p>
+                    {% endif %}
+                    <div class="staff-actions">
+                        {% if staff.email %}
+                        <a href="mailto:{{ staff.email }}" class="btn btn-outline">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'staff:staff_detail' staff.pk %}" class="btn btn-primary">
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-info-circle"></i>
+                <h3 style="color: var(--text-secondary);">No Staff Members Found</h3>
+                <p style="color: var(--text-tertiary);">Staff information will be added soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if staff_members.has_other_pages %}
+        <div style="display: flex; justify-content: center; margin-top: var(--spacing-2xl);">
+            <ul class="pagination">
+                {% if staff_members.has_previous %}
+                <li>
+                    <a href="?page={{ staff_members.previous_page_number }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in staff_members.paginator.page_range %}
+                    {% if num == staff_members.number %}
+                    <li>
+                        <span style="display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; background: var(--primary-500); color: var(--white); border-radius: var(--radius-md);">
+                            {{ num }}
+                        </span>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="?page={{ num }}" style="display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--primary-500); text-decoration: none;">
+                            {{ num }}
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if staff_members.has_next %}
+                <li>
+                    <a href="?page={{ staff_members.next_page_number }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

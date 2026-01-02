@@ -1,77 +1,358 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container">
-  <h1>Repository</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-  <form method="get" class="mb-4">
-    <div class="input-group">
-      <input
-        type="text"
-        name="q"
-        value="{{ query }}"
-        placeholder="Search documents..."
-        class="form-control"
-      />
-      <div class="input-group-append">
-        <button class="btn btn-primary" type="submit">Search</button>
-      </div>
+{% block title %}Repository{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== PAGE HEADER ===== */
+    .repository-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .repository-header h1 {
+        margin-bottom: var(--spacing-md);
+        color: var(--white);
+    }
+
+    .repository-header p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0;
+    }
+
+    /* ===== SEARCH SECTION ===== */
+    .search-section {
+        background: var(--bg-secondary);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-2xl);
+        box-shadow: var(--shadow-md);
+    }
+
+    .search-form {
+        display: flex;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    .search-form input,
+    .search-form select {
+        padding: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        font-family: var(--font-sans);
+        font-size: var(--font-size-base);
+        color: var(--text-primary);
+        background: var(--bg-primary);
+    }
+
+    .search-form input {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .search-form input:focus,
+    .search-form select:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    .search-form button {
+        padding: var(--spacing-md) var(--spacing-lg);
+        background: var(--gradient-primary);
+        color: var(--white);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .search-form button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* ===== DOCUMENT ITEM ===== */
+    .document-item {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--spacing-lg);
+        border-left: 4px solid var(--primary-500);
+    }
+
+    .document-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .document-item-icon {
+        font-size: 2.5rem;
+        color: var(--primary-500);
+        flex-shrink: 0;
+    }
+
+    .document-content {
+        flex: 1;
+    }
+
+    .document-title {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .document-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-lg);
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .document-meta span {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .document-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .document-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .btn-primary {
+        background: var(--primary-500);
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-600);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-2px);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+        text-align: center;
+        padding: var(--spacing-2xl);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-lg);
+        color: var(--text-secondary);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== PAGINATION ===== */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-2xl);
+    }
+
+    .pagination a,
+    .pagination span {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        transition: all var(--transition-fast);
+    }
+
+    .pagination a:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        border-color: var(--primary-500);
+    }
+
+    .pagination .active {
+        background: var(--primary-500);
+        color: var(--white);
+        border-color: var(--primary-500);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .document-item {
+            flex-direction: column;
+        }
+
+        .search-form {
+            flex-direction: column;
+        }
+
+        .search-form input {
+            min-width: 100%;
+        }
+
+        .document-actions {
+            width: 100%;
+        }
+
+        .btn {
+            flex: 1;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scroll for document items
+        document.querySelectorAll('.document-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.boxShadow = 'var(--shadow-lg)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.boxShadow = 'var(--shadow-md)';
+            });
+        });
+
+        // Search functionality
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                const searchInput = this.querySelector('input[type="text"]');
+                if (searchInput.value.trim() === '') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="repository-header">
+    <div class="container">
+        <h1><i class="fa fa-archive"></i> Repository</h1>
+        <p>Access institutional documents, theses, and research materials</p>
     </div>
-  </form>
+</section>
 
-  <div class="list-group">
-    {% for doc in documents %}
-    <div class="list-group-item d-flex justify-content-between align-items-center">
-      <div>
-        <a href="{{ doc.get_absolute_url }}" class="text-decoration-none">
-          <strong>{{ doc.title }}</strong>
-        </a>
-        {% if doc.description %}
-        <br><small class="text-muted">{{ doc.description|truncatechars:100 }}</small>
+<!-- Main Content -->
+<section class="section">
+    <div class="container">
+        <!-- Search Section -->
+        <div class="search-section">
+            <form method="get" class="search-form">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Search documents..." 
+                    value="{{ request.GET.q }}"
+                />
+                <button type="submit">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Documents List -->
+        {% if documents %}
+            {% for document in documents %}
+            <div class="document-item">
+                <i class="document-item-icon fa fa-file-pdf"></i>
+                <div class="document-content" style="flex: 1;">
+                    <h3 class="document-title">{{ document.title }}</h3>
+                    <div class="document-meta">
+                        <span><i class="fa fa-user"></i> {{ document.author }}</span>
+                        <span><i class="fa fa-calendar"></i> {{ document.date_published|date:"Y" }}</span>
+                        <span><i class="fa fa-tag"></i> {{ document.document_type }}</span>
+                    </div>
+                    <p class="document-description">{{ document.description|truncatewords:30 }}</p>
+                    <div class="document-actions">
+                        <a href="{{ document.file.url }}" class="btn btn-primary" download>
+                            <i class="fa fa-download"></i> Download
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fa fa-eye"></i> Preview
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if page_obj %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1"><i class="fa fa-chevron-left"></i> First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span style="padding: var(--spacing-md) var(--spacing-lg);">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last <i class="fa fa-chevron-right"></i></a>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fa fa-search"></i>
+                <h3>No Documents Found</h3>
+                <p>Try adjusting your search criteria or browse all available documents.</p>
+            </div>
         {% endif %}
-      </div>
-      <div class="text-right">
-        <small class="text-muted d-block">{{ doc.uploaded_at|date:"Y-m-d" }}</small>
-        <a href="{% url 'repository:doc_download' doc.slug %}" class="btn btn-sm btn-outline-primary">Download</a>
-      </div>
     </div>
-    {% empty %}
-    <div class="list-group-item text-center text-muted">No documents found.</div>
-    {% endfor %}
-  </div>
-
-  {% if documents.has_other_pages %}
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      {% if documents.has_previous %}
-      <li class="page-item">
-        <a
-          class="page-link"
-          href="?q={{ query }}&page={{ documents.previous_page_number }}"
-          >Previous</a
-        >
-      </li>
-      {% else %}
-      <li class="page-item disabled">
-        <span class="page-link">Previous</span>
-      </li>
-      {% endif %} {% for num in documents.paginator.page_range %} {% if num == documents.number %}
-      <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-      {% else %}
-      <li class="page-item">
-        <a class="page-link" href="?q={{ query }}&page={{ num }}">{{ num }}</a>
-      </li>
-      {% endif %} {% endfor %} {% if documents.has_next %}
-      <li class="page-item">
-        <a
-          class="page-link"
-          href="?q={{ query }}&page={{ documents.next_page_number }}"
-          >Next</a
-        >
-      </li>
-      {% else %}
-      <li class="page-item disabled"><span class="page-link">Next</span></li>
-      {% endif %}
-    </ul>
-  </nav>
-  {% endif %}
-</div>
+</section>
 {% endblock %}

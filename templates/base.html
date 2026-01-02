@@ -1,109 +1,908 @@
 {% load static %}
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">
-  <head>
+<html class="no-js" lang="en" data-theme="light">
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>{% block title %}Ramat Library Unimaid{% endblock %}</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Ramat Library | University of Maiduguri{% endblock %}</title>
+    <meta name="description" content="University of Maiduguri Library - Gateway to Knowledge, Research, and Innovation" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#0066cc" />
 
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="{% static 'img/favicon.png' %}"
-    />
-    <!-- Place favicon.ico in the root directory -->
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/unimaidlogo.png' %}" />
+    <link rel="apple-touch-icon" href="{% static 'img/banner/banner.png' %}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css?family=Abril+Fatface|Poppins:200,200i,300,300i,400,500,600,700,800,900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS here -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <!-- Bootstrap CDN (with local fallback) -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" />
-    <!-- jQuery from CDN with local fallback -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      window.jQuery ||
-        document.write(
-          '\x3Cscript src="{% static "js/vendor/jquery-1.12.4.min.js" %}"\x3E\x3C/script>'
-        );
-    </script>
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/gijgo.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}" />
-    <link rel="preload" href="{% static 'css/style.css' %}" as="style" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/enhancements.css' %}" />
-    <!-- <link rel="stylesheet" href="{% static 'css/responsive.css' %}"> -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Inline CSS - Optimized -->
+    <style>
+        /* ===== CSS RESET & VARIABLES ===== */
+        :root {
+            /* Color Palette - University of Maiduguri */
+            --primary-50: #e6f2ff;
+            --primary-100: #cce6ff;
+            --primary-200: #99ccff;
+            --primary-300: #66b3ff;
+            --primary-400: #3399ff;
+            --primary-500: #0066cc;
+            --primary-600: #0055aa;
+            --primary-700: #004488;
+            --primary-800: #003366;
+            --primary-900: #002244;
+            
+            --accent: #00a86b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            /* Neutral Colors */
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --black: #000000;
+            
+            /* Theme Variables */
+            --bg-primary: var(--white);
+            --bg-secondary: var(--gray-50);
+            --bg-tertiary: var(--gray-100);
+            --bg-card: var(--white);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-tertiary: var(--gray-500);
+            --border-color: var(--gray-200);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #00cc88 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --font-serif: 'Source Serif Pro', Georgia, serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 var(--shadow-color);
+            --shadow-md: 0 4px 6px -1px var(--shadow-color);
+            --shadow-lg: 0 10px 15px -3px var(--shadow-color);
+            --shadow-xl: 0 20px 25px -5px var(--shadow-color);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Layout */
+            --header-height: 4rem;
+            --container-padding: 1rem;
+        }
+
+        /* ===== DARK THEME ===== */
+        [data-theme="dark"] {
+            --primary-50: #002244;
+            --primary-100: #003366;
+            --primary-200: #004488;
+            --primary-300: #0055aa;
+            --primary-400: #0066cc;
+            --primary-500: #3399ff;
+            --primary-600: #66b3ff;
+            --primary-700: #99ccff;
+            --primary-800: #cce6ff;
+            --primary-900: #e6f2ff;
+            
+            --bg-primary: var(--gray-900);
+            --bg-secondary: var(--gray-800);
+            --bg-tertiary: var(--gray-700);
+            --bg-card: var(--gray-800);
+            --text-primary: var(--gray-50);
+            --text-secondary: var(--gray-200);
+            --text-tertiary: var(--gray-300);
+            --border-color: var(--gray-700);
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            
+            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        }
+
+        /* ===== BASE STYLES ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            transition: background-color var(--transition-base), color var(--transition-base);
+            min-height: 100vh;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== SELECTION ===== */
+        ::selection {
+            background-color: var(--primary-500);
+            color: var(--white);
+        }
+
+        /* ===== FOCUS ===== */
+        :focus-visible {
+            outline: 2px solid var(--primary-500);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-500);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-600);
+        }
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-500) var(--bg-secondary);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--primary-500);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-600);
+        }
+
+        /* ===== LAYOUT UTILITIES ===== */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .section-sm {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .section-lg {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            gap: var(--spacing-sm);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-500);
+            border: 2px solid var(--primary-500);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-500);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* ===== LOADING ===== */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity var(--transition-base), visibility var(--transition-base);
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-500);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-primary);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(1.25rem);
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-xl);
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-0.25rem) scale(1.1);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        
+        .d-flex { display: flex; }
+        .d-block { display: block; }
+        .d-none { display: none; }
+        .d-grid { display: grid; }
+        
+        .flex-column { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .flex-wrap { flex-wrap: wrap; }
+        
+        .align-items-center { align-items: center; }
+        .align-items-start { align-items: flex-start; }
+        .align-items-end { align-items: flex-end; }
+        
+        .justify-content-center { justify-content: center; }
+        .justify-content-between { justify-content: space-between; }
+        .justify-content-start { justify-content: flex-start; }
+        .justify-content-end { justify-content: flex-end; }
+        
+        .gap-1 { gap: var(--spacing-xs); }
+        .gap-2 { gap: var(--spacing-sm); }
+        .gap-3 { gap: var(--spacing-md); }
+        .gap-4 { gap: var(--spacing-lg); }
+        
+        .w-100 { width: 100%; }
+        .h-100 { height: 100%; }
+        
+        .position-relative { position: relative; }
+        .position-absolute { position: absolute; }
+        .position-fixed { position: fixed; }
+        
+        .overflow-hidden { overflow: hidden; }
+        .overflow-auto { overflow: auto; }
+        
+        .rounded { border-radius: var(--radius-md); }
+        .rounded-lg { border-radius: var(--radius-lg); }
+        .rounded-full { border-radius: var(--radius-full); }
+        
+        .shadow { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-none { box-shadow: none; }
+        
+        .bg-primary { background: var(--gradient-primary); }
+        .bg-secondary { background: var(--bg-secondary); }
+        .bg-tertiary { background: var(--bg-tertiary); }
+        .bg-transparent { background: transparent; }
+        
+        .text-white { color: var(--white); }
+        .text-primary { color: var(--primary-500); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-muted { color: var(--text-tertiary); }
+        
+        .fw-normal { font-weight: 400; }
+        .fw-medium { font-weight: 500; }
+        .fw-semibold { font-weight: 600; }
+        .fw-bold { font-weight: 700; }
+        
+        .fs-1 { font-size: var(--font-size-3xl); }
+        .fs-2 { font-size: var(--font-size-2xl); }
+        .fs-3 { font-size: var(--font-size-xl); }
+        .fs-4 { font-size: var(--font-size-lg); }
+        .fs-5 { font-size: var(--font-size-base); }
+        
+        .mb-1 { margin-bottom: var(--spacing-xs); }
+        .mb-2 { margin-bottom: var(--spacing-sm); }
+        .mb-3 { margin-bottom: var(--spacing-md); }
+        .mb-4 { margin-bottom: var(--spacing-lg); }
+        .mb-5 { margin-bottom: var(--spacing-xl); }
+        
+        .mt-1 { margin-top: var(--spacing-xs); }
+        .mt-2 { margin-top: var(--spacing-sm); }
+        .mt-3 { margin-top: var(--spacing-md); }
+        .mt-4 { margin-top: var(--spacing-lg); }
+        .mt-5 { margin-top: var(--spacing-xl); }
+        
+        .py-1 { padding-top: var(--spacing-xs); padding-bottom: var(--spacing-xs); }
+        .py-2 { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
+        .py-3 { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+        .py-4 { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
+        
+        .px-1 { padding-left: var(--spacing-xs); padding-right: var(--spacing-xs); }
+        .px-2 { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+        .px-3 { padding-left: var(--spacing-md); padding-right: var(--spacing-md); }
+        .px-4 { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(1.25rem);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease; }
+        .fade-in-up { animation: fadeInUp 0.5s ease; }
+
+        /* ===== ACCESSIBILITY ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        /* Mobile First - Base styles are mobile */
+        @media (max-width: 575.98px) {
+            :root {
+                --container-padding: 1rem;
+                --header-height: 3.5rem;
+                --spacing-2xl: 2rem;
+                --spacing-xl: 1.5rem;
+            }
+
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.25rem; }
+
+            .section {
+                padding: var(--spacing-xl) 0;
+            }
+
+            .section-lg {
+                padding: var(--spacing-2xl) 0;
+            }
+
+            /* Mobile touch targets */
+            .btn {
+                min-height: 44px;
+                padding: 12px 20px;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+        /* Small tablets */
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            :root {
+                --container-padding: 1.25rem;
+            }
+
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.875rem; }
+            h3 { font-size: 1.625rem; }
+
+            .section {
+                padding: var(--spacing-xl) 0;
+            }
+
+            /* Touch targets for tablets */
+            .btn {
+                min-height: 40px;
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            :root {
+                --container-padding: 1.5rem;
+            }
+
+            h1 { font-size: 2.75rem; }
+            h2 { font-size: 2.125rem; }
+            h3 { font-size: 1.75rem; }
+
+            .section {
+                padding: var(--spacing-2xl) 0;
+            }
+        }
+
+        /* Desktops */
+        @media (min-width: 992px) {
+            :root {
+                --container-padding: 2rem;
+            }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.5rem; }
+            h3 { font-size: 2rem; }
+
+            .section {
+                padding: var(--spacing-2xl) 0;
+            }
+
+            .section-lg {
+                padding: 3rem 0;
+            }
+        }
+
+        /* Large desktops */
+        @media (min-width: 1200px) {
+            :root {
+                --container-padding: 2.5rem;
+            }
+
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.75rem; }
+            h3 { font-size: 2.25rem; }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 12pt;
+            }
+            
+            a {
+                color: black !important;
+                text-decoration: underline !important;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .btn {
+                display: none !important;
+            }
+        }
+    </style>
+    
     {% block extra_css %}{% endblock %}
-  </head>
+</head>
 
-  <body>
-    <!--[if lte IE 9]>
-      <p class="browserupgrade">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
-        your experience and security.
-      </p>
-    <![endif]-->
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
 
-    <!-- Header -->
-    {% include 'includes/header.html' %}
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    {% include "includes/header.html" %}
 
     <!-- Main Content -->
-    {% block content %}{% endblock %}
+    <main id="mainContent">
+        {% block content %}
+        <!-- Content will be inserted here by child templates -->
+        {% endblock %}
+    </main>
 
-    <!-- Footer -->
-    {% include 'includes/footer.html' %}
+    {% include "includes/footer.html" %}
 
-    <!-- JS here -->
-    <script
-      defer
-      src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"
-    ></script>
-    <script defer src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
-    <script defer src="{% static 'js/popper.min.js' %}"></script>
-    <script defer src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script defer src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script defer src="{% static 'js/isotope.pkgd.min.js' %}"></script>
-    <script defer src="{% static 'js/ajax-form.js' %}"></script>
-    <script defer src="{% static 'js/waypoints.min.js' %}"></script>
-    <script defer src="{% static 'js/jquery.counterup.min.js' %}"></script>
-    <script defer src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
-    <script defer src="{% static 'js/scrollIt.js' %}"></script>
-    <script defer src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
-    <script defer src="{% static 'js/wow.min.js' %}"></script>
-    <script defer src="{% static 'js/nice-select.min.js' %}"></script>
-    <script defer src="{% static 'js/jquery.slicknav.min.js' %}"></script>
-    <script defer src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-    <script defer src="{% static 'js/plugins.js' %}"></script>
-    <script defer src="{% static 'js/gijgo.min.js' %}"></script>
+    <!-- Core JavaScript -->
+    <script>
+        // ===== THEME MANAGER =====
+        class ThemeManager {
+            constructor() {
+                this.theme = this.getTheme();
+                this.init();
+            }
 
-    <!--contact js-->
-    <script defer src="{% static 'js/contact.js' %}"></script>
-    <script defer src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-    <script defer src="{% static 'js/jquery.form.js' %}"></script>
-    <script defer src="{% static 'js/jquery.validate.min.js' %}"></script>
-    <script defer src="{% static 'js/mail-script.js' %}"></script>
+            init() {
+                this.applyTheme(this.theme);
+                this.setupListeners();
+            }
 
-    <script defer src="{% static 'js/main.js' %}"></script>
-    <script defer src="{% static 'js/enhancements.js' %}"></script>
+            getTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) return savedTheme;
+
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+                return prefersDark.matches ? 'dark' : 'light';
+            }
+
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                this.theme = theme;
+                
+                // Update theme toggle button
+                const themeToggle = document.querySelector('[data-theme-toggle]');
+                if (themeToggle) {
+                    const isDark = theme === 'dark';
+                    themeToggle.setAttribute('aria-pressed', isDark);
+                    themeToggle.setAttribute('aria-label', 
+                        isDark ? 'Switch to light theme' : 'Switch to dark theme');
+                }
+            }
+
+            toggleTheme() {
+                const newTheme = this.theme === 'dark' ? 'light' : 'dark';
+                this.applyTheme(newTheme);
+                
+                // Add smooth transition
+                document.documentElement.classList.add('theme-changing');
+                setTimeout(() => {
+                    document.documentElement.classList.remove('theme-changing');
+                }, 300);
+            }
+
+            setupListeners() {
+                // System theme changes
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+                prefersDark.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        this.applyTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                // Theme toggle button
+                const themeToggle = document.querySelector('[data-theme-toggle]');
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', () => this.toggleTheme());
+                }
+            }
+        }
+
+        // ===== SCROLL MANAGER =====
+        class ScrollManager {
+            constructor() {
+                this.backToTop = document.getElementById('backToTop');
+                this.progressBar = document.getElementById('progressBar');
+                this.init();
+            }
+
+            init() {
+                this.setupScrollEvents();
+                this.setupBackToTop();
+            }
+
+            setupScrollEvents() {
+                let ticking = false;
+                
+                const handleScroll = () => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            this.updateProgressBar();
+                            this.toggleBackToTop();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll, { passive: true });
+            }
+
+            updateProgressBar() {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                this.progressBar.style.width = `${scrolled}%`;
+            }
+
+            toggleBackToTop() {
+                const isVisible = window.scrollY > 500;
+                this.backToTop.classList.toggle('visible', isVisible);
+                this.backToTop.setAttribute('aria-hidden', !isVisible);
+            }
+
+            setupBackToTop() {
+                this.backToTop.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    this.backToTop.blur();
+                });
+            }
+        }
+
+        // ===== LOADING MANAGER =====
+        class LoadingManager {
+            constructor() {
+                this.loading = document.getElementById('loading');
+                this.init();
+            }
+
+            init() {
+                if (document.readyState === 'complete') {
+                    this.hideLoading();
+                } else {
+                    window.addEventListener('load', () => this.hideLoading());
+                }
+            }
+
+            hideLoading() {
+                setTimeout(() => {
+                    this.loading.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 500);
+            }
+        }
+
+        // ===== SMOOTH SCROLL =====
+        class SmoothScroll {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a[href^="#"]');
+                    if (!link || link.hash === '#') return;
+                    
+                    const target = document.querySelector(link.hash);
+                    if (target) {
+                        e.preventDefault();
+                        this.scrollToElement(target);
+                    }
+                });
+            }
+
+            scrollToElement(element) {
+                const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerHeight - 20;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // ===== INITIALIZE EVERYTHING =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add theme transition styles
+            const themeTransitionStyle = document.createElement('style');
+            themeTransitionStyle.textContent = `
+                .theme-changing * {
+                    transition: background-color 0.3s ease,
+                                color 0.3s ease,
+                                border-color 0.3s ease,
+                                box-shadow 0.3s ease !important;
+                }
+            `;
+            document.head.appendChild(themeTransitionStyle);
+
+            // Initialize managers
+            const themeManager = new ThemeManager();
+            const scrollManager = new ScrollManager();
+            const loadingManager = new LoadingManager();
+            const smoothScroll = new SmoothScroll();
+
+            // Expose to global scope
+            window.App = {
+                theme: themeManager,
+                scroll: scrollManager,
+                utils: {
+                    debounce(func, wait) {
+                        let timeout;
+                        return function executedFunction(...args) {
+                            const later = () => {
+                                clearTimeout(timeout);
+                                func(...args);
+                            };
+                            clearTimeout(timeout);
+                            timeout = setTimeout(later, wait);
+                        };
+                    }
+                }
+            };
+        });
+
+        // ===== ERROR HANDLING =====
+        window.addEventListener('error', (e) => {
+            console.error('Error:', e.error);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Promise rejection:', e.reason);
+        });
+    </script>
+    
     {% block extra_js %}{% endblock %}
-  </body>
+</body>
 </html>

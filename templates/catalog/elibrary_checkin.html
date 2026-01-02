@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}E-Library Check-In{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-sign-in-alt"></i> E-Library Check-In
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Please provide your information to start your E-Library session.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="registration_number" class="form-label">Registration Number <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="registration_number" name="registration_number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="department" name="department" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="level" class="form-label">Level <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="level" name="level" required>
+                                        <option value="">Select Level</option>
+                                        <option value="100">100 Level</option>
+                                        <option value="200">200 Level</option>
+                                        <option value="300">300 Level</option>
+                                        <option value="400">400 Level</option>
+                                        <option value="500">500 Level</option>
+                                        <option value="600">600 Level</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="active_phone_number" class="form-label">Active Phone Number <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="active_phone_number" name="active_phone_number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="items_brought_in" class="form-label">Items Brought In</label>
+                            <textarea class="form-control" id="items_brought_in" name="items_brought_in" rows="3"
+                                      placeholder="List any items you're bringing in (laptop, books, etc.)"></textarea>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-check"></i> Check In
+                            </button>
+                            <a href="{% url 'catalog:elibrary_dashboard' %}" class="btn btn-secondary btn-lg ml-2">
+                                <i class="fas fa-arrow-left"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-fill form if visitor exists
+document.getElementById('registration_number').addEventListener('blur', function() {
+    const regNumber = this.value;
+    if (regNumber.length > 3) {
+        // Could add AJAX call here to fetch visitor data
+        console.log('Checking registration number:', regNumber);
+    }
+});
+</script>
+{% endblock %}

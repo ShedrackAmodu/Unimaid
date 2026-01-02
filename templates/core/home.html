@@ -1,294 +1,787 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Ramat Library
-Unimaid - Home{% endblock %} {% block content %}
-<!-- slider_area_start -->
-<div class="slider_area">
-  <div class="slider_active owl-carousel">
-    <!-- single_carouse -->
-    <div class="single_slider d-flex align-items-center slider_bg_1">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="slider_text">
-              {% comment %} <h3>
-                UNIMAID Library <br />
-                Where knowledge lives <br />
-                and futures are built.
-              </h3> {% endcomment %}
-              <a href="{% url 'core:admissions' %}" class="boxed-btn3"
-                >Get Start</a
-              >
-              <a href="{% url 'core:library_organization' %}" class="boxed-btn4"
-                >Take a tour</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ single_carouse -->
-    <!-- single_carouse -->
-    <div class="single_slider d-flex align-items-center slider_bg_2">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="slider_text">
-              {% comment %} <h3>
-                UNIMAID Library <br />
-                Modern facilities <br />
-                for modern learning.
-              </h3> {% endcomment %}
-              <a href="{% url 'repository:doc_list' %}" class="boxed-btn3"
-                >Explore Resources</a
-              >
-              <a href="{% url 'repository:doc_list' %}" class="boxed-btn4"
-                >Digital Library</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ single_carouse -->
-  </div>
-</div>
-<!-- slider_area_end -->
+{% extends "base.html" %}
+{% load static %}
 
-<!--================welcome area =================-->
-<div class="event_details_area section__padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="single_event d-flex align-items-center">
-          <div class="thumb">
-            <img src="{% static 'img/event/lib.jpg' %}" alt="" />
-          </div>
-          <div class="event_details_info">
-            <div class="event_info">
-              <a href="{% url 'blog:post_list' %}">
-                <h4>Welcoming Speech from the University Librarian</h4>
-              </a>
-              <p>
-                <span> <i class="flaticon-placeholder"></i> Ramat Library</span>
-              </p>
-            </div>
-            <p class="event_info_text">
-              The University of Maiduguri Library is committed to supporting
-              teaching, learning, and research through access to quality print
-              and electronic information resources. Our modern facilities and
-              digital services provide students and researchers with a reliable
-              gateway to knowledge anytime, anywhere.
-            </p>
-            <a href="{% url 'core:about' %}" class="boxed-btn3">Read More</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--================welcome area =================-->
+{% block title %}Ramat Library | University of Maiduguri{% endblock %}
 
-<!-- organizational divisions -->
-<div class="popular_program_area section__padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section_title text-center">
-          <h3>Organization Of Ramat Library</h3>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <nav class="custom_tabs text-center">
-          <div class="nav" id="nav-tab" role="tablist">
-            <a
-              class="nav-item nav-link active"
-              id="nav-home-tab"
-              data-toggle="tab"
-              href="#nav-home"
-              role="tab"
-              aria-controls="nav-home"
-              aria-selected="true"
-              >Divisions</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-profile-tab"
-              data-toggle="tab"
-              href="#nav-profile"
-              role="tab"
-              aria-controls="nav-profile"
-              aria-selected="false"
-              >Divisions</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-contact-tab"
-              data-toggle="tab"
-              href="#nav-contact"
-              role="tab"
-              aria-controls="nav-contact"
-              aria-selected="false"
-              >Information Centers</a
-            >
-          </div>
-        </nav>
-      </div>
-    </div>
-    <div class="tab-content" id="nav-tabContent">
-      <div
-        class="tab-pane fade show active"
-        id="nav-home"
-        role="tabpanel"
-        aria-labelledby="nav-home-tab"
-      >
-        <div class="row">
-          {% for division in divisions %}
-          <div class="col-lg-4 col-md-6">
-            <div class="single__program">
-              <div class="program_thumb">
-                {% if division.image %}
-                <img src="{{ division.image.url }}" alt="{{ division.name }}" />
-                {% else %}
-                <img
-                  src="{% static 'img/program/1.png' %}"
-                  alt="{{ division.name }}"
-                />
-                {% endif %}
-              </div>
-              <div class="program__content">
-                <span>{{ division.get_category_display }}</span>
-                <h4>{{ division.name }}</h4>
-                <p>{{ division.description|truncatechars:100 }}</p>
-                <a
-                  href="{% url 'core:library_organization' %}"
-                  class="boxed-btn5"
-                  >Learn More</a
-                >
-              </div>
-            </div>
-          </div>
-          {% empty %}
-          <div class="col-12">
-            <p class="text-center">
-              No library divisions available at the moment.
-            </p>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
+{% block extra_css %}
+<style>
+    /* ===== HERO SECTION ===== */
+    .hero {
+        position: relative;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: url('{% static "img/banner/banner.png" %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: var(--white);
+    }
 
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="course_all_btn text-center">
-          <a href="{% url 'core:library_organization' %}" class="boxed-btn4"
-            >View All Divisions</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- popular_program_area_end -->
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--spacing-xl);
+    }
 
-<!-- latest_coures_area_start -->
-<div class="latest_coures_area">
-  <div class="latest_coures_inner">
+    .hero-title {
+        font-size: var(--font-size-5xl);
+        font-weight: 800;
+        margin-bottom: var(--spacing-lg);
+        line-height: 1.2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-xl);
+        line-height: 1.6;
+        opacity: 0.9;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: var(--spacing-md);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-buttons .btn {
+        min-width: 200px;
+    }
+
+    .text-gradient-accent {
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+
+    /* ===== FEATURES SECTION ===== */
+    .features {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .feature-card {
+        height: 100%;
+        transition: transform var(--transition-base);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-lg);
+        color: var(--white);
+        font-size: 2rem;
+    }
+
+    /* ===== STATISTICS SECTION ===== */
+    .statistics {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: var(--spacing-lg);
+    }
+
+    .stat-number {
+        font-size: var(--font-size-5xl);
+        font-weight: 800;
+        margin-bottom: var(--spacing-sm);
+        display: block;
+    }
+
+    .stat-label {
+        font-size: var(--font-size-lg);
+        opacity: 0.9;
+    }
+
+    /* ===== QUICK ACTIONS SECTION ===== */
+    .quick-actions-section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .action-card {
+        background: var(--gradient-glass);
+        backdrop-filter: var(--blur-md);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all var(--transition-base);
+        height: 100%;
+    }
+
+    .action-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary-300);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .action-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .action-content {
+        flex: 1;
+    }
+
+    /* ===== NEWS SECTION ===== */
+    .news-section {
+        background: var(--bg-tertiary);
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .news-card {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .news-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+    }
+
+    .news-card:hover .news-image {
+        transform: scale(1.05);
+    }
+
+    .news-date {
+        font-size: var(--font-size-xs);
+        color: var(--text-tertiary);
+        display: block;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes countUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .counting {
+        animation: countUp 1s ease-out;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    /* Mobile */
+    @media (max-width: 767.98px) {
+        .hero {
+            min-height: 60vh;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: var(--font-size-3xl);
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-size-base);
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-buttons .btn {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-3xl);
+        }
+
+        .action-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .action-icon {
+            margin: 0 auto var(--spacing-md);
+        }
+    }
+
+    /* Tablet */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .hero-title {
+            font-size: var(--font-size-4xl);
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-size-lg);
+        }
+    }
+
+    /* Desktop */
+    @media (min-width: 992px) {
+        .hero-title {
+            font-size: var(--font-size-5xl);
+        }
+    }
+
+    /* Dark theme adjustments */
+    [data-theme="dark"] .hero {
+        background: url('{% static "img/banner/banner.png" %}');
+    }
+
+    [data-theme="dark"] .action-card {
+        background: var(--gradient-glass);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Print styles */
+    @media print {
+        .hero {
+            background: none !important;
+            color: #000 !important;
+            min-height: auto;
+        }
+
+        .hero-buttons {
+            display: none;
+        }
+
+        .action-card {
+            break-inside: avoid;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="coures_info">
-            <div class="section_title white_text">
-              <h3>About Ramat Library</h3>
-              <p>
-                Ramat Library is a modern library with a rich collection of
-                print and electronic resources. We have 9 divisions, 13 branch
-                Libraries, an American Space section and also an International
-                Institute of Islamic thought section which provide access to
-                information and knowledge to our users.
-              </p>
-            </div>
-            <div class="coures_wrap d-flex">
-              <div class="single_wrap">
-                <h4>Our Mission</h4>
-                <p>
-                  Our mission is to provide quality library services, promote
-                  information literacy and support the University's academic and
-                  research programs.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div class="hero-content fade-in-up">
+            <h1 class="hero-title">
+                Welcome to <span class="text-gradient-accent">Ramat Library</span>
+            </h1>
+            {% comment %} <p class="hero-subtitle">
+                Discover a world of knowledge at the University of Maiduguri's premier academic library.
+                Access millions of resources, cutting-edge research, and innovative learning spaces.
+            </p> {% endcomment %}
         </div>
-      </div>
     </div>
-  </div>
-</div>
-<!--/ latest_coures_area_end -->
+</section>
 
-<!-- recent_news_area_start -->
-<div class="recent_news_area section__padding">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10">
-        <div class="section_title text-center mb-70">
-          <h3 class="mb-45">Library News</h3>
-          <p>
-            Stay updated with the latest library announcements, new resources,
-            extended hours, workshops, and events designed to support your
-            learning, research, and academic success.
-          </p>
+<!-- Features Section -->
+<section class="features section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="text-gradient">Why Choose Ramat Library?</h2>
+            <p class="text-secondary fs-4">Experience excellence in academic research and learning support</p>
         </div>
-      </div>
+
+        <div class="grid grid-3 gap-4">
+            <!-- Feature 1 -->
+            <div class="feature-card card fade-in" data-delay="0">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="card-title">Digital Repository</h3>
+                    <p class="card-text">
+                        Access thousands of theses, dissertations, research papers, and institutional publications.
+                        Our digital repository provides 24/7 access to scholarly materials.
+                    </p>
+                    <a href="{% url 'repository:doc_list' %}" class="btn btn-primary mt-3">
+                        Browse Repository
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card card fade-in" data-delay="0.2">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3 class="card-title">E-Library Services</h3>
+                    <p class="card-text">
+                        Modern digital library services with online catalog, e-books, and multimedia resources.
+                        Access our collection from anywhere, anytime.
+                    </p>
+                    <a href="{% url 'catalog:elibrary_dashboard' %}" class="btn btn-primary mt-3">
+                        Access E-Library
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card card fade-in" data-delay="0.4">
+                <div class="card-body text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="card-title">Expert Support</h3>
+                    <p class="card-text">
+                        Professional librarians and research support staff ready to assist your academic journey.
+                        Get personalized help with research and citations.
+                    </p>
+                    <a href="{% url 'core:contact' %}" class="btn btn-primary mt-3">
+                        Get Help
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="single__news">
-          <div class="thumb">
-            <a href="{% url 'blog:post_list' %}">
-              <img src="{% static 'img/news/1.png' %}" alt="" />
-            </a>
-            <span class="badge">Research</span>
-          </div>
-          <div class="news_info">
-            <a href="{% url 'blog:post_list' %}">
-              <h4>
-                Explore a rich collection of books, peer-reviewed journals, and
-                academic articles in one place.
-              </h4>
-            </a>
-            <p class="d-flex align-items-center">
-              <span><i class="flaticon-calendar-1"></i> October 6, 2025</span>
-              <span> <i class="flaticon-comment"></i> 01 comments</span>
-            </p>
-          </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="statistics">
+    <div class="container">
+        <div class="grid grid-4">
+            <div class="stat-item">
+                <span class="stat-number" data-count="50000">50,000+</span>
+                <span class="stat-label">Resources Available</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="13">13</span>
+                <span class="stat-label">Library Branches</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="15000">15,000+</span>
+                <span class="stat-label">Registered Users</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-count="500">500+</span>
+                <span class="stat-label">Daily Visitors</span>
+            </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="single__news">
-          <div class="thumb">
-            <a href="{% url 'blog:post_list' %}">
-              <img src="{% static 'img/news/2.png' %}" alt="" />
-            </a>
-            <span class="badge bandge_2">E Learning</span>
-          </div>
-          <div class="news_info">
-            <a href="{% url 'blog:post_list' %}">
-              <h4>
-                Our E-Library provides instant access to global academic
-                research.
-              </h4>
-            </a>
-            <p class="d-flex align-items-center">
-              <span><i class="flaticon-calendar-1"></i> May 10, 2025</span>
-              <span> <i class="flaticon-comment"></i> 01 comments</span>
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
-<!-- recent_news_area_end -->
+</section>
+
+<!-- Quick Actions Section -->
+<section class="quick-actions-section section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Quick Actions</h2>
+            <p class="text-secondary fs-4">Get started with our most popular services</p>
+        </div>
+
+        <div class="grid grid-2 gap-4">
+            <!-- Search Catalog -->
+            <div class="action-card card d-flex align-items-center gap-3 p-4 fade-in-left">
+                <div class="action-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="action-content">
+                    <h3 class="card-title mb-2">Search Library Catalog</h3>
+                    <p class="card-text mb-3">Find books, journals, and other materials in our collection using our advanced search system.</p>
+                    <a href="{% url 'core:search' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Search Catalog
+                    </a>
+                </div>
+            </div>
+
+            <!-- Create Account -->
+            <div class="action-card card d-flex align-items-center gap-3 p-4 fade-in-right">
+                <div class="action-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="action-content">
+                    <h3 class="card-title mb-2">Create Your Account</h3>
+                    <p class="card-text mb-3">Register for a library account to access premium services, borrow materials, and more.</p>
+                    <a href="{% url 'catalog:register' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Register Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- News Section -->
+<section class="news-section section">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2>Latest News & Updates</h2>
+                <p class="text-secondary fs-4 mb-0">Stay informed about library events and announcements</p>
+            </div>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-outline">
+                View All News
+            </a>
+        </div>
+
+        <div class="grid grid-3 gap-4">
+            <!-- News 1 -->
+            <article class="news-card card fade-in" data-delay="0">
+                <img src="{% static 'img/blog/blog_1.png' %}" alt="New Digital Resources Available" class="news-image">
+                <div class="card-body">
+                    <span class="news-date">March 15, 2024</span>
+                    <h4 class="card-title">New Digital Resources Available</h4>
+                    <p class="card-text">We've added thousands of new e-books and online journals to our digital collection, expanding our academic resources.</p>
+                    <a href="#" class="btn btn-ghost btn-sm">
+                        Read More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- News 2 -->
+            <article class="news-card card fade-in" data-delay="0.2">
+                <img src="{% static 'img/blog/blog_2.png' %}" alt="Research Workshop Series" class="news-image">
+                <div class="card-body">
+                    <span class="news-date">March 10, 2024</span>
+                    <h4 class="card-title">Research Workshop Series</h4>
+                    <p class="card-text">Join our upcoming workshops on academic writing and research methodology. Enhance your research skills with expert guidance.</p>
+                    <a href="#" class="btn btn-ghost btn-sm">
+                        Learn More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- News 3 -->
+            <article class="news-card card fade-in" data-delay="0.4">
+                <img src="{% static 'img/blog/blog_3.png' %}" alt="Extended Library Hours" class="news-image">
+                <div class="card-body">
+                    <span class="news-date">March 5, 2024</span>
+                    <h4 class="card-title">Extended Library Hours</h4>
+                    <p class="card-text">Starting next month, we'll be open extended hours during exam periods to better serve our student community.</p>
+                    <a href="#" class="btn btn-ghost btn-sm">
+                        Read More
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section bg-primary text-white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="mb-4">Ready to Explore Our Resources?</h2>
+            <p class="mb-5 fs-4" style="opacity: 0.9;">
+                Join thousands of students and researchers who trust Ramat Library for their academic success.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'catalog:register' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-user-plus"></i>
+                    Join Now
+                </a>
+                <a href="{% url 'core:contact' %}" class="btn btn-outline btn-lg" style="border-color: var(--white); color: var(--white);">
+                    <i class="fas fa-envelope"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ===== COUNTER ANIMATION =====
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 60fps
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current) + '+';
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + '+';
+                        counter.classList.add('counting');
+                    }
+                };
+                
+                // Start animation when element is in viewport
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(counter);
+            });
+        }
+
+        // ===== FADE IN ANIMATIONS =====
+        function setupAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const delay = element.getAttribute('data-delay') || 0;
+                        
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        }, delay * 1000);
+                        
+                        observer.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            document.querySelectorAll('.fade-in-left').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(-20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            document.querySelectorAll('.fade-in-right').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }
+
+        // ===== LAZY LOAD IMAGES =====
+        function lazyLoadImages() {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => imageObserver.observe(img));
+        }
+
+        // ===== CARD HOVER EFFECTS =====
+        function setupCardEffects() {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'all 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'all 0.3s ease';
+                });
+            });
+        }
+
+        // ===== BUTTON CLICK EFFECTS =====
+        function setupButtonEffects() {
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.7);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        }
+
+        // ===== INITIALIZE EVERYTHING =====
+        function init() {
+            animateCounters();
+            setupAnimations();
+            lazyLoadImages();
+            setupCardEffects();
+            setupButtonEffects();
+            
+            // Add ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Initialize when DOM is loaded
+        init();
+
+        // ===== PERFORMANCE OPTIMIZATION =====
+        // Debounce scroll events
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                // Update any scroll-dependent elements
+            }, 100);
+        });
+
+        // ===== TOUCH DEVICE OPTIMIZATION =====
+        if ('ontouchstart' in window) {
+            // Increase touch targets
+            document.querySelectorAll('.btn, .card, .footer-link').forEach(el => {
+                el.style.minHeight = '44px';
+            });
+            
+            // Better hover effects for touch
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                }, { passive: true });
+
+                card.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.classList.remove('touch-active');
+                    }, 150);
+                }, { passive: true });
+            });
+            
+            // Add touch active styles
+            const touchStyles = document.createElement('style');
+            touchStyles.textContent = `
+                .card.touch-active {
+                    transform: translateY(-2px);
+                    box-shadow: var(--shadow-lg);
+                }
+            `;
+            document.head.appendChild(touchStyles);
+        }
+
+        // ===== ACCESSIBILITY ENHANCEMENTS =====
+        // Add focus styles for keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Add keyboard navigation styles
+        const keyboardStyles = document.createElement('style');
+        keyboardStyles.textContent = `
+            .keyboard-navigation .btn:focus,
+            .keyboard-navigation .card:focus,
+            .keyboard-navigation a:focus {
+                outline: 2px solid var(--primary-500);
+                outline-offset: 2px;
+                border-radius: var(--radius-sm);
+            }
+        `;
+        document.head.appendChild(keyboardStyles);
+
+        // ===== ERROR HANDLING =====
+        // Handle broken images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = '{% static "img/placeholder.png" %}';
+                this.alt = 'Image not available';
+            });
+        });
+
+        // ===== ANALYTICS (OPTIONAL) =====
+        // Track section views (remove if not needed)
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id || entry.target.className;
+                    console.log(`Section viewed: ${sectionId}`);
+                    // In production, you would send this to your analytics service
+                    // Example: gtag('event', 'section_view', { section_name: sectionId });
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        // Observe main sections
+        document.querySelectorAll('section').forEach(section => {
+            sectionObserver.observe(section);
+        });
+    });
+</script>
 {% endblock %}

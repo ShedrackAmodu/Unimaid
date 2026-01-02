@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}E-Library Session Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2><i class="fas fa-file-alt"></i> Session Details</h2>
+                    <p class="text-muted mb-0">Session ID: #{{ session.id }}</p>
+                </div>
+                <a href="{% url 'catalog:elibrary_dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Session Status -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Session Status</h5>
+                        {% if session.status == "active" %}
+                            <span class="badge badge-success badge-lg">Active</span>
+                        {% elif session.status == "completed" %}
+                            <span class="badge badge-primary badge-lg">Completed</span>
+                        {% else %}
+                            <span class="badge badge-secondary badge-lg">{{ session.get_status_display }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Entry Time:</strong> {{ session.entry_time|date:"M d, Y \a\t H:i:s" }}</p>
+                            {% if session.exit_time %}
+                                <p><strong>Exit Time:</strong> {{ session.exit_time|date:"M d, Y \a\t H:i:s" }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if session.duration %}
+                                <p><strong>Duration:</strong>
+                                    {% widthratio session.duration.total_seconds 3600 1 %} hours,
+                                    {% widthratio session.duration.total_seconds 60 1|modulo:60 %} minutes
+                                </p>
+                            {% endif %}
+                            <p><strong>Checked In By:</strong> {{ session.checked_in_by.get_full_name|default:session.checked_in_by.username }}</p>
+                            {% if session.checked_out_by %}
+                                <p><strong>Checked Out By:</strong> {{ session.checked_out_by.get_full_name|default:session.checked_out_by.username }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visitor Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user"></i> Visitor Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Full Name:</strong> {{ session.visitor.full_name }}</p>
+                            <p><strong>Registration Number:</strong> {{ session.visitor.registration_number }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Department:</strong> {{ session.visitor.department }}</p>
+                            <p><strong>Level:</strong> {{ session.visitor.level }} Level</p>
+                            <p><strong>Phone:</strong> {{ session.visitor.active_phone_number }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Tracking -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-boxes"></i> Items Tracking
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-success">
+                                <i class="fas fa-arrow-circle-down"></i> Brought In
+                            </h6>
+                            {% if session.items_brought_in %}
+                                <div class="bg-light p-3 rounded">
+                                    {{ session.items_brought_in|linebreaks }}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No items recorded</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-warning">
+                                <i class="fas fa-arrow-circle-up"></i> Taken Out
+                            </h6>
+                            {% if session.items_taken_out %}
+                                <div class="bg-light p-3 rounded">
+                                    {{ session.items_taken_out|linebreaks }}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No items recorded</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            {% if session.notes %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-sticky-note"></i> Notes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="bg-light p-3 rounded">
+                        {{ session.notes|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions -->
+            {% if session.status == "active" %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Actions</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        This session is still active. The visitor needs to check out.
+                    </p>
+                    <a href="{% url 'catalog:elibrary_checkout' %}" class="btn btn-warning">
+                        <i class="fas fa-sign-out-alt"></i> Process Check-Out
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

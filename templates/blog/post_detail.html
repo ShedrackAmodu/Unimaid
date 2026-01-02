@@ -1,271 +1,487 @@
-{% extends 'base.html' %} {% load static %} {% block title %}{{ page_title }}{%
-endblock %} {% block content %}
-<!-- bradcam_area_start -->
-<div class="bradcam_area breadcam_bg">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="bradcam_text">
-          <h3>{{ post.title }}</h3>
-        </div>
-      </div>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Ramat Library Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-section {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .breadcrumb-section h3 {
+        margin-bottom: 0;
+        color: var(--white);
+        font-size: var(--font-size-2xl);
+    }
+
+    /* ===== BLOG AREA ===== */
+    .single-post-area {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: var(--spacing-2xl);
+    }
+
+    .single-post {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+    }
+
+    .feature-img {
+        overflow: hidden;
+        height: 450px;
+        background: var(--bg-secondary);
+    }
+
+    .feature-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-base);
+    }
+
+    .single-post:hover .feature-img img {
+        transform: scale(1.05);
+    }
+
+    .blog_details {
+        padding: var(--spacing-xl);
+    }
+
+    .blog_details h2 {
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-3xl);
+    }
+
+    /* ===== BLOG META ===== */
+    .blog-info-link {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-lg);
+        list-style: none;
+        padding: 0 !important;
+        margin: var(--spacing-lg) 0 !important;
+        font-size: var(--font-size-sm);
+    }
+
+    .blog-info-link li {
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    .blog-info-link li a {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--text-tertiary);
+        transition: color var(--transition-fast);
+    }
+
+    .blog-info-link li a:hover {
+        color: var(--primary-500);
+    }
+
+    .blog-info-link i {
+        color: var(--primary-500);
+        width: 16px;
+    }
+
+    /* ===== POST CONTENT ===== */
+    .post-content {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin: var(--spacing-xl) 0;
+        font-size: var(--font-size-lg);
+    }
+
+    .post-content p {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== TAGS ===== */
+    .post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        margin: var(--spacing-xl) 0;
+        padding: var(--spacing-lg) 0;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .badge {
+        display: inline-block;
+        background: var(--primary-100);
+        color: var(--primary-600);
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .badge:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== SOCIAL SHARE ===== */
+    .navigation-top {
+        padding: var(--spacing-xl) 0;
+        margin: var(--spacing-xl) 0;
+    }
+
+    .social-links {
+        display: flex;
+        gap: var(--spacing-md);
+        justify-content: center;
+    }
+
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--bg-secondary);
+        border-radius: var(--radius-full);
+        color: var(--text-primary);
+        transition: all var(--transition-fast);
+        border: 1px solid var(--border-color);
+        font-size: 1.125rem;
+    }
+
+    .social-links a:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== AUTHOR INFO ===== */
+    .blog-author {
+        background: var(--bg-secondary);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-lg);
+        margin: var(--spacing-xl) 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        border-left: 4px solid var(--primary-500);
+    }
+
+    .blog-author img {
+        width: 100px;
+        height: 100px;
+        border-radius: var(--radius-lg);
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .blog-author h4 {
+        margin-bottom: var(--spacing-sm);
+        color: var(--text-primary);
+    }
+
+    .blog-author p {
+        margin-bottom: 0;
+        color: var(--text-tertiary);
+    }
+
+    /* ===== SIDEBAR ===== */
+    .blog_right_sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+
+    .single_sidebar_widget {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+    }
+
+    .single_sidebar_widget h4 {
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .search_widget input {
+        padding: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        width: 100%;
+    }
+
+    .post_category_widget .cat-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .post_category_widget li {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .post_category_widget li a {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--spacing-md) 0;
+        color: var(--text-secondary);
+    }
+
+    .post_category_widget li a:hover {
+        color: var(--primary-500);
+    }
+
+    .popular_post_widget .post_item {
+        display: flex;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .popular_post_widget img {
+        width: 80px;
+        height: 80px;
+        border-radius: var(--radius-md);
+        object-fit: cover;
+    }
+
+    .popular_post_widget h3 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .newsletter_widget {
+        background: var(--gradient-primary);
+        color: var(--white);
+    }
+
+    .newsletter_widget h4 {
+        color: var(--white);
+    }
+
+    .newsletter_widget input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--white);
+    }
+
+    .newsletter_widget input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 768px) {
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feature-img {
+            height: 300px;
+        }
+
+        .blog-author {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Section -->
+<section class="breadcrumb-section">
+    <div class="container">
+        <h3>{{ post.title }}</h3>
     </div>
-  </div>
-</div>
-<!-- bradcam_area_end -->
-
-<!--================Blog Area =================-->
-<section class="blog_area single-post-area section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 posts-list">
-        <div class="single-post">
-          {% if post.featured_image %}
-          <div class="feature-img">
-            <img
-              class="img-fluid"
-              src="{{ post.featured_image.url }}"
-              alt="{{ post.title }}"
-            />
-          </div>
-          {% endif %}
-
-          <div class="blog_details">
-            <h2>{{ post.title }}</h2>
-            <ul class="blog-info-link mt-3 mb-4">
-              <li>
-                <a href="{% url 'blog:category_posts' post.category.slug %}"
-                  ><i class="fa fa-tag"></i> {{ post.category.name }}</a
-                >
-              </li>
-              <li>
-                <a href="#"><i class="fa fa-user"></i> {{ post.author }}</a>
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa fa-calendar"></i> {{ post.published_date|date:"F
-                  d, Y" }}</a
-                >
-              </li>
-              <li>
-                <a href="#"
-                  ><i class="fa fa-comments"></i> {{ comments|length }}
-                  Comments</a
-                >
-              </li>
-            </ul>
-
-            <div class="post-content">{{ post.content|safe }}</div>
-
-            {% if post.tags %}
-            <div class="post-tags mt-4">
-              <h4>Tags:</h4>
-              {% for tag in post.tags %}
-              <span class="badge badge-primary mr-1">{{ tag }}</span>
-              {% endfor %}
-            </div>
-            {% endif %}
-          </div>
-        </div>
-
-        <!-- Social Share -->
-        <div class="navigation-top">
-          <div class="d-sm-flex justify-content-between text-center">
-            <p class="like-info">
-              <span class="align-middle">
-                <i class="fa fa-heart"></i>
-              </span>
-              Share this post
-            </p>
-            <div class="col-sm-4 text-center my-2 my-sm-0">
-              <div class="social-links">
-                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Author Info -->
-        <div class="blog-author">
-          <div class="media align-items-center">
-            <img
-              src="{% static 'img/blog/author.png' %}"
-              alt="Author"
-              class="mr-3"
-            />
-            <div class="media-body">
-              <h4>{{ post.author }}</h4>
-              <p>Library Staff Writer</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Comments Section -->
-        <div class="comments-area">
-          <h4>{{ comments|length }} Comments</h4>
-          {% for comment in comments %}
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img
-                    src="{% static 'img/comment/comment_1.png' %}"
-                    alt="Commenter"
-                  />
-                </div>
-                <div class="desc">
-                  <p class="comment">{{ comment.content }}</p>
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex align-items-center">
-                      <h5>{{ comment.author_name }}</h5>
-                      <p class="date">
-                        {{ comment.created_date|date:"F d, Y \a\t g:i A" }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% empty %}
-          <p>No comments yet. Be the first to comment!</p>
-          {% endfor %}
-        </div>
-
-        <!-- Related Posts -->
-        {% if related_posts %}
-        <div class="related-posts">
-          <h3>You might also like</h3>
-          <div class="row">
-            {% for related_post in related_posts %}
-            <div class="col-md-4">
-              <div class="single-related-post">
-                {% if related_post.featured_image %}
-                <img
-                  src="{{ related_post.featured_image.url }}"
-                  alt="{{ related_post.title }}"
-                  class="img-fluid"
-                />
-                {% else %}
-                <img
-                  src="{% static 'img/blog/blog_1.png' %}"
-                  alt="{{ related_post.title }}"
-                  class="img-fluid"
-                />
-                {% endif %}
-                <h5>
-                  <a href="{% url 'blog:post_detail' related_post.slug %}"
-                    >{{ related_post.title }}</a
-                  >
-                </h5>
-                <p>{{ related_post.published_date|date:"M d, Y" }}</p>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        {% endif %}
-      </div>
-
-      <!-- Blog Sidebar -->
-      <div class="col-lg-4">
-        <div class="blog_right_sidebar">
-          <!-- Search Widget -->
-          <aside class="single_sidebar_widget search_widget">
-            <form action="{% url 'blog:blog_search' %}" method="get">
-              <div class="form-group">
-                <div class="input-group mb-3">
-                  <input
-                    type="text"
-                    name="q"
-                    class="form-control"
-                    placeholder="Search Posts"
-                    onfocus="this.placeholder = ''"
-                    onblur="this.placeholder = 'Search Posts'"
-                  />
-                  <div class="input-group-append">
-                    <button class="btn" type="submit">
-                      <i class="ti-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </aside>
-
-          <!-- Categories -->
-          <aside class="single_sidebar_widget post_category_widget">
-            <h4 class="widget_title">Categories</h4>
-            <ul class="list cat-list">
-              {% for category in categories %}
-              <li>
-                <a
-                  href="{% url 'blog:category_posts' category.slug %}"
-                  class="d-flex"
-                >
-                  <p>{{ category.name }}</p>
-                  <p>({{ category.posts.count }})</p>
-                </a>
-              </li>
-              {% empty %}
-              <li><p>No categories available</p></li>
-              {% endfor %}
-            </ul>
-          </aside>
-
-          <!-- Recent Posts -->
-          <aside class="single_sidebar_widget popular_post_widget">
-            <h3 class="widget_title">Recent Posts</h3>
-            {% for recent_post in recent_posts|slice:":5" %}
-            <div class="media post_item">
-              {% if recent_post.featured_image %}
-              <img
-                src="{{ recent_post.featured_image.url }}"
-                alt="{{ recent_post.title }}"
-                style="width: 80px; height: 80px; object-fit: cover"
-              />
-              {% else %}
-              <img
-                src="{% static 'img/post/post_1.png' %}"
-                alt="{{ recent_post.title }}"
-              />
-              {% endif %}
-              <div class="media-body">
-                <a href="{% url 'blog:post_detail' recent_post.slug %}">
-                  <h3>{{ recent_post.title|truncatechars:40 }}</h3>
-                </a>
-                <p>{{ recent_post.published_date|date:"M d, Y" }}</p>
-              </div>
-            </div>
-            {% endfor %}
-          </aside>
-
-          <!-- Newsletter -->
-          <aside class="single_sidebar_widget newsletter_widget">
-            <h4 class="widget_title">Newsletter</h4>
-            <form action="#" class="newsletter_form">
-              <div class="form-group">
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Enter email"
-                  required
-                />
-              </div>
-              <button
-                class="button rounded-0 primary-bg text-white w-100 btn_1"
-                type="submit"
-              >
-                Subscribe
-              </button>
-            </form>
-          </aside>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
-<!--================ Blog Area end =================-->
+
+<!-- Blog Area -->
+<section class="single-post-area">
+    <div class="container">
+        <div class="blog-grid">
+            <!-- Main Content -->
+            <div>
+                <div class="single-post">
+                    {% if post.featured_image %}
+                    <div class="feature-img">
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" />
+                    </div>
+                    {% endif %}
+
+                    <div class="blog_details">
+                        <h2>{{ post.title }}</h2>
+                        
+                        <ul class="blog-info-link">
+                            {% if post.category %}
+                            <li>
+                                <a href="{% url 'blog:category_posts' post.category.slug %}">
+                                    <i class="fa fa-tag"></i> {{ post.category.name }}
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i> {{ post.author }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-calendar"></i> {{ post.published_date|date:"F d, Y" }}
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="post-content">{{ post.content|safe }}</div>
+
+                        {% if post.tags %}
+                        <div class="post-tags">
+                            {% for tag in post.tags %}
+                            <span class="badge">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Social Share -->
+                <div class="navigation-top">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-lg);">
+                        <p style="font-weight: 600;">
+                            <i class="fa fa-share-alt"></i> Share this post
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="facebook" title="Share on Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="twitter" title="Share on Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="linkedin" title="Share on LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Author Info -->
+                <div class="blog-author">
+                    <img src="{% static 'img/blog/author.png' %}" alt="{{ post.author }}" />
+                    <div>
+                        <h4>{{ post.author }}</h4>
+                        <p>Library Staff Writer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Sidebar -->
+            <aside class="blog_right_sidebar">
+                <!-- Search Widget -->
+                <div class="single_sidebar_widget search_widget">
+                    <h4><i class="fa fa-search"></i> Search</h4>
+                    <form action="{% url 'blog:blog_search' %}" method="get">
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                name="q" 
+                                placeholder="Search Posts..."
+                                onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Search Posts...'"
+                            />
+                            <button type="submit" style="margin-top: var(--spacing-sm); width: 100%; padding: var(--spacing-md); background: var(--primary-500); color: var(--white); border: none; border-radius: var(--radius-md); cursor: pointer;">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="single_sidebar_widget post_category_widget">
+                    <h4><i class="fa fa-list"></i> Categories</h4>
+                    <ul class="cat-list">
+                        {% for category in categories %}
+                        <li>
+                            <a href="{% url 'blog:category_posts' category.slug %}">
+                                <span>{{ category.name }}</span>
+                                <span>({{ category.posts.count }})</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="single_sidebar_widget popular_post_widget">
+                    <h4><i class="fa fa-history"></i> Recent Posts</h4>
+                    {% for recent_post in recent_posts|slice:":5" %}
+                    <div class="post_item">
+                        {% if recent_post.featured_image %}
+                        <img src="{{ recent_post.featured_image.url }}" alt="{{ recent_post.title }}" />
+                        {% else %}
+                        <img src="{% static 'img/post/post_1.png' %}" alt="{{ recent_post.title }}" />
+                        {% endif %}
+                        <div>
+                            <h3>
+                                <a href="{% url 'blog:post_detail' recent_post.slug %}">
+                                    {{ recent_post.title|truncatechars:30 }}
+                                </a>
+                            </h3>
+                            <p style="font-size: var(--font-size-sm); color: var(--text-tertiary);">
+                                {{ recent_post.published_date|date:"M d, Y" }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Newsletter Widget -->
+                <div class="single_sidebar_widget newsletter_widget">
+                    <h4><i class="fa fa-envelope"></i> Newsletter</h4>
+                    <form action="#" class="newsletter_form">
+                        <input 
+                            type="email" 
+                            placeholder="Enter your email..." 
+                            required
+                            style="width: 100%; padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: var(--spacing-md);"
+                        />
+                        <button type="submit" style="width: 100%; padding: var(--spacing-md); background: rgba(255, 255, 255, 0.2); color: var(--white); border: 2px solid var(--white); border-radius: var(--radius-md); cursor: pointer; font-weight: 600;">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Social sharing
+        document.querySelectorAll('.social-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = encodeURIComponent(window.location.href);
+                const title = encodeURIComponent(document.querySelector('.blog_details h2')?.textContent || 'Check this out');
+                
+                if (this.classList.contains('facebook')) {
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+                } else if (this.classList.contains('twitter')) {
+                    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+                } else if (this.classList.contains('linkedin')) {
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

@@ -1,112 +1,1657 @@
-<!-- header-start -->
 {% load static %}
-<header>
-    <div class="header-area ">
-        <div class="header-top_area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header_top_wrap d-flex justify-content-between align-items-center">
-                            <div class="text_wrap">
-                                <p><span>+234 80166 253 232</span> <a><span>ramatlibrary@unimaid.edu.ng</a></span></p>
-                            </div>
-                            <div class="text_wrap">
-                            <p>Follow us on our Social Media handles</p>
-                            </div>
-                        </div>
-                    </div>
+<!-- Header Start -->
+<header class="header">
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="container">
+            <div class="announcement-content">
+                <div class="announcement-message">
+                    <i class="fas fa-bullhorn announcement-icon"></i>
+                    <span class="announcement-text">Welcome to Ramat Library - Your Gateway to Knowledge</span>
+                </div>
+                <div class="announcement-actions">
+                    <a href="{% url 'core:events' %}" class="announcement-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="announcement-link-text">Upcoming Events</span>
+                    </a>
+                    <a href="{% url 'core:contact' %}" class="announcement-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span class="announcement-link-text">Need Help?</span>
+                    </a>
+                    <button class="announcement-close" aria-label="Close announcement">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
         </div>
-        <div id="sticky-header" class="main-header-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header_wrap d-flex justify-content-between align-items-center">
-                            <div class="header_left">
-                                <div class="logo">
-                                    <a href="{% url 'core:home' %}">
-                                        <img src="{% static 'img/unimaidlogo.png' %}" alt="" width="80">
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar" id="navbar" aria-label="Main navigation">
+        <div class="container">
+            <!-- Logo and Brand -->
+            <div class="navbar-brand">
+                <a href="{% url 'core:home' %}" class="brand-link" aria-label="Ramat Library Home">
+                    <div class="brand-logo">
+                        <div class="logo-circle">
+                            <img src="{% static 'img/unimaidlogo.png' %}" alt="University of Maiduguri Logo" class="logo-image" width="48" height="48">
+                        </div>
+                        <div class="logo-text" aria-hidden="true">
+                            <span class="logo-acronym">RL</span>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Ramat Library</h1>
+                        <p class="brand-subtitle">University of Maiduguri</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="navbar-menu" id="navbarMenu">
+                <ul class="navbar-nav" role="menubar">
+                    <li class="nav-item" role="none">
+                        <a href="{% url 'core:home' %}" class="nav-link {% if request.resolver_match.view_name == 'core:home' %}active{% endif %}" role="menuitem">
+                            <i class="fas fa-home nav-icon"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item dropdown" role="none">
+                        <button class="nav-link dropdown-toggle" data-dropdown="library" aria-expanded="false" aria-haspopup="true" role="menuitem">
+                            <i class="fas fa-university nav-icon"></i>
+                            <span class="nav-text">Library</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div class="dropdown-menu" id="libraryDropdown" role="menu" aria-labelledby="libraryDropdown">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">About Library</h4>
+                                    <a href="{% url 'core:library_organization' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-sitemap"></i>
+                                        <span>Organization</span>
+                                    </a>
+                                    <a href="{% url 'core:about' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-eye"></i>
+                                        <span>Vision & Mission</span>
+                                    </a>
+                                    <a href="{% url 'core:history' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-history"></i>
+                                        <span>History</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">People</h4>
+                                    <a href="{% url 'staff:staff_list' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-users"></i>
+                                        <span>Staff Directory</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <span>Librarians</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-handshake"></i>
+                                        <span>Partners</span>
                                     </a>
                                 </div>
                             </div>
-                            <div class="header_right d-flex align-items-center">
-                                <div class="main-menu  d-none d-lg-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a href="{% url 'core:home' %}">home</a></li>
-                                             <li><a href="{% url 'core:library_organization' %}">Ramat Library</a></li>
-                                            <li><a href="{% url 'catalog:home' %}">Library Catalog</a></li>
-                                            <li><a href="{% url 'blog:post_list' %}">News & Blog</a></li>
-                                            <li><a href="{% url 'staff:staff_list' %}">Staff</a></li>
-                                            <li><a href="{% url 'core:events' %}">Events</a></li>
-                                            <li><a href="#">About Us <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="{% url 'core:about' %}">Vision & Mission</a></li>
-                                                    <li><a href="{% url 'core:history' %}">History</a></li>
-                                                    <li><a href="{% url 'core:admissions' %}">Admissions</a></li>
-                                                    <li><a href="{% url 'core:courses' %}">Courses</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="Appointment">
-                                    <div class="book_btn d-none d-lg-block">
-                                        <a href="{% url 'repository:doc_list' %}">Repository</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- User Menu -->
-                            {% if user.is_authenticated %}
-                            <div class="user_menu d-none d-lg-block">
-                                <div class="dropdown">
-                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-user"></i> {{ user.first_name|default:user.username }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="userMenu">
-                                        <a class="dropdown-item" href="{% url 'catalog:dashboard' %}">
-                                            <i class="fa fa-dashboard"></i> My Dashboard
-                                        </a>
-                                        <a class="dropdown-item" href="{% url 'catalog:profile' %}">
-                                            <i class="fa fa-user"></i> Profile
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{% url 'catalog:logout' %}">
-                                            <i class="fa fa-sign-out"></i> Logout
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="auth_links d-none d-lg-block">
-                                <a href="{% url 'catalog:register' %}" class="btn btn-outline-primary mr-2">
-                                    <i class="fa fa-user-plus"></i> Register
-                                </a>
-                                <a href="{% url 'catalog:login' %}" class="btn btn-primary">
-                                    <i class="fa fa-sign-in"></i> Login
-                                </a>
-                            </div>
-                            {% endif %}
-
-                            <!-- Search Form -->
-                            <div class="header_search d-none d-lg-block">
-                                <form action="{% url 'catalog:search' %}" method="get" class="search_form">
-                                    <input type="text" name="q" placeholder="Search library..." required>
-                                    <button type="submit"><i class="ti-search"></i></button>
-                                </form>
-                            </div>
-
-                            <!-- Theme Switcher -->
-                            {% include 'includes/theme_switcher.html' %}
                         </div>
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+                    </li>
+                    
+                    <li class="nav-item dropdown" role="none">
+                        <button class="nav-link dropdown-toggle" data-dropdown="resources" aria-expanded="false" aria-haspopup="true" role="menuitem">
+                            <i class="fas fa-book nav-icon"></i>
+                            <span class="nav-text">Resources</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div class="dropdown-menu" id="resourcesDropdown" role="menu" aria-labelledby="resourcesDropdown">
+                            <div class="dropdown-grid">
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">Digital Resources</h4>
+                                    <a href="{% url 'repository:doc_list' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-database"></i>
+                                        <span>Digital Repository</span>
+                                    </a>
+                                    <a href="{% url 'catalog:elibrary_dashboard' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-laptop"></i>
+                                        <span>E-Library</span>
+                                    </a>
+                                    <a href="{% url 'core:search' %}" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-search"></i>
+                                        <span>Online Catalog</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">Research Support</h4>
+                                    <a href="#" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        <span>Open Access</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-file-alt"></i>
+                                        <span>Theses & Dissertations</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item" role="menuitem">
+                                        <i class="fas fa-newspaper"></i>
+                                        <span>Journals</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+                    </li>
+                    
+                    <li class="nav-item" role="none">
+                        <a href="{% url 'blog:post_list' %}" class="nav-link {% if 'blog' in request.resolver_match.app_names %}active{% endif %}" role="menuitem">
+                            <i class="fas fa-newspaper nav-icon"></i>
+                            <span class="nav-text">News & Blog</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item" role="none">
+                        <a href="{% url 'core:events' %}" class="nav-link {% if request.resolver_match.view_name == 'core:events' %}active{% endif %}" role="menuitem">
+                            <i class="fas fa-calendar nav-icon"></i>
+                            <span class="nav-text">Events</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item" role="none">
+                        <a href="{% url 'core:contact' %}" class="nav-link {% if request.resolver_match.view_name == 'core:contact' %}active{% endif %}" role="menuitem">
+                            <i class="fas fa-envelope nav-icon"></i>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Side Actions -->
+            <div class="navbar-actions">
+                <!-- Search -->
+                <div class="navbar-search">
+                    <button class="search-toggle" id="searchToggle" aria-label="Toggle search" aria-expanded="false">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="search-container" id="searchContainer">
+                        <form action="{% url 'catalog:search' %}" method="get" class="search-form" role="search">
+                            <div class="search-input-group">
+                                <input 
+                                    type="text" 
+                                    name="q" 
+                                    placeholder="Search books, articles, resources..." 
+                                    class="search-input" 
+                                    required
+                                    aria-label="Search library catalog"
+                                >
+                                <button type="submit" class="search-submit" aria-label="Submit search">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <button type="button" class="search-close" id="searchClose" aria-label="Close search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+
+                <!-- User Menu -->
+                <div class="user-menu">
+                    {% if user.is_authenticated %}
+                    <div class="user-dropdown" id="userDropdown">
+                        <button class="user-toggle" id="userToggle" aria-label="User menu" aria-expanded="false" aria-haspopup="true">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">{{ user.first_name|default:user.username|truncatechars:15 }}</span>
+                                <span class="user-role">{{ user.get_role_display|default:"Member" }}</span>
+                            </div>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown" role="menu" aria-labelledby="userToggle">
+                            <div class="user-header">
+                                <div class="user-avatar-large">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="user-details">
+                                    <h4 class="user-fullname">{{ user.get_full_name|default:user.username }}</h4>
+                                    <p class="user-email">{{ user.email|truncatechars:25 }}</p>
+                                </div>
+                            </div>
+                            <div class="user-menu-items">
+                                <a href="{% url 'catalog:dashboard' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                                <a href="{% url 'catalog:profile' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="{% url 'catalog:borrowed' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-book"></i>
+                                    <span>Borrowed Items</span>
+                                </a>
+                                <a href="{% url 'catalog:reservations' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>Reservations</span>
+                                </a>
+                                <div class="user-menu-divider" role="separator"></div>
+                                <a href="{% url 'catalog:settings' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="{% url 'catalog:help' %}" class="user-menu-item" role="menuitem">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <div class="user-menu-divider" role="separator"></div>
+                                <a href="{% url 'catalog:logout' %}" class="user-menu-item logout" role="menuitem">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="auth-buttons">
+                        <a href="{% url 'catalog:login' %}" class="btn btn-outline btn-sm auth-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span class="auth-text">Login</span>
+                        </a>
+                        <a href="{% url 'catalog:register' %}" class="btn btn-primary btn-sm auth-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span class="auth-text">Register</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" data-theme-toggle aria-pressed="false">
+                    <i class="fas fa-sun" aria-hidden="true"></i>
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navbarMenu">
+                    <span class="menu-line"></span>
+                    <span class="menu-line"></span>
+                    <span class="menu-line"></span>
+                </button>
             </div>
         </div>
-    </header>
-    <!-- header-end -->
+    </nav>
+</header>
+<!-- Header End -->
+
+<style>
+    /* ===== ANNOUNCEMENT BAR ===== */
+    .announcement-bar {
+        background: var(--primary-800);
+        color: var(--white);
+        padding: var(--spacing-sm) 0;
+        font-size: var(--font-size-sm);
+        position: relative;
+        z-index: 1001;
+        transition: all var(--transition-base);
+    }
+
+    .announcement-bar.hidden {
+        display: none;
+    }
+
+    .announcement-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-lg);
+        min-height: 2.5rem;
+    }
+
+    .announcement-message {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .announcement-icon {
+        color: var(--primary-300);
+        flex-shrink: 0;
+    }
+
+    .announcement-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 500;
+    }
+
+    .announcement-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex-shrink: 0;
+    }
+
+    .announcement-link {
+        color: var(--white);
+        text-decoration: none;
+        opacity: 0.9;
+        transition: opacity var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        font-size: var(--font-size-xs);
+    }
+
+    .announcement-link:hover {
+        opacity: 1;
+        color: var(--primary-200);
+    }
+
+    .announcement-link-text {
+        display: none;
+    }
+
+    .announcement-close {
+        background: none;
+        border: none;
+        color: var(--white);
+        opacity: 0.7;
+        cursor: pointer;
+        padding: var(--spacing-xs);
+        border-radius: var(--radius-sm);
+        transition: opacity var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .announcement-close:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (min-width: 768px) {
+        .announcement-link-text {
+            display: inline;
+        }
+        
+        .announcement-text {
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    }
+
+    /* ===== MAIN NAVIGATION ===== */
+    .navbar {
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-sm);
+        transition: all var(--transition-base);
+    }
+
+    .navbar.scrolled {
+        box-shadow: var(--shadow-md);
+    }
+
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: var(--header-height);
+        padding: 0 var(--container-padding);
+    }
+
+    /* ===== BRAND ===== */
+    .navbar-brand {
+        flex-shrink: 0;
+    }
+
+    .brand-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        text-decoration: none;
+    }
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+    }
+
+    .logo-circle {
+        width: 3rem;
+        height: 3rem;
+        background: none;
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base);
+        overflow: hidden;
+    }
+
+    .logo-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 0.25rem;
+    }
+
+    .brand-link:hover .logo-circle {
+        transform: rotate(-5deg) scale(1.05);
+    }
+
+    .logo-text {
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .logo-text {
+            display: block;
+        }
+        
+        .logo-acronym {
+            font-family: var(--font-serif);
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-500);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    }
+
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-title {
+        font-size: var(--font-size-lg);
+        margin: 0;
+        color: var(--text-primary);
+        font-weight: 700;
+        line-height: 1.2;
+        font-family: var(--font-serif);
+    }
+
+    .brand-subtitle {
+        font-size: var(--font-size-xs);
+        margin: 0;
+        color: var(--text-secondary);
+        opacity: 0.8;
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+        .brand-title {
+            font-size: var(--font-size-base);
+        }
+
+        .brand-subtitle {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* ===== NAVIGATION MENU ===== */
+    .navbar-menu {
+        flex: 1;
+        display: none;
+        min-width: 0;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-menu {
+            display: block;
+            margin: 0 var(--spacing-xl);
+        }
+    }
+
+    .navbar-nav {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 0;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: var(--text-primary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        font-size: var(--font-size-sm);
+        background: none;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .nav-link.active {
+        background: var(--primary-50);
+        color: var(--primary-600);
+    }
+
+    .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: var(--spacing-lg);
+        right: var(--spacing-lg);
+        height: 3px;
+        background: var(--primary-500);
+        border-radius: var(--radius-full);
+    }
+
+    .nav-icon {
+        font-size: var(--font-size-base);
+    }
+
+    .nav-text {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+        .nav-text {
+            display: inline;
+        }
+    }
+
+    /* ===== DROPDOWNS ===== */
+    .dropdown-toggle {
+        position: relative;
+    }
+
+    .dropdown-arrow {
+        font-size: var(--font-size-xs);
+        transition: transform var(--transition-fast);
+        margin-left: var(--spacing-xs);
+    }
+
+    .dropdown-toggle:hover .dropdown-arrow,
+    .dropdown-toggle[aria-expanded="true"] .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 20rem;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all var(--transition-fast);
+        z-index: 1000;
+        padding: var(--spacing-lg);
+    }
+
+    .dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+
+    .dropdown-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .dropdown-title {
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: var(--text-primary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-size: var(--font-size-sm);
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .dropdown-item i {
+        width: 1.25rem;
+        color: var(--primary-500);
+    }
+
+    /* ===== RIGHT SIDE ACTIONS ===== */
+    .navbar-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    /* Search */
+    .navbar-search {
+        position: relative;
+    }
+
+    .search-toggle {
+        background: none;
+        border: none;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+
+    .search-toggle:hover,
+    .search-toggle:focus {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .search-container {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 25rem;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        padding: var(--spacing-lg);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all var(--transition-fast);
+        z-index: 1001;
+    }
+
+    .search-container.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .search-form {
+        position: relative;
+    }
+
+    .search-input-group {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+    }
+
+    .search-input {
+        flex: 1;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: 2px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-fast);
+        min-height: 44px;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        background: var(--bg-primary);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    .search-submit,
+    .search-close {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: var(--radius-md);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .search-submit {
+        background: var(--primary-500);
+        color: var(--white);
+    }
+
+    .search-submit:hover,
+    .search-submit:focus {
+        background: var(--primary-600);
+        outline: none;
+    }
+
+    .search-close {
+        background: var(--bg-secondary);
+        color: var(--text-tertiary);
+    }
+
+    .search-close:hover,
+    .search-close:focus {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        outline: none;
+    }
+
+    /* User Menu */
+    .user-menu {
+        position: relative;
+    }
+
+    .user-dropdown {
+        position: relative;
+    }
+
+    .user-toggle {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        background: none;
+        border: none;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-lg);
+        cursor: pointer;
+        transition: background var(--transition-fast);
+        color: var(--text-primary);
+        min-height: 44px;
+    }
+
+    .user-toggle:hover,
+    .user-toggle:focus {
+        background: var(--bg-secondary);
+        outline: none;
+    }
+
+    .user-toggle[aria-expanded="true"] {
+        background: var(--bg-tertiary);
+    }
+
+    .user-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: var(--font-size-sm);
+    }
+
+    .user-info {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    @media (min-width: 1200px) {
+        .user-info {
+            display: flex;
+        }
+    }
+
+    .user-name {
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: var(--font-size-xs);
+        line-height: 1.2;
+    }
+
+    .user-role {
+        font-size: 0.7rem;
+        color: var(--text-tertiary);
+        line-height: 1.2;
+    }
+
+    .user-menu-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 17.5rem;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all var(--transition-fast);
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    .user-menu-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .user-header {
+        padding: var(--spacing-lg);
+        background: var(--gradient-primary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .user-avatar-large {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .user-details {
+        flex: 1;
+    }
+
+    .user-fullname {
+        font-size: var(--font-size-base);
+        margin: 0 0 var(--spacing-xs) 0;
+        color: var(--white);
+        font-weight: 600;
+    }
+
+    .user-email {
+        font-size: var(--font-size-xs);
+        margin: 0;
+        opacity: 0.9;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .user-menu-items {
+        padding: var(--spacing-md) 0;
+    }
+
+    .user-menu-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all var(--transition-fast);
+        font-size: var(--font-size-sm);
+        min-height: 44px;
+    }
+
+    .user-menu-item:hover,
+    .user-menu-item:focus {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .user-menu-item.logout:hover,
+    .user-menu-item.logout:focus {
+        color: var(--danger);
+    }
+
+    .user-menu-item i {
+        width: 1.25rem;
+        text-align: center;
+    }
+
+    .user-menu-divider {
+        height: 1px;
+        background: var(--border-color);
+        margin: var(--spacing-xs) var(--spacing-lg);
+    }
+
+    /* Auth Buttons */
+    .auth-buttons {
+        display: flex;
+        gap: var(--spacing-xs);
+    }
+
+    .auth-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        min-width: 0;
+        flex-shrink: 0;
+        min-height: 44px;
+    }
+
+    .auth-text {
+        display: none;
+    }
+
+    @media (min-width: 1200px) {
+        .auth-text {
+            display: inline;
+        }
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: var(--radius-full);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        position: relative;
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus {
+        background: var(--bg-tertiary);
+        outline: none;
+    }
+
+    .theme-toggle i {
+        font-size: var(--font-size-lg);
+        position: absolute;
+        transition: all var(--transition-base);
+    }
+
+    .theme-toggle i.fa-sun {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .theme-toggle i.fa-moon {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    [data-theme="dark"] .theme-toggle i.fa-sun {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    [data-theme="dark"] .theme-toggle i.fa-moon {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 2.5rem;
+        height: 2.5rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md) var(--spacing-sm);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .mobile-menu-toggle:hover,
+    .mobile-menu-toggle:focus {
+        background: var(--bg-tertiary);
+        outline: none;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] {
+        background: var(--primary-500);
+        border-color: var(--primary-500);
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-line {
+        background: var(--white);
+    }
+
+    .menu-line {
+        display: block;
+        width: 1.25rem;
+        height: 2px;
+        background: var(--text-primary);
+        border-radius: var(--radius-full);
+        transition: all var(--transition-fast);
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-line:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-line:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .mobile-menu {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-primary);
+        z-index: 999;
+        transform: translateX(100%);
+        transition: transform var(--transition-base);
+        overflow-y: auto;
+        padding: var(--spacing-lg);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mobile-menu.show {
+        transform: translateX(0);
+    }
+
+    .mobile-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+
+    .mobile-nav-item {
+        margin: 0;
+    }
+
+    .mobile-nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-lg);
+        color: var(--text-primary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        min-height: 44px;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link:focus,
+    .mobile-nav-link.active {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .mobile-dropdown-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-lg);
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        font-size: var(--font-size-base);
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        min-height: 44px;
+    }
+
+    .mobile-dropdown-toggle:hover,
+    .mobile-dropdown-toggle:focus {
+        background: var(--bg-secondary);
+        color: var(--primary-500);
+        outline: none;
+    }
+
+    .mobile-dropdown-toggle[aria-expanded="true"] {
+        background: var(--primary-50);
+        color: var(--primary-600);
+    }
+
+    .mobile-dropdown-content {
+        padding-left: var(--spacing-lg);
+        display: none;
+    }
+
+    .mobile-dropdown-content.show {
+        display: block;
+    }
+
+    .mobile-dropdown-item {
+        display: block;
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-size: var(--font-size-sm);
+        min-height: 44px;
+    }
+
+    .mobile-dropdown-item:hover,
+    .mobile-dropdown-item:focus {
+        color: var(--primary-500);
+        background: var(--bg-secondary);
+        outline: none;
+    }
+
+    .mobile-auth-buttons {
+        margin-top: auto;
+        padding: var(--spacing-lg) 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .mobile-search {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .mobile-search .search-input {
+        width: 100%;
+    }
+
+    /* ===== RESPONSIVE ADJUSTMENTS ===== */
+    @media (max-width: 991.98px) {
+        .navbar-menu {
+            display: none !important;
+        }
+
+        .mobile-menu-toggle {
+            display: flex;
+        }
+
+        .search-container {
+            width: 90vw;
+            max-width: 400px;
+            right: -50vw;
+            transform: translateX(50%) translateY(-10px);
+        }
+
+        .search-container.show {
+            transform: translateX(50%) translateY(0);
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        .auth-text {
+            display: none;
+        }
+
+        .announcement-actions {
+            gap: var(--spacing-sm);
+        }
+
+        .announcement-link-text {
+            display: none;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .navbar > .container {
+            padding: 0 var(--spacing-md);
+        }
+
+        .navbar-actions {
+            gap: var(--spacing-sm);
+        }
+
+        .user-toggle {
+            padding: var(--spacing-xs) var(--spacing-sm);
+        }
+
+        .auth-buttons {
+            gap: var(--spacing-xs);
+        }
+
+        .auth-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .brand-title {
+            font-size: var(--font-size-sm);
+        }
+
+        .brand-subtitle {
+            font-size: 0.65rem;
+        }
+
+        .logo-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .navbar-actions {
+            gap: var(--spacing-xs);
+        }
+
+        .theme-toggle,
+        .search-toggle,
+        .user-avatar {
+            width: 2rem;
+            height: 2rem;
+            font-size: var(--font-size-sm);
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ===== ANNOUNCEMENT BAR =====
+        const announcementBar = document.querySelector('.announcement-bar');
+        const announcementClose = document.querySelector('.announcement-close');
+        
+        if (announcementBar && announcementClose) {
+            // Check if user has closed announcement before
+            if (!localStorage.getItem('announcementClosed')) {
+                announcementBar.style.display = 'block';
+                
+                announcementClose.addEventListener('click', function() {
+                    announcementBar.classList.add('hidden');
+                    localStorage.setItem('announcementClosed', 'true');
+                });
+            } else {
+                announcementBar.style.display = 'none';
+            }
+        }
+
+        // ===== MOBILE MENU =====
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+        const body = document.body;
+        
+        // Create mobile menu container
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.id = 'mobileMenu';
+        
+        // Clone desktop menu for mobile
+        const desktopMenu = navbarMenu.cloneNode(true);
+        desktopMenu.id = 'mobileNavbarMenu';
+        desktopMenu.classList.remove('navbar-menu');
+        desktopMenu.classList.add('mobile-nav');
+        
+        // Process mobile menu structure
+        const processMobileMenu = (menu) => {
+            const navItems = menu.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if (item.classList.contains('dropdown')) {
+                    const toggle = item.querySelector('.dropdown-toggle');
+                    const content = item.querySelector('.dropdown-menu');
+                    
+                    if (toggle && content) {
+                        // Create mobile dropdown structure
+                        const mobileToggle = document.createElement('button');
+                        mobileToggle.className = 'mobile-dropdown-toggle';
+                        mobileToggle.setAttribute('aria-expanded', 'false');
+                        mobileToggle.innerHTML = toggle.innerHTML;
+                        
+                        const mobileContent = document.createElement('div');
+                        mobileContent.className = 'mobile-dropdown-content';
+                        
+                        // Convert dropdown content
+                        const dropdownItems = content.querySelectorAll('.dropdown-item');
+                        dropdownItems.forEach(dropdownItem => {
+                            const mobileItem = document.createElement('a');
+                            mobileItem.className = 'mobile-dropdown-item';
+                            mobileItem.href = dropdownItem.href;
+                            mobileItem.innerHTML = dropdownItem.innerHTML;
+                            mobileContent.appendChild(mobileItem);
+                        });
+                        
+                        // Replace original dropdown with mobile structure
+                        const link = item.querySelector('.nav-link');
+                        item.innerHTML = '';
+                        item.appendChild(mobileToggle);
+                        item.appendChild(mobileContent);
+                        
+                        // Toggle dropdown
+                        mobileToggle.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+                            mobileToggle.setAttribute('aria-expanded', !isExpanded);
+                            mobileContent.classList.toggle('show');
+                        });
+                    }
+                } else {
+                    // Regular nav item
+                    const link = item.querySelector('.nav-link');
+                    if (link) {
+                        link.className = 'mobile-nav-link';
+                    }
+                }
+            });
+        };
+        
+        if (desktopMenu) {
+            processMobileMenu(desktopMenu);
+            
+            // Add search to mobile menu
+            const searchContainer = document.createElement('div');
+            searchContainer.className = 'mobile-search';
+            searchContainer.innerHTML = `
+                <form action="{% url 'catalog:search' %}" method="get" class="search-form" role="search">
+                    <div class="search-input-group">
+                        <input type="text" name="q" placeholder="Search library..." class="search-input" required>
+                        <button type="submit" class="search-submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            // Add auth buttons to mobile menu (if not logged in)
+            {% if not user.is_authenticated %}
+            const authButtons = document.createElement('div');
+            authButtons.className = 'mobile-auth-buttons';
+            authButtons.innerHTML = `
+                <a href="{% url 'catalog:login' %}" class="btn btn-outline w-100">Login</a>
+                <a href="{% url 'catalog:register' %}" class="btn btn-primary w-100">Register</a>
+            `;
+            {% endif %}
+            
+            // Build mobile menu
+            mobileMenu.appendChild(searchContainer);
+            mobileMenu.appendChild(desktopMenu);
+            {% if not user.is_authenticated %}
+            mobileMenu.appendChild(authButtons);
+            {% endif %}
+            
+            document.body.appendChild(mobileMenu);
+        }
+        
+        // Toggle mobile menu
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('show');
+                body.style.overflow = mobileMenu.classList.contains('show') ? 'hidden' : '';
+                
+                // Toggle menu icon animation
+                this.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target.closest('.mobile-nav-link') || e.target.closest('.mobile-dropdown-item')) {
+                    mobileMenuToggle.click();
+                }
+            });
+        }
+
+        // ===== DROPDOWNS =====
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdownId = this.getAttribute('data-dropdown');
+                let dropdown;
+                
+                if (dropdownId === 'library') {
+                    dropdown = document.getElementById('libraryDropdown');
+                } else if (dropdownId === 'resources') {
+                    dropdown = document.getElementById('resourcesDropdown');
+                }
+                
+                // Close other dropdowns
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    if (menu !== dropdown) {
+                        menu.classList.remove('show');
+                        const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Toggle current dropdown
+                if (dropdown) {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    dropdown.classList.toggle('show');
+                }
+            });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.dropdown-menu')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                    const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+        
+        // Close dropdowns on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                    const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                });
+                
+                // Also close mobile menu
+                if (mobileMenu.classList.contains('show')) {
+                    mobileMenuToggle.click();
+                }
+            }
+        });
+
+        // ===== SEARCH =====
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainerEl = document.getElementById('searchContainer');
+        const searchClose = document.getElementById('searchClose');
+        
+        if (searchToggle && searchContainerEl) {
+            searchToggle.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                searchContainerEl.classList.toggle('show');
+                
+                // Focus input when shown
+                if (searchContainerEl.classList.contains('show')) {
+                    setTimeout(() => {
+                        searchContainerEl.querySelector('.search-input').focus();
+                    }, 100);
+                }
+            });
+            
+            if (searchClose) {
+                searchClose.addEventListener('click', function() {
+                    searchContainerEl.classList.remove('show');
+                    searchToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+            
+            // Close search when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.navbar-search') && !e.target.closest('.mobile-search')) {
+                    searchContainerEl.classList.remove('show');
+                    searchToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        // ===== USER DROPDOWN =====
+        const userToggle = document.getElementById('userToggle');
+        const userMenuDropdown = document.getElementById('userMenuDropdown');
+        
+        if (userToggle && userMenuDropdown) {
+            userToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                userMenuDropdown.classList.toggle('show');
+            });
+            
+            // Close user dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.user-dropdown')) {
+                    userMenuDropdown.classList.remove('show');
+                    userToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        // ===== ACTIVE LINK DETECTION =====
+        function setActiveNavLink() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href');
+                if (linkPath && currentPath === linkPath) {
+                    link.classList.add('active');
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.classList.remove('active');
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+        
+        setActiveNavLink();
+
+        // ===== SCROLL EFFECT =====
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        
+        if (navbar) {
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    navbar.style.boxShadow = 'none';
+                } else if (currentScroll > lastScroll && currentScroll > 100) {
+                    // Scrolling down
+                    navbar.style.boxShadow = 'var(--shadow-md)';
+                } else {
+                    // Scrolling up
+                    navbar.style.boxShadow = 'var(--shadow-md)';
+                }
+                
+                lastScroll = currentScroll;
+            });
+        }
+
+        // ===== RESIZE HANDLER =====
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                // Close mobile menu on resize to desktop
+                if (window.innerWidth >= 992 && mobileMenu.classList.contains('show')) {
+                    mobileMenuToggle.click();
+                }
+                
+                // Close dropdowns on mobile resize
+                if (window.innerWidth < 992) {
+                    document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                        menu.classList.remove('show');
+                        const toggle = menu.parentElement.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            }, 250);
+        });
+
+        // ===== TOUCH DEVICE OPTIMIZATION =====
+        if ('ontouchstart' in window) {
+            // Ensure proper touch targets
+            document.querySelectorAll('.nav-link, .dropdown-item, .btn, .search-toggle, .user-toggle').forEach(el => {
+                el.style.minHeight = '44px';
+                el.style.minWidth = '44px';
+            });
+        }
+
+        // ===== THEME TOGGLE INTEGRATION =====
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                if (window.App && window.App.theme) {
+                    window.App.theme.toggleTheme();
+                }
+            });
+        }
+    });
+</script>

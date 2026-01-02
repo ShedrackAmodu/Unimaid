@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}E-Library Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="fas fa-desktop"></i> E-Library Session Management</h2>
+            <p class="text-muted">Monitor and manage E-Library visitor sessions</p>
+        </div>
+        <div>
+            <a href="{% url 'catalog:elibrary_checkin' %}" class="btn btn-success">
+                <i class="fas fa-plus"></i> New Check-In
+            </a>
+            <a href="{% url 'catalog:elibrary_checkout' %}" class="btn btn-warning ml-2">
+                <i class="fas fa-sign-out-alt"></i> Check-Out
+            </a>
+            <a href="{% url 'catalog:elibrary_reports' %}" class="btn btn-info ml-2">
+                <i class="fas fa-chart-bar"></i> Reports
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-users"></i> Active Sessions
+                    </h5>
+                    <h2 class="mb-0">{{ total_active }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-calendar-day"></i> Today's Sessions
+                    </h5>
+                    <h2 class="mb-0">{{ total_today }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-check-circle"></i> Completed Today
+                    </h5>
+                    <h2 class="mb-0">{{ completed_today }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-clock"></i> Pending Check-outs
+                    </h5>
+                    <h2 class="mb-0">{{ total_active }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Sessions -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-play-circle text-success"></i> Active Sessions
+                <span class="badge badge-success ml-2">{{ total_active }}</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            {% if active_sessions %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Visitor</th>
+                                <th>Registration #</th>
+                                <th>Department</th>
+                                <th>Entry Time</th>
+                                <th>Duration</th>
+                                <th>Items Brought In</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in active_sessions %}
+                            <tr>
+                                <td>
+                                    <strong>{{ session.visitor.full_name }}</strong>
+                                </td>
+                                <td>{{ session.visitor.registration_number }}</td>
+                                <td>{{ session.visitor.department }}</td>
+                                <td>{{ session.entry_time|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    {% if session.duration %}
+                                        {{ session.duration|naturaltime }}
+                                    {% else %}
+                                        <span class="text-muted">Just started</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if session.items_brought_in %}
+                                        <small>{{ session.items_brought_in|truncatechars:30 }}</small>
+                                    {% else %}
+                                        <span class="text-muted">None</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'catalog:elibrary_session_detail' session.id %}"
+                                       class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No active sessions at the moment.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Today's Sessions -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-calendar-day text-info"></i> Today's Sessions
+                <span class="badge badge-info ml-2">{{ total_today }}</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            {% if today_sessions %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Visitor</th>
+                                <th>Status</th>
+                                <th>Entry Time</th>
+                                <th>Exit Time</th>
+                                <th>Duration</th>
+                                <th>Checked In By</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in today_sessions %}
+                            <tr>
+                                <td>
+                                    <strong>{{ session.visitor.full_name }}</strong>
+                                    <br><small class="text-muted">{{ session.visitor.registration_number }}</small>
+                                </td>
+                                <td>
+                                    {% if session.status == "active" %}
+                                        <span class="badge badge-success">Active</span>
+                                    {% elif session.status == "completed" %}
+                                        <span class="badge badge-primary">Completed</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">{{ session.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ session.entry_time|date:"H:i" }}</td>
+                                <td>
+                                    {% if session.exit_time %}
+                                        {{ session.exit_time|date:"H:i" }}
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if session.duration %}
+                                        {% widthratio session.duration.total_seconds 3600 1 %}h {% widthratio session.duration.total_seconds 60 1|modulo:60 %}m
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ session.checked_in_by.get_full_name|default:session.checked_in_by.username }}</td>
+                                <td>
+                                    <a href="{% url 'catalog:elibrary_session_detail' session.id %}"
+                                       class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No sessions recorded today.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-refresh active sessions every 30 seconds
+setInterval(function() {
+    if (document.hasFocus()) {
+        location.reload();
+    }
+}, 30000);
+</script>
+{% endblock %}

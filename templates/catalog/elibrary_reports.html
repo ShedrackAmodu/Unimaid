@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}E-Library Reports - Ramat Library{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fa fa-chart-bar"></i> E-Library Reports & Analytics</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Date Range Filter -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <form method="get" class="form-inline">
+                                <div class="form-group mr-3">
+                                    <label for="start_date" class="mr-2">Start Date:</label>
+                                    <input type="date" id="start_date" name="start_date"
+                                           value="{{ start_date|date:'Y-m-d' }}" class="form-control">
+                                </div>
+                                <div class="form-group mr-3">
+                                    <label for="end_date" class="mr-2">End Date:</label>
+                                    <input type="date" id="end_date" name="end_date"
+                                           value="{{ end_date|date:'Y-m-d' }}" class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-search"></i> Generate Report
+                                </button>
+                                <a href="?{% for key, value in request.GET.items %}{% if key != 'export' %}{{ key }}={{ value }}&{% endif %}{% endfor %}export=csv"
+                                   class="btn btn-success ml-2">
+                                    <i class="fa fa-download"></i> Export CSV
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Overall Statistics -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h5>Overall Statistics ({{ start_date|date:'M d, Y' }} - {{ end_date|date:'M d, Y' }})</h5>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-primary">{{ total_sessions }}</h3>
+                                            <p class="mb-0">Total Sessions</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="card bg-success">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-white">{{ completed_sessions }}</h3>
+                                            <p class="mb-0 text-white">Completed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="card bg-warning">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-white">{{ active_sessions }}</h3>
+                                            <p class="mb-0 text-white">Active</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="card bg-danger">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-white">{{ terminated_sessions }}</h3>
+                                            <p class="mb-0 text-white">Terminated</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="card bg-info">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-white">{{ items_brought_in }}</h3>
+                                            <p class="mb-0 text-white">Items Brought In</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="card bg-secondary">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-white">{{ items_taken_out }}</h3>
+                                            <p class="mb-0 text-white">Items Taken Out</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if avg_duration %}
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Average Session Duration: <strong>{{ avg_duration|floatformat:2 }} hours</strong></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Department Statistics -->
+                    {% if department_stats %}
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Sessions by Department</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Department</th>
+                                                    <th>Total Sessions</th>
+                                                    <th>Completed</th>
+                                                    <th>Avg Duration (hrs)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for stat in department_stats %}
+                                                <tr>
+                                                    <td>{{ stat.visitor__department|default:"N/A" }}</td>
+                                                    <td>{{ stat.total_sessions }}</td>
+                                                    <td>{{ stat.completed_sessions }}</td>
+                                                    <td>
+                                                        {% if stat.avg_duration_hours %}
+                                                            {{ stat.avg_duration_hours|floatformat:2 }}
+                                                        {% else %}
+                                                            N/A
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Level Statistics -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Sessions by Academic Level</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Level</th>
+                                                    <th>Total Sessions</th>
+                                                    <th>Completed</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for stat in level_stats %}
+                                                <tr>
+                                                    <td>{{ stat.visitor__level|default:"N/A" }} Level</td>
+                                                    <td>{{ stat.total_sessions }}</td>
+                                                    <td>{{ stat.completed_sessions }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Peak Hours -->
+                    {% if peak_hours %}
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Peak Usage Hours</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hour</th>
+                                                    <th>Sessions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for hour in peak_hours %}
+                                                <tr>
+                                                    <td>{{ hour.hour }}:00</td>
+                                                    <td>{{ hour.session_count }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Daily Statistics -->
+                    {% if daily_stats %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Daily Usage Statistics</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Total Sessions</th>
+                                                    <th>Completed</th>
+                                                    <th>Active</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for stat in daily_stats %}
+                                                <tr>
+                                                    <td>{{ stat.date|date:'M d, Y' }}</td>
+                                                    <td>{{ stat.total_sessions }}</td>
+                                                    <td>{{ stat.completed_sessions }}</td>
+                                                    <td>{{ stat.active_sessions }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if not total_sessions %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <i class="fa fa-info-circle"></i>
+                                No E-Library sessions found for the selected date range.
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

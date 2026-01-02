@@ -1,103 +1,470 @@
-{% extends 'base.html' %} {% load static %} {% block title %}About Us - Ramat
-Library Unimaid{% endblock %} {% block content %}
-<!-- bradcam_area_start  -->
-<div class="bradcam_area breadcam_bg">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="bradcam_text">
-          <h3>About Ramat Library</h3>
-        </div>
-      </div>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - Ramat Library Unimaid{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-section {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .breadcrumb-section h1 {
+        margin-bottom: 0;
+        color: var(--white);
+        font-size: var(--font-size-2xl);
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-2xl);
+        align-items: start;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .about-content h2 {
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-2xl);
+        color: var(--text-primary);
+    }
+
+    .about-content h3 {
+        margin-top: var(--spacing-xl);
+        margin-bottom: var(--spacing-md);
+        color: var(--primary-500);
+        font-size: var(--font-size-lg);
+    }
+
+    .about-content p {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== FEATURE BOX ===== */
+    .feature-box {
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border-left: 4px solid var(--primary-500);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .feature-box:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .feature-box h4 {
+        color: var(--primary-500);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .feature-box p {
+        margin-bottom: 0;
+        color: var(--text-secondary);
+    }
+
+    /* ===== SIDEBAR WIDGET ===== */
+    .sidebar-widget {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .sidebar-widget h3 {
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--font-size-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .sidebar-widget h3 i {
+        color: var(--primary-500);
+    }
+
+    .stats-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .stats-list li {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stats-list li:last-child {
+        border-bottom: none;
+    }
+
+    .stats-list li strong {
+        color: var(--primary-500);
+        font-weight: 700;
+    }
+
+    .sidebar-widget ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar-widget ul li {
+        padding: var(--spacing-sm) 0;
+        color: var(--text-secondary);
+        transition: color var(--transition-fast);
+    }
+
+    .sidebar-widget ul li:hover {
+        color: var(--primary-500);
+    }
+
+    /* ===== MISSION VISION ===== */
+    .mission-vision-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+        margin: var(--spacing-2xl) 0;
+    }
+
+    .mission-card,
+    .vision-card {
+        background: var(--bg-card);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        border-top: 4px solid var(--primary-500);
+    }
+
+    .mission-card h3,
+    .vision-card h3 {
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--font-size-xl);
+        color: var(--primary-500);
+    }
+
+    .mission-card p,
+    .vision-card p {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+        position: relative;
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-500);
+    }
+
+    .timeline-item {
+        margin-bottom: var(--spacing-2xl);
+        width: 48%;
+    }
+
+    .timeline-item:nth-child(odd) {
+        margin-left: 0;
+        text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+        margin-left: 52%;
+    }
+
+    .timeline-content {
+        background: var(--bg-card);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+    }
+
+    .timeline-year {
+        color: var(--primary-500);
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .timeline-content p {
+        margin-bottom: 0;
+        color: var(--text-secondary);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .about-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mission-vision-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .timeline::before {
+            left: 20px;
+        }
+
+        .timeline-item {
+            width: 100%;
+            margin-left: 0 !important;
+            padding-left: 60px;
+            text-align: left !important;
+        }
+
+        .breadcrumb-section h1 {
+            font-size: var(--font-size-xl);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Section -->
+<section class="breadcrumb-section">
+    <div class="container">
+        <h1>About Ramat Library</h1>
     </div>
-  </div>
-</div>
-<!-- bradcam_area_end  -->
-
-<!--================ About section =================-->
-<section class="about-section section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="about-content">
-          <h2>Our Vision & Mission</h2>
-          <p>
-            The University of Maiduguri Library, also known as Ramat Library, is
-            a modern academic library committed to supporting teaching,
-            learning, and research activities of the university community.
-          </p>
-
-          <h3>Our Vision</h3>
-          <p>
-            To be a world-class academic library that provides excellent
-            information resources and services to support the university's
-            mission of teaching, learning, research, and community service.
-          </p>
-
-          <h3>Our Mission</h3>
-          <p>
-            To provide quality library services, promote information literacy,
-            and support the University's academic and research programs through
-            access to comprehensive print and electronic information resources.
-          </p>
-
-          <h3>Our History</h3>
-          <p>
-            Established in [Year], the University of Maiduguri Library has grown
-            from a small collection to a comprehensive academic library serving
-            thousands of students, faculty, and researchers. The library has
-            continuously evolved to meet the changing needs of the academic
-            community, incorporating modern technology and expanding its
-            collection of resources.
-          </p>
-
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <div class="feature-box">
-                <h4>Modern Facilities</h4>
-                <p>
-                  State-of-the-art facilities including computer labs, study
-                  spaces, and multimedia resources.
-                </p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="feature-box">
-                <h4>Extensive Collection</h4>
-                <p>
-                  Over thousands of books, journals, and electronic resources
-                  covering various disciplines.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="about-sidebar">
-          <div class="sidebar-widget">
-            <h3>Library Statistics</h3>
-            <ul class="stats-list">
-              <li><strong>9</strong> Library Divisions</li>
-              <li><strong>13</strong> Branch Libraries</li>
-              <li><strong>100,000+</strong> Books & Journals</li>
-              <li><strong>24/7</strong> Online Access</li>
-            </ul>
-          </div>
-
-          <div class="sidebar-widget mt-4">
-            <h3>Special Collections</h3>
-            <ul>
-              <li>American Space Section</li>
-              <li>International Institute of Islamic Thought</li>
-              <li>Special Collections & Archives</li>
-              <li>Digital Repository</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
-<!--================ About section end =================-->
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-grid">
+            <!-- Main Content -->
+            <div class="about-content">
+                <h2><i class="fa fa-book-open"></i> Our Vision & Mission</h2>
+                <p>
+                    The University of Maiduguri Library, also known as Ramat Library, is
+                    a modern academic library committed to supporting teaching,
+                    learning, and research activities of the university community.
+                </p>
+
+                <h3><i class="fa fa-telescope"></i> Our Vision</h3>
+                <p>
+                    To be a world-class academic library that provides excellent
+                    information resources and services to support the university's
+                    mission of teaching, learning, research, and community service.
+                </p>
+
+                <h3><i class="fa fa-bullseye"></i> Our Mission</h3>
+                <p>
+                    To provide quality library services, promote information literacy,
+                    and support the University's academic and research programs through
+                    access to comprehensive print and electronic information resources.
+                </p>
+
+                <h3><i class="fa fa-history"></i> Our History</h3>
+                <p>
+                    Established in [Year], the University of Maiduguri Library has grown
+                    from a small collection to a comprehensive academic library serving
+                    thousands of students, faculty, and researchers. The library has
+                    continuously evolved to meet the changing needs of the academic
+                    community, incorporating modern technology and expanding its
+                    collection of resources.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+                    <div class="feature-box">
+                        <h4>
+                            <i class="fa fa-building"></i> Modern Facilities
+                        </h4>
+                        <p>
+                            State-of-the-art facilities including computer labs, study
+                            spaces, and multimedia resources.
+                        </p>
+                    </div>
+                    <div class="feature-box">
+                        <h4>
+                            <i class="fa fa-book"></i> Extensive Collection
+                        </h4>
+                        <p>
+                            Over thousands of books, journals, and electronic resources
+                            covering various disciplines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside>
+                <div class="sidebar-widget">
+                    <h3><i class="fa fa-bar-chart"></i> Library Statistics</h3>
+                    <ul class="stats-list">
+                        <li>
+                            <span>Library Divisions</span>
+                            <strong>9</strong>
+                        </li>
+                        <li>
+                            <span>Total Collections</span>
+                            <strong>50,000+</strong>
+                        </li>
+                        <li>
+                            <span>Registered Users</span>
+                            <strong>10,000+</strong>
+                        </li>
+                        <li>
+                            <span>Annual Circulation</span>
+                            <strong>100,000+</strong>
+                        </li>
+                        <li>
+                            <span>Digital Resources</span>
+                            <strong>1,000+</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3><i class="fa fa-info-circle"></i> Quick Links</h3>
+                    <ul>
+                        <li><a href="{% url 'core:admissions' %}">Admission Requirements</a></li>
+                        <li><a href="{% url 'catalog:catalog_home' %}">Browse Catalog</a></li>
+                        <li><a href="{% url 'core:events' %}">Library Events</a></li>
+                        <li><a href="{% url 'staff:staff_list' %}">Meet Our Team</a></li>
+                        <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Mission & Vision Cards -->
+        <div class="mission-vision-grid">
+            <div class="mission-card">
+                <h3><i class="fa fa-target"></i> Core Values</h3>
+                <p>
+                    We are committed to excellence, accessibility, innovation, and fostering a culture of learning and research that supports the academic mission of the University.
+                </p>
+            </div>
+            <div class="vision-card">
+                <h3><i class="fa fa-rocket"></i> Future Goals</h3>
+                <p>
+                    To expand our digital collections, enhance user experience through advanced technology, and establish partnerships with international libraries to serve our academic community better.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Section -->
+<section class="breadcrumb-section">
+    <div class="container">
+        <h1>About Ramat Library</h1>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); align-items: start;">
+            <!-- Main Content -->
+            <div class="about-content">
+                <h2>Our Vision & Mission</h2>
+                <p>
+                    The University of Maiduguri Library, also known as Ramat Library, is
+                    a modern academic library committed to supporting teaching,
+                    learning, and research activities of the university community.
+                </p>
+
+                <h3>Our Vision</h3>
+                <p>
+                    To be a world-class academic library that provides excellent
+                    information resources and services to support the university's
+                    mission of teaching, learning, research, and community service.
+                </p>
+
+                <h3>Our Mission</h3>
+                <p>
+                    To provide quality library services, promote information literacy,
+                    and support the University's academic and research programs through
+                    access to comprehensive print and electronic information resources.
+                </p>
+
+                <h3>Our History</h3>
+                <p>
+                    Established in [Year], the University of Maiduguri Library has grown
+                    from a small collection to a comprehensive academic library serving
+                    thousands of students, faculty, and researchers. The library has
+                    continuously evolved to meet the changing needs of the academic
+                    community, incorporating modern technology and expanding its
+                    collection of resources.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin-top: var(--spacing-xl);">
+                    <div class="feature-box">
+                        <h4>Modern Facilities</h4>
+                        <p style="margin-bottom: 0;">
+                            State-of-the-art facilities including computer labs, study
+                            spaces, and multimedia resources.
+                        </p>
+                    </div>
+                    <div class="feature-box">
+                        <h4>Extensive Collection</h4>
+                        <p style="margin-bottom: 0;">
+                            Over thousands of books, journals, and electronic resources
+                            covering various disciplines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside>
+                <div class="sidebar-widget">
+                    <h3>Library Statistics</h3>
+                    <ul class="stats-list">
+                        <li><strong>9</strong> Library Divisions</li>
+                        <li><strong>13</strong> Branch Libraries</li>
+                        <li><strong>100,000+</strong> Books & Journals</li>
+                        <li><strong>24/7</strong> Online Access</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3>Special Collections</h3>
+                    <ul>
+                        <li>American Space Section</li>
+                        <li>International Institute of Islamic Thought</li>
+                        <li>Special Collections & Archives</li>
+                        <li>Digital Repository</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
 {% endblock %}

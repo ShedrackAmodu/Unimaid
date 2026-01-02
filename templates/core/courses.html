@@ -1,15 +1,75 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container section__padding">
-  <h1>Library Divisions & Courses</h1>
-  <div class="row">
-    {% for div in divisions %}
-    <div class="col-md-4">
-      <h4>{{ div.name }}</h4>
-      <p>{{ div.description|truncatewords:30 }}</p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Library Divisions & Courses{% endblock %}
+
+{% block extra_css %}
+<style>
+    .divisions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    .division-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        border-left: 4px solid var(--primary-500);
+    }
+
+    .division-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .division-card h4 {
+        color: var(--primary-500);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .division-card p {
+        color: var(--text-secondary);
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: var(--spacing-2xl);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-lg);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: var(--spacing-2xl);">Library Divisions & Courses</h1>
+        
+        {% if divisions %}
+        <div class="divisions-grid">
+            {% for div in divisions %}
+            <div class="division-card">
+                <h4>{{ div.name }}</h4>
+                <p>{{ div.description|truncatewords:30 }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state bg-secondary rounded-lg">
+            <i class="fas fa-info-circle"></i>
+            <h3 style="color: var(--text-secondary);">No divisions available</h3>
+            <p style="color: var(--text-tertiary);">Library divisions will be added soon.</p>
+        </div>
+        {% endif %}
     </div>
-    {% empty %}
-    <p>No divisions available.</p>
-    {% endfor %}
-  </div>
-</div>
+</section>
 {% endblock %}

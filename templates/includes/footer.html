@@ -1,117 +1,1085 @@
-<!-- footer start -->
-<footer class="footer">
-    <div class="footer_top">
+<!-- Footer Start -->
+<footer class="footer" role="contentinfo">
+    <!-- Main Footer -->
+    <div class="footer-main">
         <div class="container">
-            <div class="newsLetter_wrap">
-                <div class="row justify-content-between">
-                    <div class="col-md-7">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Stay Updated
-                            </h3>
-                            <form action="#" class="newsletter_form">
-                                <input type="text" placeholder="Email Address">
-                                <button type="submit">Subscribe Now</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-5">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Stay Updated
-                            </h3>
-                            <div class="socail_links">
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="ti-facebook"></i>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <i class="fa fa-twitter"></i>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <i class="fa fa-google-plus"></i>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <i class="fa fa-linkedin"></i>
-                                        </span>
-                                    </li>
-                                </ul>
+            <div class="footer-grid">
+                <!-- Brand & About -->
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <div class="logo-circle" aria-hidden="true">
+                                <i class="fas fa-book-open"></i>
                             </div>
-
+                            <div class="logo-text">
+                                <h3 class="logo-title">Ramat Library</h3>
+                                <p class="logo-subtitle">University of Maiduguri</p>
+                            </div>
+                        </div>
+                        <p class="footer-description">
+                            Gateway to knowledge, research, and innovation.
+                        </p>
+                    </div>
+                    
+                    <!-- Quick Contact -->
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <span>University of Maiduguri, Borno State</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <a href="tel:+23480166253232">+234 80166 253 232</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <a href="mailto:ramatlibrary@unimaid.edu.ng">ramatlibrary@unimaid.edu.ng</a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-3 col-md-6 col-lg-3">
-                    <div class="footer_widget">
-                        <h3 class="footer_title">
-                            About Us
-                        </h3>
-                        <ul>
-                            <li><a href="{% url 'core:home' %}">Home</a></li>
-                            <li><a href="{% url 'core:about' %}">About Us</a></li>
-                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
-                        </ul>
-                    </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links" role="list">
+                        <li role="listitem">
+                            <a href="{% url 'core:home' %}" class="footer-link">
+                                Home
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'core:about' %}" class="footer-link">
+                                About Us
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'core:library_organization' %}" class="footer-link">
+                                Library Divisions
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'repository:doc_list' %}" class="footer-link">
+                                Digital Repository
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'blog:post_list' %}" class="footer-link">
+                                News & Blog
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-xl-3 col-md-6 col-lg-3">
-                    <div class="footer_widget">
-                        <h3 class="footer_title">
-                            Campus
-                        </h3>
-                        <ul>
-                            <li><a href="{% url 'core:library_organization' %}">Library Divisions</a></li>
-                            <li><a href="{% url 'core:courses' %}">Academic Resources</a></li>
-                            <li><a href="{% url 'core:contact' %}">Research Support</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-3">
-                    <div class="footer_widget">
-                        <h3 class="footer_title">
-                            Services
-                        </h3>
-                        <ul>
-                            <li><a href="{% url 'repository:doc_list' %}">Digital Library</a></li>
-                            <li><a href="{% url 'core:search' %}">Online Catalog</a></li>
-                            <li><a href="{% url 'core:contact' %}">Reference Services</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-3">
-                    <div class="footer_widget">
-                        <h3 class="footer_title">
-                            Support
-                        </h3>
-                        <ul>
-                            <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
-                            <li><a href="{% url 'core:contact' %}">Help & FAQ</a></li>
-                            <li><a href="{% url 'core:home' %}">Site Map</a></li>
-                        </ul>
+
+                <!-- Services -->
+                <div class="footer-section">
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links" role="list">
+                        <li role="listitem">
+                            <a href="{% url 'catalog:elibrary_dashboard' %}" class="footer-link">
+                                E-Library
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'core:search' %}" class="footer-link">
+                                Online Catalog
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'staff:staff_list' %}" class="footer-link">
+                                Staff Directory
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'core:events' %}" class="footer-link">
+                                Events Calendar
+                            </a>
+                        </li>
+                        <li role="listitem">
+                            <a href="{% url 'core:contact' %}" class="footer-link">
+                                Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <!-- Social Media -->
+                    <div class="social-media">
+                        <h5 class="social-title">Follow Us</h5>
+                        <div class="social-links">
+                            <a href="#" class="social-link facebook" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="social-link twitter" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="social-link linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="social-link youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="copy-right_text">
+
+    <!-- Bottom Footer -->
+    <div class="footer-bottom">
         <div class="container">
-            <div class="footer_border"></div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <p class="copy_right text-center">
-                        <p>@{% now "Y" %} University of Maiduguri | All rights reserved.</p>
-                    </p>
+            <div class="footer-bottom-content">
+                <!-- Copyright -->
+                <div class="copyright">
+                    <p>&copy; {% now "Y" %} University of Maiduguri - Ramat Library. All rights reserved.</p>
                 </div>
+                
+                {% comment %} <!-- Links -->
+                <nav class="footer-bottom-links" aria-label="Footer links">
+                    <a href="{% url 'core:privacy' %}" class="footer-bottom-link">Privacy Policy</a>
+                    <span class="separator" aria-hidden="true">•</span>
+                    <a href="{% url 'core:terms' %}" class="footer-bottom-link">Terms of Use</a>
+                    <span class="separator" aria-hidden="true">•</span>
+                    <a href="{% url 'core:accessibility' %}" class="footer-bottom-link">Accessibility</a>
+                    <span class="separator" aria-hidden="true">•</span>
+                    <a href="{% url 'core:sitemap' %}" class="footer-bottom-link">Sitemap</a>
+                </nav> {% endcomment %}
             </div>
         </div>
     </div>
 </footer>
-<!-- footer end -->
+<!-- Footer End -->
+
+<!-- Floating Action Button (Mobile) -->
+<button class="fab-mobile" id="fabMobile" aria-label="Quick actions">
+    <i class="fas fa-question-circle"></i>
+</button>
+
+<!-- Quick Help Modal -->
+<div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle" hidden>
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <button class="modal-close" aria-label="Close help modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <h3 class="modal-title" id="helpModalTitle">Quick Help</h3>
+        <div class="modal-body">
+            <div class="help-grid">
+                <a href="{% url 'core:contact' %}" class="help-item">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <h4>Contact Support</h4>
+                        <p>Get help from our support team</p>
+                    </div>
+                </a>
+                {% comment %} <a href="{% url 'catalog:faq' %}" class="help-item">
+                    <i class="fas fa-question-circle"></i>
+                    <div>
+                        <h4>FAQs</h4>
+                        <p>Find answers to common questions</p>
+                    </div>
+                </a> {% endcomment %}
+                {% comment %} <a href="{% url 'core:library_hours' %}" class="help-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Library Hours</h4>
+                        <p>Check opening and closing times</p>
+                    </div>
+                </a> {% endcomment %}
+                {% comment %} <a href="{% url 'catalog:tutorials' %}" class="help-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h4>Tutorials</h4>
+                        <p>Learn how to use library services</p>
+                    </div>
+                </a> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ===== FOOTER STYLES ===== */
+    .footer {
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+
+    .footer-main {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+
+    @media (min-width: 768px) {
+        .footer-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl);
+        }
+    }
+
+    /* Footer Sections */
+    .footer-section {
+        padding: 0 var(--spacing-sm);
+    }
+
+    /* Brand Section */
+    .footer-brand {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .logo-circle {
+        width: 3rem;
+        height: 3rem;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .logo-title {
+        font-size: var(--font-size-lg);
+        margin: 0;
+        color: var(--text-primary);
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .logo-subtitle {
+        font-size: var(--font-size-xs);
+        margin: 0;
+        color: var(--text-secondary);
+        opacity: 0.8;
+    }
+
+    .footer-description {
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    /* Contact Info */
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        margin-top: var(--spacing-lg);
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    .contact-item i {
+        color: var(--primary-500);
+        width: 1rem;
+        margin-top: 0.125rem;
+    }
+
+    .contact-item a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    .contact-item a:hover {
+        color: var(--primary-500);
+    }
+
+    /* Footer Titles */
+    .footer-title {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-md);
+        color: var(--text-primary);
+        font-weight: 600;
+        position: relative;
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 2rem;
+        height: 2px;
+        background: var(--primary-500);
+        border-radius: var(--radius-full);
+    }
+
+    /* Footer Links */
+    .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .footer-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-fast);
+        display: block;
+        padding: 0.25rem 0;
+    }
+
+    .footer-link:hover {
+        color: var(--primary-500);
+        padding-left: 0.25rem;
+    }
+
+    /* Social Media */
+    .social-media {
+        margin-top: var(--spacing-lg);
+    }
+
+    .social-title {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-sm);
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .social-links {
+        display: flex;
+        gap: var(--spacing-sm);
+    }
+
+    .social-link {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all var(--transition-fast);
+    }
+
+    .social-link:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .social-link.facebook { background: #1877f2; }
+    .social-link.twitter { background: #1da1f2; }
+    .social-link.linkedin { background: #0077b5; }
+    .social-link.youtube { background: #ff0000; }
+
+    /* Bottom Footer */
+    .footer-bottom {
+        padding: var(--spacing-lg) 0;
+        background: var(--bg-tertiary);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .footer-bottom-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .footer-bottom-content {
+            flex-direction: row;
+            justify-content: space-between;
+            text-align: left;
+        }
+    }
+
+    .copyright p {
+        margin: 0;
+        color: var(--text-tertiary);
+        font-size: var(--font-size-xs);
+    }
+
+    .footer-bottom-links {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-bottom-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: var(--font-size-xs);
+        transition: color var(--transition-fast);
+    }
+
+    .footer-bottom-link:hover {
+        color: var(--primary-500);
+    }
+
+    .separator {
+        color: var(--text-tertiary);
+        font-size: var(--font-size-xs);
+    }
+
+    /* ===== FLOATING ACTION BUTTON (MOBILE) ===== */
+    .fab-mobile {
+        position: fixed;
+        bottom: var(--spacing-xl);
+        right: var(--spacing-xl);
+        width: 3.5rem;
+        height: 3.5rem;
+        background: var(--gradient-primary);
+        color: var(--white);
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-xl);
+        transition: all var(--transition-base);
+        z-index: 999;
+        animation: pulse 2s infinite;
+    }
+
+    @media (min-width: 768px) {
+        .fab-mobile {
+            display: none;
+        }
+    }
+
+    .fab-mobile:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-2xl);
+    }
+
+    /* ===== MODAL STYLES ===== */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-base);
+        padding: var(--spacing-md);
+    }
+
+    .modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        background: var(--bg-primary);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-2xl);
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        z-index: 1;
+        transform: translateY(1rem);
+        transition: transform var(--transition-base);
+    }
+
+    .modal.show .modal-content {
+        transform: translateY(0);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-fast);
+        z-index: 2;
+    }
+
+    .modal-close:hover {
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+    }
+
+    .modal-title {
+        font-size: var(--font-size-lg);
+        margin: 0;
+        padding: var(--spacing-lg);
+        padding-right: var(--spacing-xl);
+        color: var(--text-primary);
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-body {
+        padding: var(--spacing-lg);
+    }
+
+    /* Help Grid */
+    .help-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .help-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        transition: all var(--transition-fast);
+    }
+
+    .help-item:hover {
+        background: var(--bg-secondary);
+        border-color: var(--primary-500);
+        transform: translateY(-2px);
+    }
+
+    .help-item i {
+        color: var(--primary-500);
+        font-size: 1.5rem;
+        margin-top: 0.125rem;
+    }
+
+    .help-item h4 {
+        font-size: var(--font-size-sm);
+        margin: 0 0 0.25rem 0;
+        color: var(--text-primary);
+    }
+
+    .help-item p {
+        font-size: var(--font-size-xs);
+        margin: 0;
+        color: var(--text-secondary);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 102, 204, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 102, 204, 0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    /* Mobile First */
+    @media (max-width: 575.98px) {
+        .footer-main {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .footer-section {
+            padding: 0;
+        }
+
+        .footer-section:not(:first-child) {
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .footer-brand {
+            text-align: center;
+        }
+
+        .footer-logo {
+            justify-content: center;
+        }
+
+        .footer-description {
+            text-align: center;
+        }
+
+        .contact-info {
+            text-align: center;
+            align-items: center;
+        }
+
+        .contact-item {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer-title {
+            text-align: center;
+        }
+
+        .footer-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .social-links {
+            justify-content: center;
+        }
+
+        .help-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Floating button mobile positioning */
+        .fab-mobile {
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            width: 3rem;
+            height: 3rem;
+            font-size: 1rem;
+        }
+
+        /* Footer bottom responsive */
+        .footer-bottom-content {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-md);
+        }
+
+        .footer-bottom-links {
+            justify-content: center;
+        }
+
+        .copyright p {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Small tablets */
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        .footer-main {
+            padding: var(--spacing-xl) 0 var(--spacing-lg);
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .footer-section {
+            padding: 0 var(--spacing-md);
+        }
+
+        .footer-section:not(:first-child) {
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .footer-brand {
+            text-align: center;
+        }
+
+        .footer-logo {
+            justify-content: center;
+        }
+
+        .footer-description {
+            text-align: center;
+        }
+
+        .contact-info {
+            text-align: center;
+        }
+
+        .contact-item {
+            justify-content: center;
+        }
+
+        .footer-title {
+            text-align: center;
+        }
+
+        .social-links {
+            justify-content: center;
+        }
+
+        .help-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* Tablets */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .footer-grid {
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .footer-section {
+            padding: 0 var(--spacing-sm);
+        }
+
+        .footer-brand {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .footer-logo {
+            justify-content: center;
+        }
+
+        .footer-description {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .help-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* Small desktops */
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+        .footer-grid {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+    }
+
+    /* Large screens and up */
+    @media (min-width: 1200px) {
+        .footer-grid {
+            grid-template-columns: 2fr 1fr 1fr;
+        }
+    }
+
+    /* Dark theme adjustments */
+    [data-theme="dark"] .footer {
+        background: var(--bg-tertiary);
+    }
+
+    [data-theme="dark"] .footer-bottom {
+        background: var(--bg-secondary);
+    }
+
+    [data-theme="dark"] .help-item {
+        background: var(--bg-secondary);
+    }
+
+    [data-theme="dark"] .help-item:hover {
+        background: var(--bg-tertiary);
+    }
+
+    /* Print styles */
+    @media print {
+        .footer {
+            display: none;
+        }
+        
+        .fab-mobile {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ===== FLOATING ACTION BUTTON =====
+        const fabMobile = document.getElementById('fabMobile');
+        const helpModal = document.getElementById('helpModal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalOverlay = document.querySelector('.modal-overlay');
+
+        if (fabMobile && helpModal) {
+            fabMobile.addEventListener('click', function() {
+                helpModal.classList.add('show');
+                helpModal.removeAttribute('hidden');
+                helpModal.setAttribute('aria-hidden', 'false');
+                
+                // Focus first focusable element
+                setTimeout(() => {
+                    const focusable = helpModal.querySelector('a, button');
+                    if (focusable) focusable.focus();
+                }, 100);
+            });
+
+            // Close modal
+            function closeModal() {
+                helpModal.classList.remove('show');
+                helpModal.setAttribute('hidden', 'true');
+                helpModal.setAttribute('aria-hidden', 'true');
+                fabMobile.focus();
+            }
+
+            if (modalClose) {
+                modalClose.addEventListener('click', closeModal);
+            }
+
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', closeModal);
+            }
+
+            // Close on escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && helpModal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        }
+
+        // ===== CURRENT YEAR FOR COPYRIGHT =====
+        const yearElement = document.querySelector('.copyright p');
+        if (yearElement) {
+            const currentYear = new Date().getFullYear();
+            yearElement.innerHTML = yearElement.innerHTML.replace('{% now "Y" %}', currentYear);
+        }
+
+        // ===== SOCIAL MEDIA SHARE BUTTONS =====
+        const socialLinks = document.querySelectorAll('.social-link');
+        
+        socialLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const type = this.classList.contains('facebook') ? 'Facebook' :
+                            this.classList.contains('twitter') ? 'Twitter' :
+                            this.classList.contains('linkedin') ? 'LinkedIn' : 'YouTube';
+                
+                // In a real app, you would implement proper sharing
+                console.log(`Sharing to ${type}`);
+                
+                // For demo purposes, we'll just show an alert
+                if (type === 'Facebook' || type === 'Twitter' || type === 'LinkedIn') {
+                    e.preventDefault();
+                    alert(`In a real implementation, this would share to ${type}`);
+                }
+            });
+        });
+
+        // ===== EMAIL VALIDATION FOR CONTACT =====
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        
+        emailLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Check if device can handle mailto
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                const isDesktopMailClient = !isMobile && navigator.userAgent.includes('Mail');
+                
+                if (!isMobile && !isDesktopMailClient) {
+                    // Suggest using webmail for desktop users without mail clients
+                    const shouldContinue = confirm(
+                        'You don\'t appear to have a mail client installed. ' +
+                        'Would you like to use webmail instead?'
+                    );
+                    
+                    if (!shouldContinue) {
+                        e.preventDefault();
+                    }
+                }
+            });
+        });
+
+        // ===== PHONE NUMBER FORMATTING =====
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        
+        phoneLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Check if device can make phone calls
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                if (!isMobile) {
+                    // On desktop, show phone number
+                    e.preventDefault();
+                    const phoneNumber = this.getAttribute('href').replace('tel:', '');
+                    alert(`Call: ${phoneNumber}\n\nOn mobile devices, this would automatically dial the number.`);
+                }
+            });
+        });
+
+        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.footer-link[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Use smooth scroll from base.js if available
+                    if (window.App && window.App.scroll) {
+                        const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+                        const targetPosition = targetElement.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // Fallback
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            }
+        });
+
+        // ===== ACCESSIBILITY ENHANCEMENTS =====
+        // Add focus styles for keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Add styles for keyboard navigation
+        const keyboardStyles = document.createElement('style');
+        keyboardStyles.textContent = `
+            .keyboard-navigation .footer-link:focus,
+            .keyboard-navigation .social-link:focus,
+            .keyboard-navigation .footer-bottom-link:focus {
+                outline: 2px solid var(--primary-500);
+                outline-offset: 2px;
+                border-radius: var(--radius-sm);
+            }
+            
+            .keyboard-navigation .fab-mobile:focus {
+                outline: 2px solid var(--white);
+                outline-offset: 2px;
+            }
+        `;
+        document.head.appendChild(keyboardStyles);
+
+        // ===== PERFORMANCE OPTIMIZATION =====
+        // Debounce resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Hide modal on mobile orientation change
+                if (helpModal.classList.contains('show') && window.innerWidth >= 768) {
+                    closeModal();
+                }
+            }, 250);
+        });
+
+        // ===== TOUCH DEVICE OPTIMIZATION =====
+        if ('ontouchstart' in window) {
+            // Increase touch targets
+            document.querySelectorAll('.footer-link, .social-link, .footer-bottom-link').forEach(el => {
+                el.style.minHeight = '44px';
+                el.style.padding = '0.5rem 0';
+            });
+
+            // Better hover effects for touch
+            document.querySelectorAll('.footer-link, .help-item').forEach(el => {
+                el.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                }, { passive: true });
+
+                el.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.classList.remove('touch-active');
+                    }, 150);
+                }, { passive: true });
+            });
+
+            // Add touch active styles
+            const touchStyles = document.createElement('style');
+            touchStyles.textContent = `
+                .footer-link.touch-active,
+                .help-item.touch-active {
+                    background: var(--bg-tertiary) !important;
+                }
+            `;
+            document.head.appendChild(touchStyles);
+        }
+
+        // ===== ANALYTICS (OPTIONAL) =====
+        // Track footer interactions (remove if not needed)
+        document.querySelectorAll('.footer-link, .social-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const linkText = this.textContent.trim() || this.querySelector('i').className;
+                console.log(`Footer link clicked: ${linkText}`);
+                // In production, you would send this to your analytics service
+                // Example: gtag('event', 'footer_click', { link_text: linkText });
+            });
+        });
+    });
+</script>

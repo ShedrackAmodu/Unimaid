@@ -1,196 +1,304 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}{{ page_title }}{% endblock %}
-{% block content %}
-<!-- bradcam_area_start -->
-<div class="bradcam_area breadcam_bg">
-  <div class="container">
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="bradcam_text">
-          <h3>{{ page_title }}</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- bradcam_area_end -->
 
-<!--================Blog Area =================-->
-<section class="blog_area section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mb-5 mb-lg-0">
-        <div class="blog_left_sidebar">
-          {% for post in posts %}
-          <article class="blog_item">
-            <div class="blog_item_img">
-              {% if post.featured_image %}
-              <img
-                class="card-img rounded-0"
-                src="{{ post.featured_image.url }}"
-                alt="{{ post.title }}"
-              />
-              {% else %}
-              <img
-                class="card-img rounded-0"
-                src="{% static 'img/blog/blog_1.png' %}"
-                alt="{{ post.title }}"
-              />
-              {% endif %}
-              <a
-                href="{% url 'blog:post_detail' post.slug %}"
-                class="blog_item_date"
-              >
-                <h3>{{ post.published_date|date:"d" }}</h3>
-                <p>{{ post.published_date|date:"M" }}</p>
-              </a>
-            </div>
+{% block extra_css %}
+<style>
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-section {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl) 0;
+        margin-bottom: var(--spacing-2xl);
+    }
 
-            <div class="blog_details">
-              <a
-                class="d-inline-block"
-                href="{% url 'blog:post_detail' post.slug %}"
-              >
-                <h2>{{ post.title }}</h2>
-              </a>
-              <p>{{ post.excerpt|default:post.content|truncatechars:200 }}</p>
-              <ul class="blog-info-link">
-                <li>
-                  <a href="{% url 'blog:category_posts' post.category.slug %}"
-                    ><i class="fa fa-tag"></i> {{ post.category.name }}</a
-                  >
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-user"></i> {{ post.author }}</a>
-                </li>
-                <li>
-                  <a href="#"
-                    ><i class="fa fa-comments"></i> {{ post.comments.count }}
-                    Comments</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </article>
-          {% empty %}
-          <div class="no-posts">
-            <h3>No posts found</h3>
-            <p>There are no blog posts to display at the moment.</p>
-          </div>
-          {% endfor %}
+    .breadcrumb-section h1 {
+        margin-bottom: 0;
+        color: var(--white);
+        font-size: var(--font-size-2xl);
+    }
 
-          <!-- Pagination -->
-          {% include 'includes/pagination.html' with page_obj=posts nav_class='blog-pagination justify-content-center d-flex' ul_class='pagination' prev_icon='' next_icon='' %}
-        </div>
-      </div>
+    /* ===== FILTERS & SEARCH ===== */
+    .blog-filters {
+        display: flex;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-xl);
+        flex-wrap: wrap;
+        align-items: center;
+    }
 
-      <!-- Blog Sidebar -->
-      <div class="col-lg-4">
-        <div class="blog_right_sidebar">
-          <!-- Featured Posts -->
-          {% if featured_posts %}
-          <aside class="single_sidebar_widget popular_post_widget">
-            <h3 class="widget_title">Featured Posts</h3>
-            {% for post in featured_posts %}
-            <div class="media post_item">
-              {% if post.featured_image %}
-              <img
-                src="{{ post.featured_image.url }}"
-                alt="{{ post.title }}"
-                style="width: 80px; height: 80px; object-fit: cover"
-              />
-              {% else %}
-              <img
-                src="{% static 'img/post/post_1.png' %}"
-                alt="{{ post.title }}"
-              />
-              {% endif %}
-              <div class="media-body">
-                <a href="{% url 'blog:post_detail' post.slug %}">
-                  <h3>{{ post.title|truncatechars:50 }}</h3>
-                </a>
-                <p>{{ post.published_date|date:"M d, Y" }}</p>
-              </div>
-            </div>
-            {% endfor %}
-          </aside>
-          {% endif %}
+    .filter-btn {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        color: var(--text-secondary);
+    }
 
-          <!-- Categories -->
-          <aside class="single_sidebar_widget post_category_widget">
-            <h4 class="widget_title">Categories</h4>
-            <ul class="list cat-list">
-              {% for category in categories %}
-              <li>
-                <a
-                  href="{% url 'blog:category_posts' category.slug %}"
-                  class="d-flex"
-                >
-                  <p>{{ category.name }}</p>
-                  <p>({{ category.posts.count }})</p>
-                </a>
-              </li>
-              {% empty %}
-              <li><p>No categories available</p></li>
-              {% endfor %}
-            </ul>
-          </aside>
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--primary-500);
+        color: var(--white);
+        border-color: var(--primary-500);
+    }
 
-          <!-- Recent Posts -->
-          <aside class="single_sidebar_widget popular_post_widget">
-            <h3 class="widget_title">Recent Posts</h3>
-            {% for post in posts|slice:":5" %}
-            <div class="media post_item">
-              {% if post.featured_image %}
-              <img
-                src="{{ post.featured_image.url }}"
-                alt="{{ post.title }}"
-                style="width: 80px; height: 80px; object-fit: cover"
-              />
-              {% else %}
-              <img
-                src="{% static 'img/post/post_1.png' %}"
-                alt="{{ post.title }}"
-              />
-              {% endif %}
-              <div class="media-body">
-                <a href="{% url 'blog:post_detail' post.slug %}">
-                  <h3>{{ post.title|truncatechars:40 }}</h3>
-                </a>
-                <p>{{ post.published_date|date:"M d, Y" }}</p>
-              </div>
-            </div>
-            {% endfor %}
-          </aside>
+    /* ===== BLOG ITEMS ===== */
+    .blog-item {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 
-          <!-- Blog Search -->
-          <aside class="single_sidebar_widget search_widget">
-            <form action="{% url 'blog:blog_search' %}" method="get">
-              <div class="form-group">
-                <div class="input-group mb-3">
-                  <input
-                    type="text"
-                    name="q"
-                    class="form-control"
-                    placeholder="Search Posts"
-                    onfocus="this.placeholder = ''"
-                    onblur="this.placeholder = 'Search Posts'"
-                    required
-                  />
-                  <div class="input-group-append">
-                    <button class="btn" type="submit">
-                      <i class="ti-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </aside>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!--================ Blog Area end =================-->
+    .blog-item:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .blog-item-image {
+        position: relative;
+        overflow: hidden;
+        height: 300px;
+    }
+
+    .blog-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-base);
+    }
+
+    .blog-item:hover .blog-item-image img {
+        transform: scale(1.05);
+    }
+
+    .blog-date-badge {
+        position: absolute;
+        top: var(--spacing-md);
+        left: var(--spacing-md);
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: var(--radius-md);
+        text-align: center;
+    }
+
+    .blog-date-badge h3 {
+        font-size: var(--font-size-2xl);
+        margin-bottom: 0;
+    }
+
+    .blog-date-badge p {
+        font-size: var(--font-size-sm);
+        margin-bottom: 0;
+    }
+
+    .blog-content {
+        padding: var(--spacing-lg);
+    }
+
+    .blog-content h2 {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .blog-meta {
+        display: flex;
+        gap: var(--spacing-lg);
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        margin-top: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    .blog-meta a {
+        color: var(--primary-500);
+        text-decoration: none;
+    }
+
+    .blog-meta a:hover {
+        text-decoration: underline;
+    }
+
+    .sidebar-widget {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+    }
+
+    .sidebar-widget h3,
+    .sidebar-widget h4 {
+        margin-bottom: var(--spacing-md);
+        color: var(--text-primary);
+    }
+
+    .category-item {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .category-item:last-child {
+        border-bottom: none;
+    }
+
+    .category-item a {
+        text-decoration: none;
+        color: var(--primary-500);
+    }
+
+    .category-item a:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Section -->
+<section class="breadcrumb-section">
+    <div class="container">
+        <h1>{{ page_title }}</h1>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="section">
+    <div class="container">
+        <div class="d-flex flex-wrap gap-4">
+            <!-- Main Blog Content -->
+            <div style="flex: 1; min-width: 300px;">
+                {% for post in posts %}
+                <article class="blog-item">
+                    <div class="blog-item-image">
+                        {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" />
+                        {% else %}
+                        <img src="{% static 'img/blog/blog_1.png' %}" alt="{{ post.title }}" />
+                        {% endif %}
+                        <div class="blog-date-badge">
+                            <h3>{{ post.published_date|date:"d" }}</h3>
+                            <p>{{ post.published_date|date:"M" }}</p>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <h2><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h2>
+                        <p>{{ post.excerpt|default:post.content|truncatechars:200 }}</p>
+                        <div class="blog-meta">
+                            <a href="{% url 'blog:category_posts' post.category.slug %}">
+                                <i class="fas fa-tag"></i> {{ post.category.name }}
+                            </a>
+                            <span><i class="fas fa-user"></i> {{ post.author }}</span>
+                            <a href="{% url 'blog:post_detail' post.slug %}#comments">
+                                <i class="fas fa-comments"></i> {{ post.comments.count }} Comments
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="bg-secondary p-4 rounded-lg text-center">
+                    <h3 class="text-secondary">No posts found</h3>
+                    <p class="text-tertiary">There are no blog posts to display at the moment.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar -->
+            <aside style="width: 300px;">
+                {% if featured_posts %}
+                <div class="sidebar-widget">
+                    <h3>Featured Posts</h3>
+                    {% for post in featured_posts %}
+                    <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; gap: var(--spacing-md);">
+                            {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" 
+                                 style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-md);" />
+                            {% else %}
+                            <img src="{% static 'img/post/post_1.png' %}" alt="{{ post.title }}"
+                                 style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-md);" />
+                            {% endif %}
+                            <div style="flex: 1;">
+                                <a href="{% url 'blog:post_detail' post.slug %}" 
+                                   style="font-weight: 600; color: var(--text-primary); text-decoration: none;">
+                                    {{ post.title|truncatechars:40 }}
+                                </a>
+                                <p style="margin: 0.5rem 0 0; font-size: var(--font-size-sm); color: var(--text-tertiary);">
+                                    {{ post.published_date|date:"M d, Y" }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Categories Widget -->
+                <div class="sidebar-widget">
+                    <h4>Categories</h4>
+                    {% for category in categories %}
+                    <div class="category-item">
+                        <a href="{% url 'blog:category_posts' category.slug %}">{{ category.name }}</a>
+                        <span style="color: var(--text-tertiary);">({{ category.posts.count }})</span>
+                    </div>
+                    {% empty %}
+                    <p style="color: var(--text-tertiary);">No categories available</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="sidebar-widget">
+                    <h3>Recent Posts</h3>
+                    {% for post in posts|slice:":5" %}
+                    <div style="padding: var(--spacing-md); border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; gap: var(--spacing-md);">
+                            {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"
+                                 style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-md);" />
+                            {% else %}
+                            <img src="{% static 'img/post/post_1.png' %}" alt="{{ post.title }}"
+                                 style="width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-md);" />
+                            {% endif %}
+                            <div style="flex: 1;">
+                                <a href="{% url 'blog:post_detail' post.slug }}"
+                                   style="font-weight: 600; color: var(--text-primary); text-decoration: none;">
+                                    {{ post.title|truncatechars:30 }}
+                                </a>
+                                <p style="margin: 0.5rem 0 0; font-size: var(--font-size-sm); color: var(--text-tertiary);">
+                                    {{ post.published_date|date:"M d, Y" }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Search Widget -->
+                <div class="sidebar-widget">
+                    <h4>Search Posts</h4>
+                    <form action="{% url 'blog:blog_search' %}" method="get">
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <input type="text" name="q" class="btn" 
+                                   style="flex: 1; background: var(--bg-secondary); padding: var(--spacing-md); border: none; border-radius: var(--radius-md);"
+                                   placeholder="Search posts..." required />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

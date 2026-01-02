@@ -1,12 +1,9 @@
 # 📚 University of Maiduguri Library Management System
 
-[![Django](https://img.shields.io/badge/Django-5.2.7-green.svg)](https://djangoproject.com/)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A comprehensive, modern library management system built with Django for the University of Maiduguri. Features advanced cataloging, user management, analytics, and a beautiful responsive interface.
 
-![Library Management System](https://img.shields.io/badge/Status-Active-success?style=for-the-badge&logo=github)
+
 
 ## ✨ Features
 
@@ -39,7 +36,6 @@ A comprehensive, modern library management system built with Django for the Univ
 - **Email Notifications**: Automated reminders, due notices, and updates
 - **SMS Integration**: Text message notifications for urgent alerts
 - **Notification Templates**: Customizable message templates
-- **Asynchronous Processing**: Celery-based background email sending
 
 ### 🌐 Web Features
 - **Responsive Design**: Mobile-first Bootstrap 4 interface
@@ -59,8 +55,7 @@ A comprehensive, modern library management system built with Django for the Univ
 
 ### Prerequisites
 - Python 3.8+
-- Redis (for Celery)
-- PostgreSQL/MySQL (recommended) or SQLite (development)
+SQLite (development)
 
 ### Installation
 
@@ -81,30 +76,11 @@ A comprehensive, modern library management system built with Django for the Univ
    pip install -r requirements.txt
    ```
 
-4. **Environment setup**
-   ```bash
-   cp .env.example .env  # Configure your environment variables
-   ```
 
 5. **Database setup**
    ```bash
    python manage.py migrate
    python manage.py createsuperuser
-   ```
-
-6. **Load sample data** (optional)
-   ```bash
-   python manage.py loaddata sample_data.json
-   ```
-
-7. **Start Redis server**
-   ```bash
-   redis-server
-   ```
-
-8. **Start Celery worker**
-   ```bash
-   celery -A library worker -l info
    ```
 
 9. **Run development server**
@@ -138,37 +114,13 @@ A comprehensive, modern library management system built with Django for the Univ
 
 ## 🏗️ Project Structure
 
-```
-library/
-├── catalog/          # Book catalog and circulation management
-├── core/            # Main pages, events, and contact forms
-├── blog/            # News and announcements
-├── staff/           # Staff directory
-├── repository/      # Document management
-├── static/          # CSS, JS, images
-├── templates/       # HTML templates
-├── media/           # User uploaded files
-└── library/         # Django project settings
-```
+
 
 ## 🔧 Configuration
 
-### Key Settings
-
-**Library Policies** (`settings.py`):
-```python
-LIBRARY_SETTINGS = {
-    "DEFAULT_LOAN_DAYS": 14,
-    "MAX_BOOKS_PER_PATRON": 5,
-    "OVERDUE_FINE_PER_DAY": 0.50,
-    "RESERVATION_EXPIRY_DAYS": 7,
-    "MAX_RESERVATIONS_PER_PATRON": 3,
-}
-```
 
 **Email Configuration**:
 - Supports Gmail, SMTP, and other providers
-- Asynchronous sending with Celery
 - HTML and plain text templates
 
 **API Configuration**:
@@ -184,60 +136,10 @@ The system provides a comprehensive REST API:
 - `POST /api/loans/` - Create new loans
 - `GET /api/patrons/{id}/` - Patron details
 - `GET /api/analytics/` - System analytics
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-python manage.py test
-
-# Run specific app tests
-python manage.py test catalog
-
-# Generate coverage report
-coverage run manage.py test
-coverage report
-```
+`
 
 ## 📦 Deployment
 
-### Production Checklist
-- [ ] Set `DEBUG = False`
-- [ ] Configure production database
-- [ ] Set up email backend
-- [ ] Configure static files serving
-- [ ] Set up SSL certificate
-- [ ] Configure Redis for production
-- [ ] Set up monitoring and logging
-
-### Docker Support
-```dockerfile
-# Basic Dockerfile included
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-- Follow PEP 8 style guide
-- Write tests for new features
-- Update documentation
-- Use meaningful commit messages
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -252,9 +154,3 @@ For support and questions:
 - Issues: [GitHub Issues](https://github.com/ShedrackAmodu/Unimaid/issues)
 - Documentation: [Wiki](https://github.com/ShedrackAmodu/Unimaid/wiki)
 
----
-
-<div align="center">
-  <p><strong>University of Maiduguri Library Management System</strong></p>
-  <p>Built with ❤️ for the academic community</p>
-</div>

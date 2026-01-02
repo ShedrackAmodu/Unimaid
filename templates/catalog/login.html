@@ -1,80 +1,431 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Login - Ramat
-Library Unimaid{% endblock %} {% block content %}
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white text-center">
-          <h4 class="mb-0"><i class="fa fa-sign-in"></i> Library Login</h4>
-        </div>
-        <div class="card-body">
-          {% if messages %} {% for message in messages %}
-          <div
-            class="alert alert-{{ message.tags }} alert-dismissible fade show"
-            role="alert"
-          >
-            {{ message }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endfor %} {% endif %}
+{% extends 'base.html' %}
+{% load static %}
 
-          <form method="post">
-            {% csrf_token %}
+{% block title %}Login - Ramat Library{% endblock %}
 
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
-                class="form-control"
-                id="username"
-                name="username"
-                placeholder="Enter your username"
-                required
-              />
+{% block extra_css %}
+<style>
+    /* ===== AUTH PAGE ===== */
+    .auth-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-xl);
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    /* ===== CARD ===== */
+    .auth-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease;
+    }
+
+    .card-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl);
+        text-align: center;
+    }
+
+    .card-header h4 {
+        margin-bottom: 0;
+        color: var(--white);
+        font-size: var(--font-size-xl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-md);
+    }
+
+    .card-header i {
+        font-size: var(--font-size-2xl);
+    }
+
+    .card-body {
+        padding: var(--spacing-2xl);
+    }
+
+    .card-footer {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+    }
+
+    /* ===== FORMS ===== */
+    .form-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        font-family: var(--font-sans);
+        font-size: var(--font-size-base);
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        transition: all var(--transition-fast);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-outline-primary {
+        background: transparent;
+        color: var(--primary-500);
+        border: 2px solid var(--primary-500);
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== ALERTS ===== */
+    .alert {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+        animation: fadeInUp 0.3s ease;
+    }
+
+    .alert i {
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+
+    .alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border-left: 4px solid var(--success);
+        color: #047857;
+    }
+
+    .alert-error,
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 4px solid var(--danger);
+        color: #7f1d1d;
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .alert-info {
+        background: rgba(0, 102, 204, 0.1);
+        border-left: 4px solid var(--primary-500);
+        color: #1e40af;
+    }
+
+    .alert-dismissible {
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: inherit;
+        opacity: 0.5;
+        transition: opacity var(--transition-fast);
+    }
+
+    .close:hover {
+        opacity: 1;
+    }
+
+    /* ===== LINKS ===== */
+    .text-center {
+        text-align: center;
+    }
+
+    .text-center p {
+        margin-bottom: var(--spacing-md);
+        color: var(--text-secondary);
+    }
+
+    .text-center a {
+        color: var(--primary-500);
+        font-weight: 600;
+        transition: color var(--transition-fast);
+    }
+
+    .text-center a:hover {
+        color: var(--primary-600);
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: var(--spacing-lg) 0;
+        color: var(--text-tertiary);
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border-color);
+    }
+
+    .divider span {
+        padding: 0 var(--spacing-md);
+    }
+
+    /* ===== REMEMBER & FORGOT ===== */
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .form-check input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .forgot-link {
+        text-align: right;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .forgot-link a {
+        color: var(--primary-500);
+        font-size: var(--font-size-sm);
+        transition: color var(--transition-fast);
+    }
+
+    .forgot-link a:hover {
+        color: var(--primary-600);
+        text-decoration: underline;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+        .auth-section {
+            padding: var(--spacing-md);
+        }
+
+        .card-body {
+            padding: var(--spacing-lg);
+        }
+
+        .auth-card {
+            border-radius: var(--radius-md);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Close alert buttons
+        document.querySelectorAll('.close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+                this.parentElement.style.animation = 'fadeOut 0.3s ease';
+            });
+        });
+
+        // Form validation
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const username = document.querySelector('input[name="username"]');
+                const password = document.querySelector('input[name="password"]');
+                
+                if (!username.value.trim()) {
+                    e.preventDefault();
+                    username.focus();
+                    username.style.borderColor = 'var(--danger)';
+                }
+                if (!password.value.trim()) {
+                    e.preventDefault();
+                    password.focus();
+                    password.style.borderColor = 'var(--danger)';
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h4>
+                    <i class="fa fa-sign-in"></i> Library Login
+                </h4>
             </div>
 
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-              />
+            <!-- Card Body -->
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="fa fa-{% if 'success' in message.tags %}check-circle{% elif 'error' in message.tags %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                        <div>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fa fa-user"></i> Username
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fa fa-lock"></i> Password
+                        </label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="remember"
+                            name="remember"
+                        />
+                        <label class="form-check-label" for="remember">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="forgot-link">
+                        <a href="#">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-sign-in"></i> Login
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>New to Ramat?</span>
+                </div>
+
+                <p class="text-center">
+                    Don't have an account yet? Create one now to access the library services.
+                </p>
+                <a href="{% url 'catalog:register' %}" class="btn btn-outline-primary">
+                    <i class="fa fa-user-plus"></i> Create Account
+                </a>
             </div>
 
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block">
-                <i class="fa fa-sign-in"></i> Login
-              </button>
+            <!-- Card Footer -->
+            <div class="card-footer">
+                <p style="margin-bottom: 0;">
+                    <i class="fa fa-shield"></i> Your information is secure with us.
+                </p>
             </div>
-          </form>
-
-          <div class="text-center">
-            <p class="mb-0">Don't have an account?</p>
-            <a
-              href="{% url 'catalog:register' %}"
-              class="btn btn-outline-primary btn-sm"
-            >
-              <i class="fa fa-user-plus"></i> Register Here
-            </a>
-          </div>
         </div>
 
-        <div class="card-footer text-center text-muted">
-          <small>Welcome to Ramat Library Unimaid</small>
+        <!-- Additional Info -->
+        <div style="text-align: center; margin-top: var(--spacing-lg); color: var(--text-tertiary); font-size: var(--font-size-sm);">
+            <p>Welcome to Ramat Library - University of Maiduguri</p>
+            <p>
+                <a href="{% url 'core:home' %}" style="color: var(--primary-500);">Back to Home</a> |
+                <a href="{% url 'core:contact' %}" style="color: var(--primary-500);">Need Help?</a>
+            </p>
         </div>
-      </div>
     </div>
-  </div>
-</div>
+</section>
 {% endblock %}

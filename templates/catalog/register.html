@@ -1,177 +1,543 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Register - Ramat
-Library Unimaid{% endblock %} {% block content %}
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white text-center">
-          <h4 class="mb-0">
-            <i class="fa fa-user-plus"></i> Library Registration
-          </h4>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Ramat Library{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== AUTH PAGE ===== */
+    .auth-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-xl);
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    /* ===== CARD ===== */
+    .auth-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease;
+    }
+
+    .card-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-2xl);
+        text-align: center;
+    }
+
+    .card-header h4 {
+        margin-bottom: 0;
+        color: var(--white);
+        font-size: var(--font-size-xl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-md);
+    }
+
+    .card-header i {
+        font-size: var(--font-size-2xl);
+    }
+
+    .card-body {
+        padding: var(--spacing-2xl);
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .card-footer {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+    }
+
+    /* ===== FORMS ===== */
+    .form-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: var(--spacing-md);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        font-family: var(--font-sans);
+        font-size: var(--font-size-base);
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        transition: all var(--transition-fast);
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-outline-primary {
+        background: transparent;
+        color: var(--primary-500);
+        border: 2px solid var(--primary-500);
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-500);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
+    /* ===== ALERTS ===== */
+    .alert {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+        animation: fadeInUp 0.3s ease;
+    }
+
+    .alert i {
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+
+    .alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border-left: 4px solid var(--success);
+        color: #047857;
+    }
+
+    .alert-error,
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 4px solid var(--danger);
+        color: #7f1d1d;
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .alert-dismissible {
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: inherit;
+        opacity: 0.5;
+        transition: opacity var(--transition-fast);
+    }
+
+    .close:hover {
+        opacity: 1;
+    }
+
+    /* ===== PROGRESS ===== */
+    .progress {
+        height: 4px;
+        background: var(--bg-secondary);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--gradient-primary);
+        transition: width 0.3s ease;
+    }
+
+    /* ===== TEXT STYLES ===== */
+    .text-center {
+        text-align: center;
+    }
+
+    .text-center p {
+        margin-bottom: var(--spacing-md);
+        color: var(--text-secondary);
+    }
+
+    .text-muted {
+        color: var(--text-tertiary);
+        font-size: var(--font-size-sm);
+    }
+
+    .required {
+        color: var(--danger);
+        margin-left: 2px;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: var(--spacing-lg) 0;
+        color: var(--text-tertiary);
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border-color);
+    }
+
+    .divider span {
+        padding: 0 var(--spacing-md);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+        .auth-section {
+            padding: var(--spacing-md);
+        }
+
+        .card-body {
+            padding: var(--spacing-lg);
+            max-height: 80vh;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-card {
+            border-radius: var(--radius-md);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Close alert buttons
+        document.querySelectorAll('.close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+                this.parentElement.style.animation = 'fadeOut 0.3s ease';
+            });
+        });
+
+        // Password strength indicator
+        const passwordInput = document.querySelector('input[name="password"]');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const strength = calculatePasswordStrength(this.value);
+                updatePasswordStrengthIndicator(strength);
+            });
+        }
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/i) && password.match(/[0-9]/)) strength++;
+            if (password.match(/[!@#$%^&*]/)) strength++;
+            return strength;
+        }
+
+        function updatePasswordStrengthIndicator(strength) {
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                const widths = ['0%', '33%', '66%', '100%'];
+                progressBar.style.width = widths[strength];
+            }
+        }
+
+        // Form validation
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        e.preventDefault();
+                        field.focus();
+                        field.style.borderColor = 'var(--danger)';
+                        isValid = false;
+                    }
+                });
+
+                if (!isValid) {
+                    console.error('Please fill out all required fields');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h4>
+                    <i class="fa fa-user-plus"></i> Library Registration
+                </h4>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                        <i class="fa fa-{% if 'success' in message.tags %}check-circle{% elif 'error' in message.tags %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                        <div>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Personal Information Section -->
+                    <h5 style="margin-bottom: var(--spacing-lg); color: var(--text-primary);">
+                        <i class="fa fa-info-circle"></i> Personal Information
+                    </h5>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first_name">
+                                First Name <span class="required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="first_name"
+                                name="first_name"
+                                placeholder="Enter your first name"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="last_name"
+                                name="last_name"
+                                placeholder="Enter your last name"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fa fa-envelope"></i> Email <span class="required">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            required
+                        />
+                        <p class="text-muted" style="margin-top: var(--spacing-sm);">
+                            <i class="fa fa-info-circle"></i> We'll never share your email with anyone else
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fa fa-phone"></i> Phone Number
+                        </label>
+                        <input
+                            type="tel"
+                            class="form-control"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter your phone number"
+                        />
+                    </div>
+
+                    <!-- Account Credentials Section -->
+                    <h5 style="margin: var(--spacing-xl) 0 var(--spacing-lg); color: var(--text-primary); border-top: 1px solid var(--border-color); padding-top: var(--spacing-lg);">
+                        <i class="fa fa-lock"></i> Account Credentials
+                    </h5>
+
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fa fa-user"></i> Username <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            placeholder="Choose a unique username"
+                            required
+                        />
+                        <p class="text-muted" style="margin-top: var(--spacing-sm);">
+                            3-20 characters, letters, numbers, and underscores only
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fa fa-lock"></i> Password <span class="required">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Create a strong password"
+                            required
+                        />
+                        <div class="progress" style="margin-top: var(--spacing-sm);">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <p class="text-muted">
+                            <i class="fa fa-shield"></i> Use at least 8 characters with numbers and symbols for stronger security
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">
+                            <i class="fa fa-lock"></i> Confirm Password <span class="required">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Re-enter your password"
+                            required
+                        />
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-md); margin: var(--spacing-lg) 0;">
+                        <div style="display: flex; gap: var(--spacing-md); align-items: flex-start;">
+                            <input 
+                                type="checkbox" 
+                                id="terms" 
+                                name="terms" 
+                                required
+                                style="margin-top: 4px; cursor: pointer;"
+                            />
+                            <label for="terms" style="cursor: pointer; margin-bottom: 0;">
+                                I agree to the <a href="#" style="color: var(--primary-500);">Terms & Conditions</a> and <a href="#" style="color: var(--primary-500);">Privacy Policy</a> <span class="required">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin: var(--spacing-lg) 0;">
+                        <i class="fa fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>Already have an account?</span>
+                </div>
+
+                <p class="text-center">
+                    Sign in to your existing account to access all library features.
+                </p>
+                <a href="{% url 'catalog:login' %}" class="btn btn-outline-primary">
+                    <i class="fa fa-sign-in"></i> Login Here
+                </a>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer">
+                <p style="margin-bottom: 0;">
+                    <i class="fa fa-shield"></i> All data is encrypted and secure
+                </p>
+            </div>
         </div>
-        <div class="card-body">
-          {% if messages %} {% for message in messages %}
-          <div
-            class="alert alert-{{ message.tags }} alert-dismissible fade show"
-            role="alert"
-          >
-            {{ message }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endfor %} {% endif %}
 
-          <form method="post">
-            {% csrf_token %}
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="id_first_name">First Name *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="id_first_name"
-                    name="first_name"
-                    placeholder="Enter your first name"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="id_last_name">Last Name *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="id_last_name"
-                    name="last_name"
-                    placeholder="Enter your last name"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="id_username">Username *</label>
-              <input
-                type="text"
-                class="form-control"
-                id="id_username"
-                name="username"
-                placeholder="Choose a username"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="id_email">Email Address *</label>
-              <input
-                type="email"
-                class="form-control"
-                id="id_email"
-                name="email"
-                placeholder="Enter your email address"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="id_membership_type">Membership Type *</label>
-              <select
-                class="form-control"
-                id="id_membership_type"
-                name="membership_type"
-                required
-              >
-                <option value="public" selected>Public Member</option>
-                <option value="student">Student</option>
-                <option value="faculty">Faculty/Staff</option>
-                <option value="special">Special Access</option>
-              </select>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="id_password1">Password *</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="id_password1"
-                    name="password1"
-                    placeholder="Create a password"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="id_password2">Confirm Password *</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="id_password2"
-                    name="password2"
-                    placeholder="Confirm your password"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="id_phone">Phone Number</label>
-              <input
-                type="tel"
-                class="form-control"
-                id="id_phone"
-                name="phone"
-                placeholder="Enter your phone number (optional)"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="id_address">Address</label>
-              <textarea
-                class="form-control"
-                id="id_address"
-                name="address"
-                rows="3"
-                placeholder="Enter your address (optional)"
-              ></textarea>
-            </div>
-
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block">
-                <i class="fa fa-user-plus"></i> Create Account
-              </button>
-            </div>
-          </form>
-
-          <div class="text-center">
-            <p class="mb-0">Already have an account?</p>
-            <a
-              href="{% url 'catalog:login' %}"
-              class="btn btn-outline-primary btn-sm"
-            >
-              <i class="fa fa-sign-in"></i> Login Here
-            </a>
-          </div>
+        <!-- Additional Info -->
+        <div style="text-align: center; margin-top: var(--spacing-lg); color: var(--text-tertiary); font-size: var(--font-size-sm);">
+            <p>Join Ramat Library - University of Maiduguri</p>
+            <p>
+                <a href="{% url 'core:home' %}" style="color: var(--primary-500);">Back to Home</a> |
+                <a href="{% url 'core:contact' %}" style="color: var(--primary-500);">Contact Support</a>
+            </p>
         </div>
-
-        <div class="card-footer text-center text-muted">
-          <small>Welcome to Ramat Library Unimaid</small>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
+</section>
 {% endblock %}
