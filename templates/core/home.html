@@ -328,6 +328,150 @@
         font-size: var(--font-size-sm);
     }
 
+    /* ===== WELCOME SECTION ===== */
+    .welcome-section {
+        position: relative;
+        padding: var(--spacing-2xl) 0;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        overflow: hidden;
+    }
+
+    .welcome-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('{% static "img/banner/banner1.png" %}');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        z-index: 1;
+    }
+
+    .welcome-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-lg);
+    }
+
+    .welcome-content {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: var(--spacing-2xl);
+        align-items: center;
+    }
+
+    .welcome-text {
+        color: var(--text-primary);
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: var(--spacing-lg);
+        color: var(--text-primary);
+        line-height: 1.2;
+    }
+
+    .welcome-subtitle {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        margin-bottom: var(--spacing-md);
+        color: var(--primary-600);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .welcome-message {
+        font-size: var(--font-size-lg);
+        line-height: 1.7;
+        margin-bottom: var(--spacing-xl);
+        color: var(--text-secondary);
+    }
+
+    .welcome-quote {
+        border-left: 4px solid var(--primary-500);
+        padding-left: var(--spacing-lg);
+        font-style: italic;
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing-lg);
+        position: relative;
+    }
+
+    .welcome-quote::before {
+        content: '"';
+        font-size: 3rem;
+        color: var(--primary-500);
+        position: absolute;
+        left: -10px;
+        top: -15px;
+        font-family: serif;
+    }
+
+    .librarian-signature {
+        font-weight: 600;
+        color: var(--primary-600);
+        margin-top: var(--spacing-md);
+    }
+
+    .librarian-title {
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        font-weight: 500;
+    }
+
+    .welcome-image-container {
+        position: relative;
+        text-align: center;
+    }
+
+    .welcome-image {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        border: 3px solid var(--white);
+    }
+
+    .welcome-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl);
+    }
+
+    .welcome-stat {
+        text-align: center;
+        padding: var(--spacing-lg);
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        transition: transform var(--transition-base);
+    }
+
+    .welcome-stat:hover {
+        transform: translateY(-4px);
+    }
+
+    .welcome-stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary-600);
+        display: block;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .welcome-stat-label {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
     /* ===== NEWS SECTION ===== */
     .news-section {
         background: var(--bg-tertiary);
@@ -497,6 +641,39 @@
         .news-section .section-title {
             font-size: 2rem;
         }
+
+        /* Welcome section responsive */
+        .welcome-content {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+        }
+
+        .welcome-subtitle {
+            font-size: var(--font-size-base);
+        }
+
+        .welcome-message {
+            font-size: var(--font-size-base);
+        }
+
+        .welcome-quote {
+            padding-left: var(--spacing-md);
+            font-size: var(--font-size-base);
+        }
+
+        .welcome-stats {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .welcome-image-container {
+            order: -1; /* Show image first on mobile */
+        }
     }
 
     /* Tablet */
@@ -599,6 +776,66 @@
         <div class="hero-content fade-in-up">
             <div class="hero-buttons">
                 <a href="{% url 'repository:doc_list' %}" class="btn btn-secondary">Browse Repository</a>
+                <form action="{% url 'catalog:search' %}" method="get" class="d-flex" style="gap:8px; align-items:center;"> 
+                    <label for="hero-search" class="sr-only">Search</label>
+                    <input id="hero-search" name="q" type="search" placeholder="Search the library..." class="form-control" aria-label="Search the library" style="min-width:260px;" />
+                    <button type="submit" class="btn btn-primary">Search Catalog</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Welcome Section -->
+<section class="welcome-section">
+    <div class="welcome-container">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <div class="welcome-subtitle">A Message from Our Librarian</div>
+                <h2 class="welcome-title">Welcome to Ramat Library</h2>
+                <div class="welcome-message">
+                    <p>
+                        As the Chief Librarian of the University of Maiduguri, I am delighted to extend a warm welcome
+                        to you. Our library stands as a beacon of knowledge and learning, dedicated to supporting the
+                        academic excellence and research endeavors of our university community.
+                    </p>
+                    <p>
+                        Whether you're a student embarking on your academic journey, a researcher pursuing groundbreaking
+                        discoveries, or a faculty member seeking scholarly resources, our doors are always open. We pride
+                        ourselves on our extensive collection of books, journals, digital resources, and cutting-edge
+                        technology that empowers your intellectual pursuits.
+                    </p>
+                </div>
+
+                <div class="welcome-quote">
+                    Knowledge is the foundation of progress, and our library is committed to providing you with
+                    the tools and resources necessary to achieve your goals. Together, let us build a future
+                    enriched by learning and discovery.
+                </div>
+
+                <div class="librarian-signature">
+                    Dr. Ahmadu Bello
+                    <div class="librarian-title">Chief Librarian</div>
+                </div>
+
+                <div class="welcome-stats">
+                    <div class="welcome-stat">
+                        <span class="welcome-stat-number">50,000+</span>
+                        <span class="welcome-stat-label">Books & Journals</span>
+                    </div>
+                    <div class="welcome-stat">
+                        <span class="welcome-stat-number">24/7</span>
+                        <span class="welcome-stat-label">Digital Access</span>
+                    </div>
+                    <div class="welcome-stat">
+                        <span class="welcome-stat-number">15+</span>
+                        <span class="welcome-stat-label">Years of Service</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-image-container">
+                <img src="{% static 'img/banner/banner1.png' %}" alt="Ramat Library Interior" class="welcome-image">
             </div>
         </div>
     </div>
@@ -708,7 +945,7 @@
                 <div class="action-content">
                     <h3 class="card-title mb-2">Search Library Catalog</h3>
                     <p class="card-text mb-3">Find books, journals, and other materials in our collection using our advanced search system.</p>
-                    <a href="{% url 'core:search' %}" class="btn btn-primary">
+                    <a href="{% url 'catalog:search' %}" class="btn btn-primary">
                         <i class="fas fa-arrow-right"></i>
                         Search Catalog
                     </a>
