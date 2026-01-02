@@ -9,6 +9,11 @@
                 {% if user.is_authenticated %}
                 <div class="user-welcome">
                     <span class="welcome-text">Welcome back, {{ user.first_name|default:user.username }}!</span>
+                    <span class="auth-separator">|</span>
+                    <a href="{% url 'catalog:logout' %}" class="auth-link logout-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
                 </div>
                 {% else %}
                 <div class="auth-section">
@@ -24,17 +29,12 @@
                 </div>
                 {% endif %}
 
-                <!-- Center Links -->
+                <!-- Center Welcome Message -->
                 <div class="top-nav-center">
-                    <a href="{% url 'core:events' %}" class="top-nav-link">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events</span>
-                    </a>
-                    <span class="nav-separator">|</span>
-                    <a href="{% url 'core:contact' %}" class="top-nav-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Help</span>
-                    </a>
+                    <div class="welcome-message">
+                        <i class="fas fa-hand-paper welcome-wave"></i>
+                        <span>Welcome to Ramat Library</span>
+                    </div>
                 </div>
 
                 <!-- Contact Info -->

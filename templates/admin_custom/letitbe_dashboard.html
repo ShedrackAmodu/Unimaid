@@ -6,171 +6,273 @@
 {% block content %}
 <section class="section">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1>{{ title }}</h1>
-                <p class="text-secondary mb-0">Custom administration panel for library staff.</p>
-            </div>
-            <div>
-                <a class="btn btn-outline-primary me-2" href="{{ django_admin_url }}">Django Admin</a>
-                <a class="btn btn-secondary" href="{% url 'core:home' %}">Back to Site</a>
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1 class="dashboard-title">{{ title }}</h1>
+                    <p class="dashboard-subtitle">Professional administration panel for UNIMAID Library staff</p>
+                </div>
+                <div class="header-actions">
+                    <a class="btn btn-outline-primary" href="{{ django_admin_url }}">
+                        <i class="fas fa-cogs me-2"></i>
+                        Django Admin
+                    </a>
+                    <a class="btn btn-outline-danger" href="{% url 'catalog:logout' %}">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        Logout
+                    </a>
+                    <a class="btn btn-secondary" href="{% url 'core:home' %}">
+                        <i class="fas fa-home me-2"></i>
+                        Back to Site
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Statistics Cards -->
-        <div class="grid grid-4 gap-4 mb-5">
-            <div class="card stat-card">
-                <div class="card-body text-center">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-content">
                     <div class="stat-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-number">{{ total_users }}</div>
-                    <div class="stat-label">Total Users</div>
+                    <div class="stat-info">
+                        <div class="stat-number">{{ total_users }}</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i>
+                            Active members
+                        </div>
+                    </div>
                 </div>
+                <div class="stat-card-bg"></div>
             </div>
 
-            <div class="card stat-card">
-                <div class="card-body text-center">
+            <div class="stat-card">
+                <div class="stat-card-content">
                     <div class="stat-icon">
                         <i class="fas fa-book"></i>
                     </div>
-                    <div class="stat-number">{{ total_books }}</div>
-                    <div class="stat-label">Repository Items</div>
+                    <div class="stat-info">
+                        <div class="stat-number">{{ total_books }}</div>
+                        <div class="stat-label">Repository Items</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-database"></i>
+                            Digital resources
+                        </div>
+                    </div>
                 </div>
+                <div class="stat-card-bg"></div>
             </div>
 
-            <div class="card stat-card">
-                <div class="card-body text-center">
+            <div class="stat-card">
+                <div class="stat-card-content">
                     <div class="stat-icon">
                         <i class="fas fa-newspaper"></i>
                     </div>
-                    <div class="stat-number">{{ total_posts }}</div>
-                    <div class="stat-label">Blog Posts</div>
+                    <div class="stat-info">
+                        <div class="stat-number">{{ total_posts }}</div>
+                        <div class="stat-label">Blog Posts</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-pen"></i>
+                            Published content
+                        </div>
+                    </div>
                 </div>
+                <div class="stat-card-bg"></div>
             </div>
 
-            <div class="card stat-card">
-                <div class="card-body text-center">
+            <div class="stat-card">
+                <div class="stat-card-content">
                     <div class="stat-icon">
                         <i class="fas fa-user-tie"></i>
                     </div>
-                    <div class="stat-number">{{ total_staff }}</div>
-                    <div class="stat-label">Staff Members</div>
+                    <div class="stat-info">
+                        <div class="stat-number">{{ total_staff }}</div>
+                        <div class="stat-label">Staff Members</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-briefcase"></i>
+                            Library personnel
+                        </div>
+                    </div>
                 </div>
+                <div class="stat-card-bg"></div>
             </div>
         </div>
 
         <!-- Management Sections -->
-        <div class="grid grid-2 gap-4">
+        <div class="management-grid">
             <!-- Content Management -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title mb-0">
-                        <i class="fas fa-edit me-2"></i>
-                        Content Management
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="admin-actions">
-                        <a href="{% url 'core:letitbe_content' %}" class="admin-action-item">
-                            <i class="fas fa-file-alt"></i>
-                            <div>
-                                <strong>Blog Posts</strong>
-                                <small>Manage news and announcements</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_repository' %}" class="admin-action-item">
-                            <i class="fas fa-database"></i>
-                            <div>
-                                <strong>Repository</strong>
-                                <small>Digital documents and resources</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_events' %}" class="admin-action-item">
-                            <i class="fas fa-calendar"></i>
-                            <div>
-                                <strong>Events</strong>
-                                <small>Library events and schedules</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_divisions' %}" class="admin-action-item">
-                            <i class="fas fa-sitemap"></i>
-                            <div>
-                                <strong>Divisions</strong>
-                                <small>Library organization structure</small>
-                            </div>
-                        </a>
+            <div class="management-card">
+                <div class="management-card-header">
+                    <div class="management-icon">
+                        <i class="fas fa-edit"></i>
                     </div>
+                    <div class="management-title">
+                        <h3>Content Management</h3>
+                        <p>Manage library content and resources</p>
+                    </div>
+                </div>
+                <div class="management-actions">
+                    <a href="{% url 'core:letitbe_content' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Blog Posts</strong>
+                            <small>News, announcements & articles</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_repository' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Repository</strong>
+                            <small>Digital documents & resources</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_events' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Events</strong>
+                            <small>Library events & schedules</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_divisions' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Divisions</strong>
+                            <small>Library organization structure</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
 
             <!-- User Management -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title mb-0">
-                        <i class="fas fa-users-cog me-2"></i>
-                        User Management
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="admin-actions">
-                        <a href="{% url 'core:letitbe_users' %}" class="admin-action-item">
-                            <i class="fas fa-user-friends"></i>
-                            <div>
-                                <strong>All Users</strong>
-                                <small>Manage user accounts</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_staff' %}" class="admin-action-item">
-                            <i class="fas fa-user-tie"></i>
-                            <div>
-                                <strong>Staff</strong>
-                                <small>Library staff management</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_contacts' %}" class="admin-action-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <strong>Contacts</strong>
-                                <small>Manage contact messages</small>
-                            </div>
-                        </a>
-
-                        <a href="{% url 'core:letitbe_subscribers' %}" class="admin-action-item">
-                            <i class="fas fa-mail-bulk"></i>
-                            <div>
-                                <strong>Subscribers</strong>
-                                <small>Newsletter subscribers</small>
-                            </div>
-                        </a>
+            <div class="management-card">
+                <div class="management-card-header">
+                    <div class="management-icon">
+                        <i class="fas fa-users-cog"></i>
                     </div>
+                    <div class="management-title">
+                        <h3>User Management</h3>
+                        <p>Manage users, staff & communications</p>
+                    </div>
+                </div>
+                <div class="management-actions">
+                    <a href="{% url 'core:letitbe_users' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>All Users</strong>
+                            <small>User accounts & permissions</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_staff' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Staff</strong>
+                            <small>Library staff management</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_contacts' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Contacts</strong>
+                            <small>Contact messages & inquiries</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'core:letitbe_subscribers' %}" class="action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-mail-bulk"></i>
+                        </div>
+                        <div class="action-content">
+                            <strong>Subscribers</strong>
+                            <small>Newsletter subscriptions</small>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- System Information -->
-        <div class="card mt-4">
-            <div class="card-header">
-                <h3 class="card-title mb-0">
-                    <i class="fas fa-info-circle me-2"></i>
-                    System Information
-                </h3>
+        <div class="system-card">
+            <div class="system-card-header">
+                <div class="system-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="system-title">
+                    <h3>System Information</h3>
+                    <p>Technical details & version info</p>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="grid grid-3 gap-4">
-                    <div class="system-info">
-                        <strong>Django Version:</strong> {{ django_version }}
+            <div class="system-info-grid">
+                <div class="system-info-item">
+                    <div class="system-info-icon">
+                        <i class="fab fa-python"></i>
                     </div>
-                    <div class="system-info">
-                        <strong>Python Version:</strong> {{ python_version }}
+                    <div class="system-info-content">
+                        <strong>{{ python_version }}</strong>
+                        <small>Python Version</small>
                     </div>
-                    <div class="system-info">
-                        <strong>Last Updated:</strong> {{ last_updated }}
+                </div>
+                <div class="system-info-item">
+                    <div class="system-info-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="system-info-content">
+                        <strong>{{ django_version }}</strong>
+                        <small>Django Framework</small>
+                    </div>
+                </div>
+                <div class="system-info-item">
+                    <div class="system-info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="system-info-content">
+                        <strong>{{ last_updated }}</strong>
+                        <small>Last Updated</small>
                     </div>
                 </div>
             </div>
@@ -181,94 +283,428 @@
 
 {% block extra_css %}
 <style>
+    /* ===== DASHBOARD HEADER ===== */
+    .dashboard-header {
+        background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-xl);
+    }
+
+    .header-text {
+        flex: 1;
+    }
+
+    .dashboard-title {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: -0.02em;
+    }
+
+    .dashboard-subtitle {
+        font-size: var(--font-size-lg);
+        color: var(--text-secondary);
+        margin: 0;
+        font-weight: 400;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    /* ===== STATISTICS CARDS ===== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+    }
+
     .stat-card {
-        background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-        color: white;
-        border: none;
-        transition: transform 0.3s ease;
+        position: relative;
+        background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        transition: all var(--transition-base);
+        cursor: pointer;
+        min-height: 140px;
     }
 
     .stat-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .stat-card-content {
+        padding: var(--spacing-lg);
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        height: 100%;
     }
 
     .stat-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        opacity: 0.9;
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.9);
+        flex-shrink: 0;
+    }
+
+    .stat-info {
+        flex: 1;
+        color: white;
     }
 
     .stat-number {
         font-size: 2.5rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-xs);
+        line-height: 1;
     }
 
     .stat-label {
-        font-size: 0.9rem;
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
         opacity: 0.9;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
     }
 
-    .admin-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .admin-action-item {
+    .stat-trend {
+        font-size: var(--font-size-sm);
+        opacity: 0.8;
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 1rem;
+        gap: var(--spacing-xs);
+    }
+
+    .stat-card-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(40px, -40px);
+        z-index: 1;
+    }
+
+    /* ===== MANAGEMENT CARDS ===== */
+    .management-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .management-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: all var(--transition-base);
+    }
+
+    .management-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+
+    .management-card-header {
+        background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+        padding: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .management-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .management-title h3 {
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+
+    .management-title p {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .management-actions {
+        padding: var(--spacing-lg);
+    }
+
+    .action-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg);
         border: 1px solid var(--border-color);
         border-radius: var(--radius-md);
         text-decoration: none;
         color: var(--text-primary);
-        transition: all 0.3s ease;
+        transition: all var(--transition-fast);
+        margin-bottom: var(--spacing-md);
     }
 
-    .admin-action-item:hover {
+    .action-item:hover {
         background: var(--bg-secondary);
         border-color: var(--primary-500);
+        transform: translateX(8px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .action-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .action-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-50);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: var(--primary-600);
-        transform: translateX(5px);
+        flex-shrink: 0;
+        transition: all var(--transition-fast);
     }
 
-    .admin-action-item i {
-        font-size: 1.5rem;
-        color: var(--primary-500);
-        width: 2rem;
-        text-align: center;
+    .action-item:hover .action-icon {
+        background: var(--primary-500);
+        color: white;
+        transform: scale(1.1);
     }
 
-    .admin-action-item strong {
+    .action-content {
+        flex: 1;
+    }
+
+    .action-content strong {
         display: block;
-        margin-bottom: 0.25rem;
-    }
-
-    .admin-action-item small {
-        color: var(--text-secondary);
-        font-size: 0.85rem;
-    }
-
-    .system-info {
-        padding: 0.75rem;
-        background: var(--bg-secondary);
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-    }
-
-    .card-header {
-        background: var(--bg-secondary);
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem 1.5rem;
-    }
-
-    .card-title {
+        font-size: var(--font-size-base);
+        font-weight: 600;
         color: var(--text-primary);
-        font-size: 1.25rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .action-content small {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+    }
+
+    .action-arrow {
+        color: var(--text-tertiary);
+        transition: all var(--transition-fast);
+    }
+
+    .action-item:hover .action-arrow {
+        color: var(--primary-500);
+        transform: translateX(4px);
+    }
+
+    /* ===== SYSTEM CARD ===== */
+    .system-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+    }
+
+    .system-card-header {
+        background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+        padding: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .system-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--gray-200);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray-600);
+        flex-shrink: 0;
+    }
+
+    .system-title h3 {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 var(--spacing-xs) 0;
+    }
+
+    .system-title p {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .system-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg);
+    }
+
+    .system-info-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
+    }
+
+    .system-info-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--primary-50);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-600);
+        flex-shrink: 0;
+    }
+
+    .system-info-content strong {
+        display: block;
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .system-info-content small {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-lg);
+        }
+
+        .header-actions {
+            justify-content: center;
+        }
+
+        .dashboard-title {
+            font-size: var(--font-size-2xl);
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .management-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .management-card-header {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-md);
+        }
+
+        .stat-card-content {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-md);
+        }
+
+        .action-item {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-md);
+        }
+
+        .system-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dashboard-header {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .stat-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .management-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .management-card:nth-child(1) { animation-delay: 0.5s; }
+    .management-card:nth-child(2) { animation-delay: 0.6s; }
+
+    .system-card {
+        animation: fadeInUp 0.6s ease-out 0.7s both;
     }
 </style>
 {% endblock %}
