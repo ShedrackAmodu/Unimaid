@@ -1,28 +1,62 @@
 {% load static %}
 <!-- Header Start -->
 <header class="header">
-    <!-- Announcement Bar -->
-    <div class="announcement-bar">
+    <!-- Top Navigation Bar -->
+    <div class="top-nav-bar">
         <div class="container">
-            <div class="announcement-content">
-                <div class="announcement-message">
-                    <i class="fas fa-bullhorn announcement-icon"></i>
-                    <span class="announcement-text">Welcome to Ramat Library - Your Gateway to Knowledge</span>
+            <div class="top-nav-content">
+                <!-- Auth Section -->
+                {% if user.is_authenticated %}
+                <div class="user-welcome">
+                    <span class="welcome-text">Welcome back, {{ user.first_name|default:user.username }}!</span>
                 </div>
-                <div class="announcement-actions">
-                    <a href="{% url 'core:events' %}" class="announcement-link">
+                {% else %}
+                <div class="auth-section">
+                    <a href="{% url 'catalog:login' %}" class="auth-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <span class="auth-separator">|</span>
+                    <a href="{% url 'catalog:register' %}" class="auth-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                </div>
+                {% endif %}
+
+                <!-- Center Links -->
+                <div class="top-nav-center">
+                    <a href="{% url 'core:events' %}" class="top-nav-link">
                         <i class="fas fa-calendar-alt"></i>
-                        <span class="announcement-link-text">Upcoming Events</span>
+                        <span>Events</span>
                     </a>
-                    <a href="{% url 'core:contact' %}" class="announcement-link">
+                    <span class="nav-separator">|</span>
+                    <a href="{% url 'core:contact' %}" class="top-nav-link">
                         <i class="fas fa-question-circle"></i>
-                        <span class="announcement-link-text">Need Help?</span>
+                        <span>Help</span>
                     </a>
-                    <button class="announcement-close" aria-label="Close announcement">
-                        <i class="fas fa-times"></i>
-                    </button>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <a href="tel:+23480166253232" class="contact-link">+234 80166 253 232</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Floating Welcome Message -->
+    <div class="floating-welcome" id="floatingWelcome">
+        <div class="floating-welcome-content">
+            <i class="fas fa-hand-paper welcome-wave"></i>
+            <div class="welcome-message">
+                <h4>Welcome to Ramat Library!</h4>
+                <p>Your gateway to knowledge and learning</p>
+            </div>
+            <button class="floating-welcome-close" aria-label="Close welcome message">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
@@ -147,14 +181,8 @@
                             <span class="nav-text">News & Blog</span>
                         </a>
                     </li>
-                    
-                    <li class="nav-item" role="none">
-                        <a href="{% url 'core:events' %}" class="nav-link {% if request.resolver_match.view_name == 'core:events' %}active{% endif %}" role="menuitem">
-                            <i class="fas fa-calendar nav-icon"></i>
-                            <span class="nav-text">Events</span>
-                        </a>
-                    </li>
-                    
+
+
                     <li class="nav-item" role="none">
                         <a href="{% url 'core:contact' %}" class="nav-link {% if request.resolver_match.view_name == 'core:contact' %}active{% endif %}" role="menuitem">
                             <i class="fas fa-envelope nav-icon"></i>
@@ -250,17 +278,6 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
-                    {% else %}
-                    <div class="auth-buttons">
-                        <a href="{% url 'catalog:login' %}" class="btn btn-outline btn-sm auth-btn">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span class="auth-text">Login</span>
-                        </a>
-                        <a href="{% url 'catalog:register' %}" class="btn btn-primary btn-sm auth-btn">
-                            <i class="fas fa-user-plus"></i>
-                            <span class="auth-text">Register</span>
-                        </a>
                     </div>
                     {% endif %}
                 </div>
@@ -1222,6 +1239,206 @@
         width: 100%;
     }
 
+    /* ===== TOP NAVIGATION BAR ===== */
+    .top-nav-bar {
+        background: var(--primary-600);
+        color: var(--white);
+        padding: var(--spacing-xs) 0;
+        position: relative;
+        z-index: 1002;
+        min-height: 2.5rem;
+    }
+
+    .top-nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-lg);
+    }
+
+    .top-nav-center {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .nav-separator {
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 300;
+        margin: 0 var(--spacing-xs);
+    }
+
+    /* Auth Section */
+    .auth-section {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .auth-link {
+        color: var(--white);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-weight: 500;
+    }
+
+    .auth-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--primary-200);
+    }
+
+    .auth-separator {
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 300;
+    }
+
+    /* User Welcome */
+    .user-welcome .welcome-text {
+        color: var(--primary-100);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+    }
+
+    /* Contact Info */
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        font-size: var(--font-size-sm);
+    }
+
+    .contact-icon {
+        color: var(--primary-200);
+        font-size: var(--font-size-base);
+    }
+
+    .contact-link {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color var(--transition-fast);
+    }
+
+    .contact-link:hover {
+        color: var(--primary-200);
+    }
+
+    /* Top Nav Links */
+    .top-nav-links {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+    }
+
+    .top-nav-link {
+        color: var(--white);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        font-size: var(--font-size-xs);
+        opacity: 0.9;
+    }
+
+    .top-nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        opacity: 1;
+        color: var(--primary-200);
+    }
+
+    .top-nav-link i {
+        font-size: var(--font-size-sm);
+    }
+
+    /* ===== FLOATING WELCOME MESSAGE ===== */
+    .floating-welcome {
+        position: fixed;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-base);
+    }
+
+    .floating-welcome.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .floating-welcome-content {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-2xl);
+        padding: var(--spacing-lg);
+        max-width: 20rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .welcome-wave {
+        font-size: 2rem;
+        color: var(--primary-500);
+        align-self: flex-start;
+        animation: wave 2s ease-in-out infinite;
+    }
+
+    @keyframes wave {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(20deg); }
+        75% { transform: rotate(-10deg); }
+    }
+
+    .welcome-message h4 {
+        margin: 0;
+        color: var(--text-primary);
+        font-size: var(--font-size-base);
+        font-weight: 600;
+    }
+
+    .welcome-message p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    .floating-welcome-close {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        background: none;
+        border: none;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-fast);
+        font-size: var(--font-size-sm);
+    }
+
+    .floating-welcome-close:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
     /* ===== RESPONSIVE ADJUSTMENTS ===== */
     @media (max-width: 991.98px) {
         .navbar-menu {
@@ -1257,6 +1474,69 @@
 
         .announcement-link-text {
             display: none;
+        }
+
+        /* Top nav responsive */
+        .top-nav-content {
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .top-nav-center {
+            order: 2;
+        }
+
+        .auth-section {
+            gap: var(--spacing-sm);
+        }
+
+        .floating-welcome {
+            right: 1rem;
+            top: auto;
+            bottom: 2rem;
+            transform: none;
+        }
+
+        .floating-welcome-content {
+            max-width: 18rem;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .top-nav-bar {
+            padding: var(--spacing-xs) 0;
+        }
+
+        .auth-section {
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .auth-separator {
+            display: none;
+        }
+
+        .contact-info {
+            font-size: var(--font-size-xs);
+        }
+
+        .top-nav-link {
+            font-size: 0.7rem;
+            padding: var(--spacing-xs);
+        }
+
+        .floating-welcome-content {
+            padding: var(--spacing-md);
+            max-width: 16rem;
+        }
+
+        .welcome-message h4 {
+            font-size: var(--font-size-sm);
+        }
+
+        .welcome-message p {
+            font-size: var(--font-size-xs);
         }
     }
 
@@ -1650,6 +1930,42 @@
             themeToggle.addEventListener('click', function() {
                 if (window.App && window.App.theme) {
                     window.App.theme.toggleTheme();
+                }
+            });
+        }
+
+        // ===== FLOATING WELCOME MESSAGE =====
+        const floatingWelcome = document.getElementById('floatingWelcome');
+        const floatingWelcomeClose = document.querySelector('.floating-welcome-close');
+
+        if (floatingWelcome && floatingWelcomeClose) {
+            // Show floating welcome message after a delay (only if not dismissed before)
+            const welcomeDismissed = localStorage.getItem('floatingWelcomeDismissed');
+            if (!welcomeDismissed) {
+                setTimeout(() => {
+                    floatingWelcome.classList.add('show');
+                }, 2000); // Show after 2 seconds
+            }
+
+            // Close floating welcome message
+            floatingWelcomeClose.addEventListener('click', function() {
+                floatingWelcome.classList.remove('show');
+                localStorage.setItem('floatingWelcomeDismissed', 'true');
+            });
+
+            // Close on clicking outside the content
+            floatingWelcome.addEventListener('click', function(e) {
+                if (e.target === floatingWelcome) {
+                    floatingWelcome.classList.remove('show');
+                    localStorage.setItem('floatingWelcomeDismissed', 'true');
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && floatingWelcome.classList.contains('show')) {
+                    floatingWelcome.classList.remove('show');
+                    localStorage.setItem('floatingWelcomeDismissed', 'true');
                 }
             });
         }

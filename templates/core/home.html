@@ -10,7 +10,7 @@
         position: relative;
         min-height: 80vh;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         overflow: hidden;
         background: url('{% static "img/banner/banner.png" %}');
         background-size: cover;
@@ -29,7 +29,7 @@
     }
 
     .hero-title {
-        font-size: var(--font-size-5xl);
+        font-size: 4rem;
         font-weight: 800;
         margin-bottom: var(--spacing-lg);
         line-height: 1.2;
@@ -293,7 +293,7 @@
     <div class="container">
         <div class="hero-content fade-in-up">
             <h1 class="hero-title">
-                Welcome to <span class="text-gradient-accent">Ramat Library</span>
+                Welcome to <span>Ramat Library</span>
             </h1>
             {% comment %} <p class="hero-subtitle">
                 Discover a world of knowledge at the University of Maiduguri's premier academic library.
