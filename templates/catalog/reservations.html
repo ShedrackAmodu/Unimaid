@@ -1,0 +1,601 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Reservations{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== DASHBOARD HEADER ===== */
+    .dashboard-header {
+        padding: var(--spacing-2xl) 0;
+        background: var(--gradient-primary);
+        color: var(--white);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .dashboard-header h1 {
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .dashboard-header p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0;
+    }
+
+    /* ===== DASHBOARD GRID ===== */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    /* ===== STAT CARD ===== */
+    .stat-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border-left: 4px solid var(--primary-500);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .stat-card.primary {
+        border-left-color: var(--primary-500);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 102, 204, 0.05) 100%);
+    }
+
+    .stat-card.success {
+        border-left-color: var(--success);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+    }
+
+    .stat-card.warning {
+        border-left-color: var(--warning);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
+    }
+
+    .stat-card.danger {
+        border-left-color: var(--danger);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
+    }
+
+    .stat-card-icon {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stat-card-title {
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card-value {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    /* ===== CARD ===== */
+    .card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .card-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-header h5 {
+        margin-bottom: 0;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .card-header i {
+        font-size: var(--font-size-xl);
+    }
+
+    .card-body {
+        padding: var(--spacing-lg);
+    }
+
+    .card-footer {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-lg);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-title i {
+        color: var(--primary-500);
+    }
+
+    /* ===== LIST ===== */
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .item-list li:last-child {
+        border-bottom: none;
+    }
+
+    .item-label {
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    .item-value {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background: var(--danger);
+        color: var(--white);
+    }
+
+    .btn-danger:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+    }
+
+    .btn-sm {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ===== ALERT ===== */
+    .alert {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+    }
+
+    .alert-info {
+        background: rgba(0, 102, 204, 0.1);
+        border-left: 4px solid var(--primary-500);
+        color: var(--primary-600);
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 4px solid var(--danger);
+        color: #7f1d1d;
+    }
+
+    .alert i {
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+
+    /* ===== TABLE ===== */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: var(--spacing-md);
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .table td {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .table tbody tr:hover {
+        background: var(--bg-secondary);
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: var(--success);
+        color: var(--white);
+    }
+
+    .badge-warning {
+        background: var(--warning);
+        color: var(--white);
+    }
+
+    .badge-danger {
+        background: var(--danger);
+        color: var(--white);
+    }
+
+    .badge-info {
+        background: var(--primary-100);
+        color: var(--primary-600);
+    }
+
+    .badge-secondary {
+        background: var(--text-tertiary);
+        color: var(--white);
+    }
+
+    /* ===== TABS ===== */
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tab {
+        padding: var(--spacing-md) var(--spacing-lg);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-secondary);
+        border-bottom: 2px solid transparent;
+        transition: all var(--transition-fast);
+    }
+
+    .tab.active {
+        color: var(--primary-500);
+        border-bottom-color: var(--primary-500);
+    }
+
+    .tab:hover {
+        color: var(--primary-500);
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+        }
+
+        .table {
+            font-size: var(--font-size-sm);
+        }
+
+        .table th,
+        .table td {
+            padding: var(--spacing-sm);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate stat cards on load
+        document.querySelectorAll('.stat-card').forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.5s ease forwards`;
+            card.style.animationDelay = (index * 0.1) + 's';
+        });
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const target = this.getAttribute('data-tab');
+
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                this.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="dashboard-header">
+    <div class="container">
+        <h1><i class="fa fa-bookmark"></i> My Reservations</h1>
+        <p>View your book reservations and request history.</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="section">
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card primary">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-bookmark"></i> Active Reservations</p>
+                        <p class="stat-card-value">{{ active_reservations|length }}</p>
+                    </div>
+                    <i class="fa fa-bookmark fa-2x" style="color: var(--primary-500); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-check"></i> Completed</p>
+                        <p class="stat-card-value">{{ historical_reservations|length }}</p>
+                    </div>
+                    <i class="fa fa-check fa-2x" style="color: var(--success); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-clock"></i> Ready for Pickup</p>
+                        <p class="stat-card-value">{{ active_reservations|length }}</p>
+                    </div>
+                    <i class="fa fa-clock fa-2x" style="color: var(--warning); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card info">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-list"></i> Total Reservations</p>
+                        <p class="stat-card-value">{{ total_reservations }}</p>
+                    </div>
+                    <i class="fa fa-list fa-2x" style="color: var(--info); opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="active-reservations">Active Reservations</button>
+            <button class="tab" data-tab="reservation-history">Reservation History</button>
+        </div>
+
+        <!-- Active Reservations Tab -->
+        <div id="active-reservations" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-bookmark"></i> Active Reservations</h5>
+                </div>
+                <div class="card-body">
+                    {% if active_reservations %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Reserved Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in active_reservations %}
+                            <tr>
+                                <td>{{ reservation.book.title }}</td>
+                                <td>{% for author in reservation.book.authors.all %}{{ author.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                <td>{{ reservation.reservation_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if reservation.status == "active" %}
+                                        <span class="badge badge-warning">Waiting</span>
+                                    {% elif reservation.status == "ready" %}
+                                        <span class="badge badge-success">Ready for Pickup</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div style="display: flex; gap: var(--spacing-sm);">
+                                        <a href="{% url 'catalog:book_detail' reservation.book.slug %}" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-eye"></i> View
+                                        </a>
+                                        {% if reservation.status == "active" %}
+                                        <form method="post" action="{% url 'catalog:cancel_reservation' reservation.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                                                <i class="fa fa-times"></i> Cancel
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i>
+                        <div>
+                            <strong>No Active Reservations:</strong> You don't have any active reservations. Visit the <a href="{% url 'catalog:home' %}">catalog</a> to reserve books.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservation History Tab -->
+        <div id="reservation-history" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-history"></i> Reservation History</h5>
+                </div>
+                <div class="card-body">
+                    {% if historical_reservations %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Reserved Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in historical_reservations %}
+                            <tr>
+                                <td>{{ reservation.book.title }}</td>
+                                <td>{% for author in reservation.book.authors.all %}{{ author.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                <td>{{ reservation.reservation_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if reservation.status == "completed" %}
+                                        <span class="badge badge-success">Completed</span>
+                                    {% elif reservation.status == "cancelled" %}
+                                        <span class="badge badge-secondary">Cancelled</span>
+                                    {% elif reservation.status == "expired" %}
+                                        <span class="badge badge-danger">Expired</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'catalog:book_detail' reservation.book.slug %}" class="btn btn-secondary btn-sm">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i>
+                        <div>
+                            <strong>No Reservation History:</strong> You haven't made any reservations yet.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-2xl);">
+            <a href="{% url 'catalog:dashboard' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-dashboard"></i> Back to Dashboard
+            </a>
+            <a href="{% url 'catalog:home' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-search"></i> Browse Catalog
+            </a>
+            <a href="{% url 'catalog:borrowed' %}" class="btn btn-secondary btn-block">
+                <i class="fa fa-book"></i> My Borrowed Items
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

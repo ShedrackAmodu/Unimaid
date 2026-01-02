@@ -17,6 +17,8 @@ urlpatterns = [
     # Patron dashboard and profile
     path("dashboard/", views.patron_dashboard, name="dashboard"),
     path("profile/", views.patron_profile, name="profile"),
+    path("borrowed/", views.borrowed_items, name="borrowed"),
+    path("reservations/", views.patron_reservations, name="reservations"),
     # Circulation (requires login)
     path("loan/<int:book_copy_id>/", views.create_loan, name="create_loan"),
     path("return/<int:book_copy_id>/", views.return_book, name="return_book"),

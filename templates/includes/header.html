@@ -90,7 +90,7 @@
                             <span class="nav-text">Home</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item dropdown" role="none">
                         <button class="nav-link dropdown-toggle" data-dropdown="library" aria-expanded="false" aria-haspopup="true" role="menuitem">
                             <i class="fas fa-university nav-icon"></i>
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </li>
-                    
+
                     <li class="nav-item dropdown" role="none">
                         <button class="nav-link dropdown-toggle" data-dropdown="resources" aria-expanded="false" aria-haspopup="true" role="menuitem">
                             <i class="fas fa-book nav-icon"></i>
@@ -174,7 +174,7 @@
                             </div>
                         </div>
                     </li>
-                    
+
                     <li class="nav-item" role="none">
                         <a href="{% url 'blog:post_list' %}" class="nav-link {% if 'blog' in request.resolver_match.app_names %}active{% endif %}" role="menuitem">
                             <i class="fas fa-newspaper nav-icon"></i>
@@ -202,11 +202,11 @@
                     <div class="search-container" id="searchContainer">
                         <form action="{% url 'catalog:search' %}" method="get" class="search-form" role="search">
                             <div class="search-input-group">
-                                <input 
-                                    type="text" 
-                                    name="q" 
-                                    placeholder="Search books, articles, resources..." 
-                                    class="search-input" 
+                                <input
+                                    type="text"
+                                    name="q"
+                                    placeholder="Search books, articles, resources..."
+                                    class="search-input"
                                     required
                                     aria-label="Search library catalog"
                                 >
@@ -263,11 +263,11 @@
                                     <span>Reservations</span>
                                 </a>
                                 <div class="user-menu-divider" role="separator"></div>
-                                <a href="{% url 'catalog:settings' %}" class="user-menu-item" role="menuitem">
+                                <a href="{% url 'catalog:profile' %}" class="user-menu-item" role="menuitem">
                                     <i class="fas fa-cog"></i>
                                     <span>Settings</span>
                                 </a>
-                                <a href="{% url 'catalog:help' %}" class="user-menu-item" role="menuitem">
+                                <a href="{% url 'core:contact' %}" class="user-menu-item" role="menuitem">
                                     <i class="fas fa-question-circle"></i>
                                     <span>Help & Support</span>
                                 </a>
@@ -411,12 +411,20 @@
     .navbar {
         background: var(--bg-primary);
         border-bottom: 1px solid var(--border-color);
-        position: sticky;
-        top: 0;
+        position: fixed;
+        top: 3rem;
+        left: 0;
+        right: 0;
         z-index: 1000;
-        backdrop-filter: blur(10px);
         box-shadow: var(--shadow-sm);
         transition: all var(--transition-base);
+    }
+
+    /* Add backdrop-filter support check */
+    @supports (backdrop-filter: blur(10px)) {
+        .navbar {
+            backdrop-filter: blur(10px);
+        }
     }
 
     .navbar.scrolled {
@@ -530,14 +538,22 @@
     /* ===== NAVIGATION MENU ===== */
     .navbar-menu {
         flex: 1;
-        display: none;
+        display: none !important;
         min-width: 0;
     }
 
+    /* Desktop navigation - higher specificity */
     @media (min-width: 992px) {
-        .navbar-menu {
-            display: block;
+        .navbar .navbar-menu {
+            display: block !important;
             margin: 0 var(--spacing-xl);
+        }
+    }
+
+    /* Ensure mobile menu toggle is hidden on desktop */
+    @media (min-width: 992px) {
+        .navbar .mobile-menu-toggle {
+            display: none !important;
         }
     }
 
@@ -1115,7 +1131,7 @@
     /* ===== MOBILE MENU ===== */
     .mobile-menu {
         position: fixed;
-        top: var(--header-height);
+        top: calc(var(--header-height) + 3rem);
         left: 0;
         right: 0;
         bottom: 0;
@@ -1243,10 +1259,14 @@
     .top-nav-bar {
         background: var(--primary-600);
         color: var(--white);
-        padding: var(--spacing-xs) 0;
-        position: relative;
+        padding: 0.125rem 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3rem;
         z-index: 1002;
-        min-height: 2.5rem;
+        min-height: 1.25rem;
     }
 
     .top-nav-content {
@@ -1505,7 +1525,7 @@
 
     @media (max-width: 767.98px) {
         .top-nav-bar {
-            padding: var(--spacing-xs) 0;
+            padding: 0.125rem 0;
         }
 
         .auth-section {
@@ -1894,16 +1914,41 @@
             });
         }
 
+        // ===== NAVIGATION RESPONSIVENESS FIX =====
+        function updateNavigationDisplay() {
+            const navbarMenu = document.getElementById('navbarMenu');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const isDesktop = window.innerWidth >= 992;
+
+            if (navbarMenu && mobileMenuToggle) {
+                if (isDesktop) {
+                    // Desktop: Show navbar menu, hide mobile toggle
+                    navbarMenu.style.display = 'block';
+                    mobileMenuToggle.style.display = 'none';
+                } else {
+                    // Mobile: Hide navbar menu, show mobile toggle
+                    navbarMenu.style.display = 'none';
+                    mobileMenuToggle.style.display = 'flex';
+                }
+            }
+        }
+
+        // Initial check
+        updateNavigationDisplay();
+
         // ===== RESIZE HANDLER =====
         let resizeTimer;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
+                // Update navigation display based on screen size
+                updateNavigationDisplay();
+
                 // Close mobile menu on resize to desktop
                 if (window.innerWidth >= 992 && mobileMenu.classList.contains('show')) {
                     mobileMenuToggle.click();
                 }
-                
+
                 // Close dropdowns on mobile resize
                 if (window.innerWidth < 992) {
                     document.querySelectorAll('.dropdown-menu.show').forEach(menu => {

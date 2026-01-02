@@ -32,21 +32,22 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "unimaidLibrary.pythonanywhere.com", 
 
 INSTALLED_APPS = [
     # Admin interface with theme
-    "admin_interface",
-    "colorfield",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
     # Local apps
     "apps.core",
     "apps.blog",
     "apps.staff",
     "apps.repository",
     "apps.catalog",
+    
     # Third-party apps
+    
     "crispy_forms",
     "crispy_bootstrap4",
     "rest_framework",
@@ -54,7 +55,6 @@ INSTALLED_APPS = [
     "django_extensions",
     "dal",
     "dal_select2",
-    # "djcelery_email",  # Removed for PythonAnywhere free tier
     "nested_admin",
     "import_export",
     # Asset optimization
@@ -148,13 +148,6 @@ EMAIL_HOST_USER = "your-email@gmail.com"  # Replace with actual email
 EMAIL_HOST_PASSWORD = "your-app-password"  # Replace with app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# Celery Email Configuration
-CELERY_EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-CELERY_EMAIL_TASK_CONFIG = {
-    "queue": "email",
-    "rate_limit": "50/m",
-    "ignore_result": True,
-}
 
 
 # Static files (CSS, JavaScript, Images)
@@ -213,20 +206,3 @@ LOGIN_URL = "catalog:login"
 LOGIN_REDIRECT_URL = "catalog:dashboard"
 LOGOUT_REDIRECT_URL = "core:home"
 
-# Library-specific settings
-LIBRARY_SETTINGS = {
-    "DEFAULT_LOAN_DAYS": 14,
-    "MAX_BOOKS_PER_PATRON": 5,
-    "OVERDUE_FINE_PER_DAY": 0.50,
-    "RESERVATION_EXPIRY_DAYS": 7,
-    "MAX_RESERVATIONS_PER_PATRON": 3,
-    "EMAIL_NOTIFICATIONS": True,
-}
-
-# Celery Configuration (for background tasks)
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = TIME_ZONE

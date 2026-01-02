@@ -1,0 +1,582 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Borrowed Items{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ===== DASHBOARD HEADER ===== */
+    .dashboard-header {
+        padding: var(--spacing-2xl) 0;
+        background: var(--gradient-primary);
+        color: var(--white);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .dashboard-header h1 {
+        color: var(--white);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .dashboard-header p {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0;
+    }
+
+    /* ===== DASHBOARD GRID ===== */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    /* ===== STAT CARD ===== */
+    .stat-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border-left: 4px solid var(--primary-500);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .stat-card.primary {
+        border-left-color: var(--primary-500);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 102, 204, 0.05) 100%);
+    }
+
+    .stat-card.success {
+        border-left-color: var(--success);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+    }
+
+    .stat-card.warning {
+        border-left-color: var(--warning);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
+    }
+
+    .stat-card.danger {
+        border-left-color: var(--danger);
+        background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
+    }
+
+    .stat-card-icon {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stat-card-title {
+        font-size: var(--font-size-sm);
+        color: var(--text-tertiary);
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card-value {
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    /* ===== CARD ===== */
+    .card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .card-header {
+        background: var(--gradient-primary);
+        color: var(--white);
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-header h5 {
+        margin-bottom: 0;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    .card-header i {
+        font-size: var(--font-size-xl);
+    }
+
+    .card-body {
+        padding: var(--spacing-lg);
+    }
+
+    .card-footer {
+        background: var(--bg-secondary);
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-lg);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-title i {
+        color: var(--primary-500);
+    }
+
+    /* ===== LIST ===== */
+    .item-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .item-list li {
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .item-list li:last-child {
+        border-bottom: none;
+    }
+
+    .item-label {
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    .item-value {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--bg-tertiary);
+        transform: translateY(-2px);
+    }
+
+    .btn-sm {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* ===== ALERT ===== */
+    .alert {
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+    }
+
+    .alert-info {
+        background: rgba(0, 102, 204, 0.1);
+        border-left: 4px solid var(--primary-500);
+        color: var(--primary-600);
+    }
+
+    .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 4px solid var(--danger);
+        color: #7f1d1d;
+    }
+
+    .alert i {
+        font-size: var(--font-size-lg);
+        flex-shrink: 0;
+    }
+
+    /* ===== TABLE ===== */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: var(--spacing-md);
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .table td {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .table tbody tr:hover {
+        background: var(--bg-secondary);
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: var(--success);
+        color: var(--white);
+    }
+
+    .badge-warning {
+        background: var(--warning);
+        color: var(--white);
+    }
+
+    .badge-danger {
+        background: var(--danger);
+        color: var(--white);
+    }
+
+    .badge-info {
+        background: var(--primary-100);
+        color: var(--primary-600);
+    }
+
+    /* ===== TABS ===== */
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tab {
+        padding: var(--spacing-md) var(--spacing-lg);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-secondary);
+        border-bottom: 2px solid transparent;
+        transition: all var(--transition-fast);
+    }
+
+    .tab.active {
+        color: var(--primary-500);
+        border-bottom-color: var(--primary-500);
+    }
+
+    .tab:hover {
+        color: var(--primary-500);
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+        }
+
+        .table {
+            font-size: var(--font-size-sm);
+        }
+
+        .table th,
+        .table td {
+            padding: var(--spacing-sm);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate stat cards on load
+        document.querySelectorAll('.stat-card').forEach((card, index) => {
+            card.style.animation = `fadeInUp 0.5s ease forwards`;
+            card.style.animationDelay = (index * 0.1) + 's';
+        });
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const target = this.getAttribute('data-tab');
+
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                this.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<section class="dashboard-header">
+    <div class="container">
+        <h1><i class="fa fa-book"></i> My Borrowed Items</h1>
+        <p>View your complete borrowing history and current loans.</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="section">
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="dashboard-grid">
+            <div class="stat-card primary">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-book"></i> Current Loans</p>
+                        <p class="stat-card-value">{{ current_loans|length }}</p>
+                    </div>
+                    <i class="fa fa-book fa-2x" style="color: var(--primary-500); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-history"></i> Returned Items</p>
+                        <p class="stat-card-value">{{ historical_loans|length }}</p>
+                    </div>
+                    <i class="fa fa-history fa-2x" style="color: var(--success); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-clock"></i> Overdue Items</p>
+                        <p class="stat-card-value">{{ current_loans|length|default:0 }}</p>
+                    </div>
+                    <i class="fa fa-clock fa-2x" style="color: var(--warning); opacity: 0.2;"></i>
+                </div>
+            </div>
+
+            <div class="stat-card info">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div>
+                        <p class="stat-card-title"><i class="fa fa-list"></i> Total Loans</p>
+                        <p class="stat-card-value">{{ total_loans }}</p>
+                    </div>
+                    <i class="fa fa-list fa-2x" style="color: var(--info); opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="current-loans">Current Loans</button>
+            <button class="tab" data-tab="loan-history">Loan History</button>
+        </div>
+
+        <!-- Current Loans Tab -->
+        <div id="current-loans" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-book"></i> Currently Borrowed</h5>
+                </div>
+                <div class="card-body">
+                    {% if current_loans %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Borrowed Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for loan in current_loans %}
+                            <tr>
+                                <td>{{ loan.book_copy.book.title }}</td>
+                                <td>{% for author in loan.book_copy.book.authors.all %}{{ author.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                <td>{{ loan.loan_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if loan.is_overdue %}
+                                        <span style="color: var(--danger);">
+                                            <strong>{{ loan.due_date|date:"M d, Y" }} (Overdue)</strong>
+                                        </span>
+                                    {% else %}
+                                        {{ loan.due_date|date:"M d, Y" }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if loan.is_overdue %}
+                                        <span class="badge badge-danger">Overdue</span>
+                                    {% else %}
+                                        <span class="badge badge-success">Active</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'catalog:book_detail' loan.book_copy.book.slug %}" class="btn btn-secondary btn-sm">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i>
+                        <div>
+                            <strong>No Current Loans:</strong> You don't have any books checked out. Visit the <a href="{% url 'catalog:home' %}">catalog</a> to borrow items.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Loan History Tab -->
+        <div id="loan-history" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fa fa-history"></i> Loan History</h5>
+                </div>
+                <div class="card-body">
+                    {% if historical_loans %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Borrowed Date</th>
+                                <th>Returned Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for loan in historical_loans %}
+                            <tr>
+                                <td>{{ loan.book_copy.book.title }}</td>
+                                <td>{% for author in loan.book_copy.book.authors.all %}{{ author.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                                <td>{{ loan.loan_date|date:"M d, Y" }}</td>
+                                <td>{{ loan.returned_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge badge-info">Returned</span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'catalog:book_detail' loan.book_copy.book.slug %}" class="btn btn-secondary btn-sm">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i>
+                        <div>
+                            <strong>No Loan History:</strong> You haven't returned any books yet.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-2xl);">
+            <a href="{% url 'catalog:dashboard' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-dashboard"></i> Back to Dashboard
+            </a>
+            <a href="{% url 'catalog:home' %}" class="btn btn-primary btn-block">
+                <i class="fa fa-search"></i> Browse Catalog
+            </a>
+            <a href="{% url 'catalog:reservations' %}" class="btn btn-secondary btn-block">
+                <i class="fa fa-bookmark"></i> My Reservations
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

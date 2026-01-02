@@ -1,5 +1,5 @@
 /* ============================================================================
-   LIBRARY ADMIN CUSTOM STYLING
+   UNIMAID LIBRARY ADMIN CUSTOM STYLING
    Professional & Robust Admin Interface Enhancements
    ============================================================================ */
 
@@ -22,7 +22,7 @@ html {
     scroll-behavior: smooth;
 }
 
-body.django-admin-site {
+body.unimaid-library-admin {
     background: #f5f7fa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }

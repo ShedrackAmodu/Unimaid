@@ -67,6 +67,13 @@
                                 News & Blog
                             </a>
                         </li>
+                        {% if user.is_staff %}
+                        <li role="listitem">
+                            <a href="{% url 'core:letitbe_admin' %}" class="footer-link">
+                                Unimaid Library Administration
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
 

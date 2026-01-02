@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from config.utils import paginate_queryset
+from django.contrib.admin.views.decorators import staff_member_required
+from django.urls import reverse
 
 
 def admissions(request):
@@ -208,3 +210,184 @@ def division_detail(request, slug):
     division = get_object_or_404(LibraryDivision, slug=slug)
     context = {"division": division}
     return render(request, "core/division_detail.html", context)
+
+
+@staff_member_required
+def letitbe_admin(request):
+    """Custom, lightweight admin landing page: Let It Be"""
+    from django.contrib.auth.models import User
+    from apps.blog.models import Post
+    from apps.repository.models import Document
+    from apps.staff.models import StaffMember
+    from apps.core.models import ContactMessage, Subscriber
+    import django
+    import sys
+    from django.utils import timezone
+
+    # Get statistics
+    total_users = User.objects.count()
+    total_books = Document.objects.count()
+    total_posts = Post.objects.count()
+    total_staff = StaffMember.objects.count()
+
+    # System info
+    django_version = django.get_version()
+    python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+    last_updated = timezone.now().strftime("%B %d, %Y %H:%M")
+
+    context = {
+        "title": "Let It Be — UNIMAID Library Administration",
+        "django_admin_url": reverse("admin:index"),
+        "total_users": total_users,
+        "total_books": total_books,
+        "total_posts": total_posts,
+        "total_staff": total_staff,
+        "django_version": django_version,
+        "python_version": python_version,
+        "last_updated": last_updated,
+    }
+    return render(request, "admin_custom/letitbe_dashboard.html", context)
+
+
+@staff_member_required
+def letitbe_content(request):
+    """Custom admin view for managing blog content"""
+    from apps.blog.models import Post
+    from config.utils import paginate_queryset
+
+    posts = Post.objects.all().order_by('-created_at')
+    posts_page = paginate_queryset(posts, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Content Management - Blog Posts',
+        'posts': posts_page,
+        'total_count': posts.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/content.html", context)
+
+
+@staff_member_required
+def letitbe_repository(request):
+    """Custom admin view for managing repository items"""
+    from apps.repository.models import Document
+    from config.utils import paginate_queryset
+
+    documents = Document.objects.all().order_by('-uploaded_at')
+    docs_page = paginate_queryset(documents, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Repository Management',
+        'documents': docs_page,
+        'total_count': documents.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/repository.html", context)
+
+
+@staff_member_required
+def letitbe_events(request):
+    """Custom admin view for managing events"""
+    from apps.core.models import Event
+    from config.utils import paginate_queryset
+
+    events = Event.objects.all().order_by('-start_date')
+    events_page = paginate_queryset(events, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Events Management',
+        'events': events_page,
+        'total_count': events.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/events.html", context)
+
+
+@staff_member_required
+def letitbe_users(request):
+    """Custom admin view for managing users"""
+    from django.contrib.auth.models import User
+    from config.utils import paginate_queryset
+
+    users = User.objects.all().order_by('-date_joined')
+    users_page = paginate_queryset(users, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'User Management',
+        'users': users_page,
+        'total_count': users.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/users.html", context)
+
+
+@staff_member_required
+def letitbe_staff(request):
+    """Custom admin view for managing staff"""
+    from apps.staff.models import StaffMember
+    from config.utils import paginate_queryset
+
+    staff = StaffMember.objects.all().order_by('name')
+    staff_page = paginate_queryset(staff, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Staff Management',
+        'staff_members': staff_page,
+        'total_count': staff.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/staff.html", context)
+
+
+@staff_member_required
+def letitbe_contacts(request):
+    """Custom admin view for managing contact messages"""
+    from apps.core.models import ContactMessage
+    from config.utils import paginate_queryset
+
+    contacts = ContactMessage.objects.all().order_by('-created_at')
+    contacts_page = paginate_queryset(contacts, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Contact Messages',
+        'contacts': contacts_page,
+        'total_count': contacts.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/contacts.html", context)
+
+
+@staff_member_required
+def letitbe_subscribers(request):
+    """Custom admin view for managing subscribers"""
+    from apps.core.models import Subscriber
+    from config.utils import paginate_queryset
+
+    subscribers = Subscriber.objects.all().order_by('-created_at')
+    subs_page = paginate_queryset(subscribers, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Newsletter Subscribers',
+        'subscribers': subs_page,
+        'total_count': subscribers.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/subscribers.html", context)
+
+
+@staff_member_required
+def letitbe_divisions(request):
+    """Custom admin view for managing library divisions"""
+    from apps.core.models import LibraryDivision
+    from config.utils import paginate_queryset
+
+    divisions = LibraryDivision.objects.all().order_by('name')
+    divisions_page = paginate_queryset(divisions, request.GET.get('page'), per_page=20)
+
+    context = {
+        'title': 'Library Divisions',
+        'divisions': divisions_page,
+        'total_count': divisions.count(),
+        'django_admin_url': reverse("admin:index"),
+    }
+    return render(request, "admin_custom/divisions.html", context)

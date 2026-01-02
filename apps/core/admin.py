@@ -1,14 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils import timezone
-from config.admin_config import (
-    SearchableModelAdmin,
-    FilteredModelAdmin,
-    ExportableAdmin,
-    count_badge,
-    get_image_preview,
-    DateRangeFilter,
-)
+from config.admin_config import FilteredModelAdmin, SearchableModelAdmin, ExportableAdmin, DateRangeFilter, get_image_preview
+
 from .models import ContactMessage, LibraryDivision, Subscriber, Event
 
 

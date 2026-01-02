@@ -336,7 +336,7 @@ def patron_profile(request):
         patron = request.user.patron
     except Patron.DoesNotExist:
         messages.error(request, "Your patron profile is not set up.")
-        return redirect("catalog:dashboard")
+        return redirect("catalog:profile")
 
     if request.method == "POST":
         form = PatronProfileForm(request.POST, instance=patron)
@@ -348,6 +348,60 @@ def patron_profile(request):
         form = PatronProfileForm(instance=patron)
 
     return render(request, "catalog/profile.html", {"form": form})
+
+
+@login_required
+def borrowed_items(request):
+    """List all borrowed items for the patron"""
+    try:
+        patron = request.user.patron
+    except Patron.DoesNotExist:
+        messages.error(
+            request, "Your patron profile is not set up. Please contact library staff."
+        )
+        return redirect("core:home")
+
+    # Get all loans for this patron
+    loans = patron.loans.select_related("book_copy__book").order_by("-loan_date")
+
+    # Separate current and historical loans
+    current_loans = loans.filter(status="active", returned_date__isnull=True)
+    historical_loans = loans.filter(status="returned")
+
+    context = {
+        "patron": patron,
+        "current_loans": current_loans,
+        "historical_loans": historical_loans,
+        "total_loans": loans.count(),
+    }
+    return render(request, "catalog/borrowed.html", context)
+
+
+@login_required
+def patron_reservations(request):
+    """List all reservations for the patron"""
+    try:
+        patron = request.user.patron
+    except Patron.DoesNotExist:
+        messages.error(
+            request, "Your patron profile is not set up. Please contact library staff."
+        )
+        return redirect("core:home")
+
+    # Get all reservations for this patron
+    reservations = patron.reservations.select_related("book").order_by("-reservation_date")
+
+    # Separate active and historical reservations
+    active_reservations = reservations.filter(status__in=["active", "ready"])
+    historical_reservations = reservations.filter(status__in=["completed", "cancelled", "expired"])
+
+    context = {
+        "patron": patron,
+        "active_reservations": active_reservations,
+        "historical_reservations": historical_reservations,
+        "total_reservations": reservations.count(),
+    }
+    return render(request, "catalog/reservations.html", context)
 
 
 # Circulation views

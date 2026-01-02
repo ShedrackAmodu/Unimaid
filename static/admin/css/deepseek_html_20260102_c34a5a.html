@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extrastyle %}
-{% comment %} {{ block.super }} {% endcomment %}
+{{ block.super }}
 <link rel="stylesheet" href="{% static 'admin/css/admin_custom.css' %}" />
 <style>
   /* Additional inline customizations */
@@ -11,22 +11,35 @@
     --primary-color: #007bff;
     --accent-color: #0056b3;
   }
+  
+  body {
+    background: #f5f7fa;
+  }
 </style>
 {% endblock %}
 
 {% block title %}
-{{ block.super }} - UNIMAID Library Management
+{{ block.super }} | UNIMAID Library Management
 {% endblock %}
 
 {% block branding %}
 <div style="padding: 15px 20px">
   <h1 style="margin: 0; color: white; font-size: 24px; letter-spacing: 1px">
-    📚 UNIMAID Library Admin
+    📚 UNIMAID Library Administration
   </h1>
   <p
     style="margin: 5px 0 0 0; color: rgba(255, 255, 255, 0.8); font-size: 12px"
   >
-    Library Management System
+    University of Maiduguri Library Management System
   </p>
 </div>
+{% endblock %}
+
+{% block userlinks %}
+{{ block.super }}
+<li>
+  <a href="/" style="color: #fff; text-decoration: none; padding: 0 10px;">
+    ← Back to Library Website
+  </a>
+</li>
 {% endblock %}
