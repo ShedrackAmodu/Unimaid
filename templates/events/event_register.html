@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register for {{ event.title }} - Events{% endblock %}
+
+{% block content %}
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Register for Event</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bradcam_area_end -->
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">{{ event.title }}</h2>
+                        <div class="mb-4">
+                            <p><strong>Date:</strong> {{ event.start_date|date:"F d, Y" }}</p>
+                            <p><strong>Time:</strong> {{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</p>
+                            <p><strong>Location:</strong> {{ event.location }}</p>
+                            {% if event.registration_fee > 0 %}
+                            <p><strong>Fee:</strong> ₦{{ event.registration_fee }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Confirm Registration</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

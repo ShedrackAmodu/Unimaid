@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-pencil me-2"></i>Edit Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                <label for="id_bio" class="form-label">Bio</label>
+                                <textarea class="form-control" id="id_bio" name="bio" rows="3">{{ profile.bio|default:"" }}</textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_profile_picture" class="form-label">Profile Picture</label>
+                                <input type="file" class="form-control" id="id_profile_picture" name="profile_picture" accept="image/*">
+                                {% if profile.profile_picture %}
+                                <small class="form-text text-muted">Current: <a href="{{ profile.profile_picture.url }}" target="_blank">View</a></small>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="id_department" class="form-label">Department</label>
+                                    <input type="text" class="form-control" id="id_department" name="department" value="{{ profile.department|default:"" }}">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="id_student_id" class="form-label">Student ID</label>
+                                    <input type="text" class="form-control" id="id_student_id" name="student_id" value="{{ profile.student_id|default:"" }}">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="id_staff_id" class="form-label">Staff ID</label>
+                                    <input type="text" class="form-control" id="id_staff_id" name="staff_id" value="{{ profile.staff_id|default:"" }}">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="id_emergency_contact" class="form-label">Emergency Contact</label>
+                                    <input type="text" class="form-control" id="id_emergency_contact" name="emergency_contact" value="{{ profile.emergency_contact|default:"" }}">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="id_emergency_phone" class="form-label">Emergency Phone</label>
+                                    <input type="tel" class="form-control" id="id_emergency_phone" name="emergency_phone" value="{{ profile.emergency_phone|default:"" }}">
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle me-2"></i>Save Changes
+                                </button>
+                                <a href="{% url 'accounts:profile' %}" class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

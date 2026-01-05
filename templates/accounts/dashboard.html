@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="fw-bold mb-2">My Dashboard</h1>
+                <p class="text-muted">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-white-50 mb-1">Active Loans</h6>
+                                <h2 class="mb-0">{{ active_loans|length }}</h2>
+                            </div>
+                            <i class="bi bi-book fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 bg-danger text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-white-50 mb-1">Overdue</h6>
+                                <h2 class="mb-0">{{ overdue_loans|length }}</h2>
+                            </div>
+                            <i class="bi bi-exclamation-triangle fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-white-50 mb-1">Reservations</h6>
+                                <h2 class="mb-0">{{ reservations|length }}</h2>
+                            </div>
+                            <i class="bi bi-bookmark fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-white-50 mb-1">Pending Fines</h6>
+                                <h2 class="mb-0">₦{{ total_fines|floatformat:2 }}</h2>
+                            </div>
+                            <i class="bi bi-currency-dollar fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Active Loans -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-book me-2"></i>My Active Loans</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if active_loans %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Book</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for loan in active_loans %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ loan.book.title }}</strong><br>
+                                            <small class="text-muted">{{ loan.book.authors.all|join:", " }}</small>
+                                        </td>
+                                        <td>
+                                            <span class="{% if loan.is_overdue %}text-danger{% else %}text-muted{% endif %}">
+                                                {{ loan.due_date|date:"M d, Y" }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if loan.is_overdue %}
+                                            <span class="badge bg-danger">Overdue</span>
+                                            {% else %}
+                                            <span class="badge bg-success">Active</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if loan.can_renew %}
+                                            <a href="{% url 'circulation:renew_loan' loan.pk %}" class="btn btn-sm btn-outline-primary">
+                                                Renew
+                                            </a>
+                                            {% else %}
+                                            <span class="text-muted small">Max renewals</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+                            <p class="text-muted">You have no active loans</p>
+                            <a href="{% url 'catalog:book_list' %}" class="btn btn-primary">Browse Books</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'catalog:book_list' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-search me-2"></i>Search Books
+                            </a>
+                            <a href="{% url 'repository:document_list' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-archive me-2"></i>Repository
+                            </a>
+                            <a href="{% url 'circulation:my_reservations' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-bookmark me-2"></i>My Reservations
+                            </a>
+                            <a href="{% url 'circulation:my_fines' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-currency-dollar me-2"></i>My Fines
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reservations -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-bookmark me-2"></i>Reservations</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if reservations %}
+                        <ul class="list-unstyled mb-0">
+                            {% for reservation in reservations|slice:":5" %}
+                            <li class="mb-3 pb-3 border-bottom">
+                                <strong>{{ reservation.book.title }}</strong><br>
+                                <small class="text-muted">Position: #{{ reservation.queue_position }}</small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="text-muted mb-0">No reservations</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

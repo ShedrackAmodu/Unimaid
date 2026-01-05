@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ author.full_name }} - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="fw-bold mb-3">{{ author.full_name }}</h1>
+                {% if author.bio %}
+                <p class="lead mb-4">{{ author.bio }}</p>
+                {% endif %}
+                
+                <div class="row g-3 mb-4">
+                    {% if author.nationality %}
+                    <div class="col-md-6">
+                        <strong>Nationality:</strong> {{ author.nationality }}
+                    </div>
+                    {% endif %}
+                    {% if author.date_of_birth %}
+                    <div class="col-md-6">
+                        <strong>Born:</strong> {{ author.date_of_birth|date:"Y" }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <h3 class="mb-4">Books by {{ author.first_name }}</h3>
+                <div class="row g-4">
+                    {% for book in books %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            {% if book.cover_image %}
+                            <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold">{{ book.title|truncatewords:6 }}</h6>
+                                <a href="{% url 'catalog:book_detail' book.pk %}" class="btn btn-sm btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Analytics Dashboard - Ramat Library{% endblock %}
+
+{% block content %}
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Analytics Dashboard</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bradcam_area_end -->
+
+<!-- analytics_area_start -->
+<div class="about_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="section_title text-center mb-80">
+                    <h3>Library Statistics</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Catalog Statistics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="single_cause">
+                    <div class="cause_content">
+                        <h4>Catalog</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Total Books:</strong> {{ total_books }}</li>
+                            <li><strong>Total Copies:</strong> {{ total_copies }}</li>
+                            <li><strong>Available:</strong> {{ available_copies }}</li>
+                            <li><strong>On Loan:</strong> {{ on_loan }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Circulation Statistics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="single_cause">
+                    <div class="cause_content">
+                        <h4>Circulation</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Active Loans:</strong> {{ active_loans }}</li>
+                            <li><strong>Overdue Loans:</strong> {{ overdue_loans }}</li>
+                            <li><strong>Pending Reservations:</strong> {{ pending_reservations }}</li>
+                            <li><strong>Total Fines:</strong> ₦{{ total_fines|floatformat:2 }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Repository Statistics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="single_cause">
+                    <div class="cause_content">
+                        <h4>Repository</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Total Documents:</strong> {{ total_documents }}</li>
+                            <li><strong>Total Downloads:</strong> {{ total_downloads }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Statistics -->
+            <div class="col-xl-3 col-md-6">
+                <div class="single_cause">
+                    <div class="cause_content">
+                        <h4>Users</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Total Users:</strong> {{ total_users }}</li>
+                            <li><strong>Active Users:</strong> {{ active_users }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <!-- Blog Statistics -->
+            <div class="col-xl-6 col-md-6">
+                <div class="single_cause">
+                    <div class="cause_content">
+                        <h4>Content</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Published Posts:</strong> {{ total_posts }}</li>
+                            <li><strong>Upcoming Events:</strong> {{ upcoming_events }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- analytics_area_end -->
+{% endblock %}
+

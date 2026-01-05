@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ collection.name }} - Repository{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fw-bold mb-2">{{ collection.name }}</h1>
+        {% if collection.description %}
+        <p class="text-muted mb-4">{{ collection.description }}</p>
+        {% endif %}
+        
+        <div class="row g-4">
+            {% for document in documents %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ document.title|truncatewords:10 }}</h5>
+                        <p class="text-muted small">{{ document.author }}</p>
+                        <a href="{% url 'repository:document_detail' document.pk %}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

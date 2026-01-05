@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ genre.name }} - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fw-bold mb-2">{{ genre.name }}</h1>
+        {% if genre.description %}
+        <p class="text-muted mb-4">{{ genre.description }}</p>
+        {% endif %}
+        
+        <div class="row g-4">
+            {% for book in books %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100">
+                    {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="bi bi-book fs-1 text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold">{{ book.title|truncatewords:8 }}</h6>
+                        <a href="{% url 'catalog:book_detail' book.pk %}" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

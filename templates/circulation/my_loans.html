@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Loans - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fw-bold mb-4">My Loans</h1>
+        
+        {% if loans %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Checkout Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for loan in loans %}
+                            <tr class="{% if loan.is_overdue %}table-danger{% endif %}">
+                                <td>
+                                    <strong>{{ loan.book.title }}</strong><br>
+                                    <small class="text-muted">{{ loan.book.authors.all|join:", " }}</small>
+                                </td>
+                                <td>{{ loan.checkout_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="{% if loan.is_overdue %}text-danger fw-bold{% endif %}">
+                                        {{ loan.due_date|date:"M d, Y" }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if loan.status == 'active' %}
+                                    <span class="badge bg-success">Active</span>
+                                    {% elif loan.status == 'overdue' %}
+                                    <span class="badge bg-danger">Overdue</span>
+                                    {% elif loan.status == 'returned' %}
+                                    <span class="badge bg-secondary">Returned</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">{{ loan.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if loan.can_renew %}
+                                    <a href="{% url 'circulation:renew_loan' loan.pk %}" class="btn btn-sm btn-outline-primary">
+                                        Renew
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+            <h4>No loans found</h4>
+            <p class="text-muted">You don't have any loan history</p>
+            <a href="{% url 'catalog:book_list' %}" class="btn btn-primary">Browse Books</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

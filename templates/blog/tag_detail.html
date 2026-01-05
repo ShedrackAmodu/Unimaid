@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ tag.name }} - Blog{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fw-bold mb-4">Tag: {{ tag.name }}</h1>
+        
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ post.title|truncatewords:8 }}</h5>
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-sm btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+

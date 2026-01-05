@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ event.title }} - Events{% endblock %}
+
+{% block content %}
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>{{ event.title }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bradcam_area_end -->
+
+<!-- event_details_area_start -->
+<div class="event_details_area section__padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single_event d-flex align-items-center">
+                    {% if event.featured_image %}
+                    <div class="thumb">
+                        <img src="{{ event.featured_image.url }}" alt="{{ event.title }}">
+                    </div>
+                    {% endif %}
+                    <div class="event_details_info">
+                        <div class="event_info">
+                            <a href="#">
+                                <h4>{{ event.title }}</h4>
+                            </a>
+                            <p>
+                                <span><i class="flaticon-placeholder"></i> {{ event.location }}</span>
+                                <span><i class="flaticon-calendar-1"></i> {{ event.start_date|date:"F d, Y" }}</span>
+                                <span><i class="flaticon-clock"></i> {{ event.start_date|date:"g:i A" }}</span>
+                            </p>
+                        </div>
+                        <p class="event_info_text">{{ event.description }}</p>
+                        {% if event.requires_registration %}
+                        <div class="mb-3">
+                            <p><strong>Capacity:</strong> {{ event.capacity|default:"Unlimited" }}</p>
+                            <p><strong>Registered:</strong> {{ event.registration_count }}</p>
+                            {% if event.registration_fee > 0 %}
+                            <p><strong>Registration Fee:</strong> ₦{{ event.registration_fee }}</p>
+                            {% endif %}
+                        </div>
+                        {% if user.is_authenticated %}
+                        {% if is_registered %}
+                        <p class="text-success">You are registered for this event.</p>
+                        {% else %}
+                        <a href="{% url 'events:event_register' event.slug %}" class="boxed-btn3">Register Now</a>
+                        {% endif %}
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}" class="boxed-btn3">Login to Register</a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- event_details_area_end -->
+{% endblock %}
+

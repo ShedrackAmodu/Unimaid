@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results - Ramat Library{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fw-bold mb-4">Search Results{% if query %} for "{{ query }}"{% endif %}</h1>
+        
+        {% if books %}
+        <p class="text-muted mb-4">Found {{ books|length }} result{{ books|length|pluralize }}</p>
+        
+        <div class="row g-4">
+            {% for book in books %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100">
+                    {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="bi bi-book fs-1 text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title fw-bold">{{ book.title|truncatewords:8 }}</h6>
+                        <p class="text-muted small">{{ book.authors.all|join:", "|truncatewords:3 }}</p>
+                        <a href="{% url 'catalog:book_detail' book.pk %}" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-search fs-1 text-muted mb-3"></i>
+            <h4>No results found</h4>
+            <p class="text-muted">Try different search terms</p>
+            <a href="{% url 'catalog:book_list' %}" class="btn btn-primary">Browse All Books</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

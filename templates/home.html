@@ -1,0 +1,361 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Ramat Library Unimaid{% endblock %}
+
+{% block content %}
+<!-- slider_area_start -->
+<div class="slider_area">
+    <div class="slider_active owl-carousel">
+        <!-- single_carouse -->
+        <div class="single_slider d-flex align-items-center slider_bg_1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="slider_text">
+                            <h3>UNIMAID Library <br>
+                                Where knowledge lives <br>
+                                and futures are built.</h3>
+                            <a href="{% url 'catalog:book_list' %}" class="boxed-btn3">Get Started</a>
+                            <a href="{% url 'repository:document_list' %}" class="boxed-btn4">Take a tour</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ single_carouse -->
+        <div class="single_slider d-flex align-items-center slider_bg_2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="slider_text">
+                            <h3>UNIMAID Library <br>
+                                Where knowledge lives <br>
+                                and futures are built.</h3>
+                            <a href="{% url 'catalog:book_list' %}" class="boxed-btn3">Get Started</a>
+                            <a href="{% url 'repository:document_list' %}" class="boxed-btn4">Take a tour</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ single_carouse -->
+        <div class="single_slider d-flex align-items-center slider_bg_3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="slider_text">
+                            <h3>UNIMAID Library <br>
+                                Where knowledge lives <br>
+                                and futures are built.</h3>
+                            <a href="{% url 'catalog:book_list' %}" class="boxed-btn3">Get Started</a>
+                            <a href="{% url 'repository:document_list' %}" class="boxed-btn4">Take a tour</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ single_carouse -->
+    </div>
+</div>
+<!-- slider_area_end -->
+
+<!--================welcome area =================-->
+<div class="event_details_area section__padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single_event d-flex align-items-center">
+                    <div class="thumb">
+                        <img src="{% static 'img/event/lib.jpg' %}" alt="Library">
+                    </div>
+                    <div class="event_details_info">
+                        <div class="event_info">
+                            <a href="#">
+                                <h4>Welcoming Speech from the University Librarian</h4>
+                            </a>
+                            <p><span><i class="flaticon-placeholder"></i> Ramat Library</span></p>
+                        </div>
+                        <p class="event_info_text">The University of Maiduguri Library is committed to supporting teaching, learning, and research through access to quality print and electronic information resources. Our modern facilities and digital services provide students and researchers with a reliable gateway to knowledge anytime, anywhere.</p>
+                        <a href="{% url 'blog:post_list' %}" class="boxed-btn3">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================welcome area =================-->
+
+<!-- organizational divisions  -->
+<div class="popular_program_area section__padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section_title text-center">
+                    <h3>Organization Of Ramat Library</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <nav class="custom_tabs text-center">
+                    <div class="nav" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Divisions</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Divisions</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Information Centers(Libraries)</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/1.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>The Library Administration</h4>
+                                <p>Management of a library's resources, staff, and services to ensure efficient access to information.</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/2.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>Collection Development</h4>
+                                <p>Responsible for selecting, acquiring, organizing, and maintaining the library's resources, such as books, journals, and digital materials, to meet the needs of its users.</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/3.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>Cataloguing</h4>
+                                <p>Organizes and classifies all library materials, creating records and entries so that users can easily find and access resources.</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/1.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>Readers Services</h4>
+                                <p>Assists users in accessing and using library resources, including lending books, providing reference help, and guiding users in research and information retrieval.</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/3.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>E-Library</h4>
+                                <p>Provides access to electronic resources—such as e-books, journals, databases, and multimedia allowing users to read, search, and download materials online</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/2.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Division</span>
+                                <h4>Research and Bibliographic Services</h4>
+                                <p>Support to users in conducting research, offering guidance on finding, evaluating, and using information, as well as creating bibliographies and citations.</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/3.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Libraries</span>
+                                <h4>American Space</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single__program">
+                            <div class="program_thumb">
+                                <img src="{% static 'img/program/2.png' %}" alt="">
+                            </div>
+                            <div class="program__content">
+                                <span>Libraries</span>
+                                <h4>International Institute Of Islamic Thought</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
+                                <a href="#" class="boxed-btn5">Unimaid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- popular_program_area_end -->
+
+<!-- latest_coures_area_start  -->
+<div class="latest_coures_area">
+    <div class="latest_coures_inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="coures_info">
+                        <div class="section_title white_text">
+                            <h3>About Ramat Library</h3>
+                            <p>Ramat Library is a modern library with a rich collection of print and electronic resources. We have 9 divisions, 13 branch Libraries, an American Space section and also an International Institute of Islamic thought section which provide access to information and knowledge to our users.</p>
+                        </div>
+                        <div class="coures_wrap d-flex">
+                            <div class="single_wrap">
+                                <h4>Our Mission</h4>
+                                <p>Our mission is to provide quality library services, promote information literacy and support the University's academic and research programs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ latest_coures_area_end -->
+
+<!-- recent_news_area_start  -->
+<div class="recent_news_area section__padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="section_title text-center mb-70">
+                    <h3 class="mb-45">Library News</h3>
+                    <p>Stay updated with the latest library announcements, new resources, extended hours, workshops, and events designed to support your learning, research, and academic success.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for post in latest_posts|slice:":2" %}
+            <div class="col-md-6">
+                <div class="single__news">
+                    <div class="thumb">
+                        <a href="{% url 'blog:post_detail' post.slug %}">
+                            {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="{% static 'img/news/1.png' %}" alt="{{ post.title }}">
+                            {% endif %}
+                        </a>
+                        {% if post.category %}
+                        <span class="badge">{{ post.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="news_info">
+                        <a href="{% url 'blog:post_detail' post.slug %}">
+                            <h4>{{ post.title|truncatewords:15 }}</h4>
+                        </a>
+                        <p class="d-flex align-items-center">
+                            <span><i class="flaticon-calendar-1"></i> {{ post.published_date|date:"F d, Y" }}</span>
+                            <span><i class="flaticon-comment"></i> {{ post.comments.count }} comments</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-md-6">
+                <div class="single__news">
+                    <div class="thumb">
+                        <a href="#">
+                            <img src="{% static 'img/news/1.png' %}" alt="">
+                        </a>
+                        <span class="badge">Research</span>
+                    </div>
+                    <div class="news_info">
+                        <a href="#">
+                            <h4>Explore a rich collection of books, peer-reviewed journals, and academic articles in one place.</h4>
+                        </a>
+                        <p class="d-flex align-items-center">
+                            <span><i class="flaticon-calendar-1"></i> October 6, 2025</span>
+                            <span><i class="flaticon-comment"></i> 01 comments</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- recent_news_area_end -->
+
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                    <div class="feature-img">
+                        <img class="img-fluid" src="{% static 'img/blog/single_blog_1.png' %}" alt="">
+                    </div>
+                    <div class="blog_details">
+                        <h2>A Deep Truth About Readers</h2>
+                        <ul class="blog-info-link mt-3 mb-4">
+                            <li><a href="#"><i class="fa fa-user"></i> Articles, Library</a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                        </ul>
+                        <p class="excert">
+                            As librarians at University of Maiduguri, we have learned that readers are not merely seekers of books—they are seekers of light. Every student who walks into the library with a quiet determination carries more than a notebook or a laptop; they carry questions about life, purpose, and the future.
+                        </p>
+                        <p>
+                            A true reader is shaped in silence. In the stillness of the library, minds are stretched, dreams are refined, and destinies are negotiated page by page. Those who cultivate the habit of reading do more than pass examinations they learn to think deeply, question wisely, and see beyond the present moment. Reading trains patience, builds discipline, and awakens critical thinking long before success becomes visible.
+                        </p>
+                        <div class="quote-wrapper">
+                            <div class="quotes">
+                                Readers are not merely seekers of books; they are seekers of light, direction, and meaning. In the quiet act of reading, they confront questions about life and the future, shaping their thoughts, values, and destinies one page at a time.
+                            </div>
+                        </div>
+                        <p>
+                            Over the years, we have observed that students who read consistently develop confidence not only in academics but in life. They engage knowledge with humility, approach research with curiosity, and grow into individuals capable of contributing meaningfully to society. Books, journals, and articles do not merely inform them; they transform them.
+                        </p>
+                        <p>
+                            The library is therefore not just a building—it is a sanctuary of becoming. And every reader who enters with hunger leaves with a little more clarity, courage, and hope for tomorrow.
+                        </p>
+                        <p>Reflections from the University of Maiduguri Library</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area End =================-->
+{% endblock %}

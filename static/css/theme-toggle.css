@@ -1,0 +1,113 @@
+/* Theme Toggle Styles */
+.theme-toggle-btn {
+    background: transparent;
+    border: 2px solid currentColor;
+    color: inherit;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+    --header-bg: #0d1117;
+    --footer-bg: #0d1117;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .header-area,
+[data-theme="dark"] .main-header-area {
+    background-color: var(--header-bg) !important;
+}
+
+[data-theme="dark"] .footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .single__program,
+[data-theme="dark"] .single_event {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .section_title h3,
+[data-theme="dark"] .section_title h4 {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .text-muted {
+    color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .table {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .table thead th {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: #0d6efd;
+}
+
+/* Light Mode (default) */
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #1F1F1F;
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+/* Smooth transition */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+

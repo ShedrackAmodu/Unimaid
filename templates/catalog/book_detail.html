@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }} - Ramat Library{% endblock %}
+
+{% block content %}
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>{{ book.title|truncatewords:10 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- bradcam_area_end -->
+
+<!-- event_details_area_start -->
+<div class="event_details_area section__padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="single_event d-flex align-items-center">
+                    {% if book.cover_image %}
+                    <div class="thumb">
+                        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+                    </div>
+                    {% endif %}
+                    <div class="event_details_info">
+                        <div class="event_info">
+                            <a href="#">
+                                <h4>{{ book.title }}</h4>
+                            </a>
+                            {% if book.subtitle %}
+                            <p><span>{{ book.subtitle }}</span></p>
+                            {% endif %}
+                        </div>
+                        <div class="event_info_text">
+                            <p><strong>Authors:</strong> 
+                                {% for author in book.authors.all %}
+                                <a href="{% url 'catalog:author_detail' author.pk %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
+                            <p><strong>Publisher:</strong> {{ book.publisher|default:"N/A" }}</p>
+                            {% if book.genre %}
+                            <p><strong>Genre:</strong> <a href="{% url 'catalog:genre_detail' book.genre.slug %}">{{ book.genre.name }}</a></p>
+                            {% endif %}
+                            <p><strong>Publication Date:</strong> {{ book.publication_date|date:"Y"|default:"N/A" }}</p>
+                            <p><strong>Language:</strong> {{ book.language }}</p>
+                            <p><strong>Pages:</strong> {{ book.pages|default:"N/A" }}</p>
+                            
+                            <div class="mt-4">
+                                <h5>Description</h5>
+                                <p>{{ book.description|default:"No description available." }}</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5>Availability</h5>
+                                <p><strong>Total Copies:</strong> {{ book.total_copies }}</p>
+                                <p><strong>Available:</strong> {{ book.available_copies }}</p>
+                                {% if book.is_available %}
+                                <span class="badge bg-success">Available</span>
+                                {% else %}
+                                <span class="badge bg-danger">Unavailable</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if user.is_authenticated %}
+                        <div class="mt-3">
+                            {% if book.is_available %}
+                            <a href="{% url 'circulation:reserve_book' book.pk %}" class="boxed-btn3">Reserve Book</a>
+                            {% else %}
+                            <a href="{% url 'circulation:reserve_book' book.pk %}" class="boxed-btn3">Join Waitlist</a>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="mt-3">
+                            <a href="{% url 'accounts:login' %}" class="boxed-btn3">Login to Reserve</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- event_details_area_end -->
+{% endblock %}
+
+

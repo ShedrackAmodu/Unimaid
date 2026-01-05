@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ document.title }} - Repository{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="fw-bold mb-3">{{ document.title }}</h1>
+                {% if document.subtitle %}
+                <h4 class="text-muted mb-4">{{ document.subtitle }}</h4>
+                {% endif %}
+                
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <strong>Author:</strong> {{ document.author }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Type:</strong> <span class="badge bg-primary">{{ document.get_document_type_display }}</span>
+                            </div>
+                            {% if document.department %}
+                            <div class="col-md-6">
+                                <strong>Department:</strong> {{ document.department }}
+                            </div>
+                            {% endif %}
+                            {% if document.year %}
+                            <div class="col-md-6">
+                                <strong>Year:</strong> {{ document.year }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if document.abstract %}
+                        <div class="mb-3">
+                            <h5>Abstract</h5>
+                            <p>{{ document.abstract }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if document.file %}
+                        <div class="d-grid gap-2">
+                            <a href="{{ document.file.url }}" class="btn btn-primary btn-lg" download>
+                                <i class="bi bi-download me-2"></i>Download Document
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
